@@ -7,17 +7,29 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
+import { motion, AnimatePresence } from "framer-motion";
+import type { InsertWaitlist } from "@shared/schema";
 
 const INTERESTS = [
   "Technology", "Business", "Marketing", "Design",
-  "Finance", "Healthcare", "Education", "Engineering"
+  "Finance", "Healthcare", "Education", "Engineering",
+  "Research", "Sales", "HR", "Legal",
+  "Consulting", "Real Estate", "Media", "Arts"
+];
+
+const PROFESSIONS = [
+  "Software Engineer", "Business Analyst", "Marketing Manager",
+  "Designer", "Financial Analyst", "Healthcare Professional",
+  "Educator", "Engineer", "Researcher", "Sales Representative",
+  "HR Manager", "Lawyer", "Consultant", "Real Estate Agent",
+  "Media Professional", "Artist"
 ];
 
 export function WaitlistForm() {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
-  const form = useForm({
+
+  const form = useForm<InsertWaitlist>({
     resolver: zodResolver(insertWaitlistSchema),
     defaultValues: {
       email: "",
@@ -28,7 +40,7 @@ export function WaitlistForm() {
     }
   });
 
-  async function onSubmit(data: any) {
+  async function onSubmit(data: InsertWaitlist) {
     setIsSubmitting(true);
     try {
       await apiRequest("POST", "/api/waitlist", data);
@@ -51,99 +63,126 @@ export function WaitlistForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <FormField
-          control={form.control}
-          name="fullName"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Full Name</FormLabel>
-              <FormControl>
-                <Input placeholder="John Doe" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input type="email" placeholder="john@example.com" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="profession"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Profession</FormLabel>
-              <FormControl>
-                <Input placeholder="Software Engineer" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="location"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Location</FormLabel>
-              <FormControl>
-                <Input placeholder="San Francisco, CA" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="interests"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Interests</FormLabel>
-              <FormControl>
-                <div className="flex flex-wrap gap-2">
-                  {INTERESTS.map((interest) => (
-                    <Button
-                      key={interest}
-                      type="button"
-                      variant={field.value.includes(interest) ? "default" : "outline"}
-                      onClick={() => {
-                        const newValue = field.value.includes(interest)
-                          ? field.value.filter((i: string) => i !== interest)
-                          : [...field.value, interest];
-                        field.onChange(newValue);
-                      }}
-                    >
-                      {interest}
-                    </Button>
-                  ))}
-                </div>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <Button 
-          type="submit" 
-          className="w-full" 
-          disabled={isSubmitting}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+          className="space-y-6"
         >
-          {isSubmitting ? "Joining..." : "Join Waitlist"}
-        </Button>
+          <FormField
+            control={form.control}
+            name="fullName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Full Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="John Doe" {...field} className="bg-background" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input type="email" placeholder="john@example.com" {...field} className="bg-background" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="profession"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Profession</FormLabel>
+                <FormControl>
+                  <select
+                    {...field}
+                    className="w-full px-3 py-2 border rounded-md bg-background text-foreground"
+                  >
+                    <option value="">Select your profession</option>
+                    {PROFESSIONS.map((profession) => (
+                      <option key={profession} value={profession}>
+                        {profession}
+                      </option>
+                    ))}
+                  </select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="location"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Location</FormLabel>
+                <FormControl>
+                  <Input placeholder="San Francisco, CA" {...field} className="bg-background" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="interests"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Interests (Select multiple)</FormLabel>
+                <FormControl>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                    {INTERESTS.map((interest) => (
+                      <Button
+                        key={interest}
+                        type="button"
+                        variant={field.value.includes(interest) ? "default" : "outline"}
+                        className="h-auto py-2 px-3 text-sm"
+                        onClick={() => {
+                          const newValue = field.value.includes(interest)
+                            ? field.value.filter((i) => i !== interest)
+                            : [...field.value, interest];
+                          field.onChange(newValue);
+                        }}
+                      >
+                        {interest}
+                      </Button>
+                    ))}
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <AnimatePresence>
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+            >
+              <Button 
+                type="submit" 
+                className="w-full" 
+                disabled={isSubmitting}
+                size="lg"
+              >
+                {isSubmitting ? "Joining..." : "Join Waitlist"}
+              </Button>
+            </motion.div>
+          </AnimatePresence>
+        </motion.div>
       </form>
     </Form>
   );
