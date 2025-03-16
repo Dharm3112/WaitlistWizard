@@ -14,6 +14,172 @@ const INTERESTS = [
     "Consulting", "Real Estate", "Media", "Arts"
 ];
 
+// Page Navigation
+function initializeNavigation() {
+    const navLinks = document.querySelectorAll('.nav-link');
+    const pages = document.querySelectorAll('.page');
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const pageName = link.getAttribute('data-page');
+
+            // Update active states
+            navLinks.forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
+
+            pages.forEach(page => {
+                if (page.id === `${pageName}Page`) {
+                    page.classList.add('active');
+                } else {
+                    page.classList.remove('active');
+                }
+            });
+
+            // Special handling for chat section
+            const chatSection = document.getElementById('chatSection');
+            if (pageName === 'rooms') {
+                chatSection.style.display = 'block';
+            } else {
+                chatSection.style.display = 'none';
+            }
+        });
+    });
+}
+
+// Room Management
+function initializeRooms() {
+    const roomsGrid = document.getElementById('roomsGrid');
+    const roomSearch = document.getElementById('roomSearch');
+    const roomFilter = document.getElementById('roomFilter');
+    const createRoomBtn = document.querySelector('.create-room-btn');
+
+    // Sample room data
+    const rooms = [
+        {
+            id: 1,
+            name: 'Tech Innovation Hub',
+            topic: 'technology',
+            participants: 12,
+            location: 'San Francisco, CA'
+        },
+        {
+            id: 2,
+            name: 'Healthcare Professionals Network',
+            topic: 'healthcare',
+            participants: 8,
+            location: 'Boston, MA'
+        },
+        // Add more sample rooms as needed
+    ];
+
+    function renderRooms(roomsToRender) {
+        roomsGrid.innerHTML = roomsToRender.map(room => `
+            <div class="room-card">
+                <h3>${room.name}</h3>
+                <p>${room.location}</p>
+                <p>${room.participants} participants</p>
+                <button onclick="joinRoom('${room.id}')">Join Room</button>
+            </div>
+        `).join('');
+    }
+
+    function filterRooms() {
+        const searchTerm = roomSearch.value.toLowerCase();
+        const filterValue = roomFilter.value.toLowerCase();
+
+        const filteredRooms = rooms.filter(room => {
+            const matchesSearch = room.name.toLowerCase().includes(searchTerm);
+            const matchesFilter = !filterValue || room.topic === filterValue;
+            return matchesSearch && matchesFilter;
+        });
+
+        renderRooms(filteredRooms);
+    }
+
+    roomSearch.addEventListener('input', filterRooms);
+    roomFilter.addEventListener('change', filterRooms);
+    createRoomBtn.addEventListener('click', () => {
+        // Implement room creation logic
+        showToast('Room creation coming soon!', 'info');
+    });
+
+    // Initial render
+    renderRooms(rooms);
+}
+
+// Profile Management
+function initializeProfile() {
+    const editProfileBtn = document.querySelector('.edit-profile-btn');
+
+    editProfileBtn.addEventListener('click', () => {
+        // Implement profile editing logic
+        showToast('Profile editing coming soon!', 'info');
+    });
+
+    // Sample activity data
+    const activities = [
+        { type: 'joined', room: 'Tech Innovation Hub', time: '2 hours ago' },
+        { type: 'message', room: 'Healthcare Professionals', time: '1 day ago' },
+        // Add more activities as needed
+    ];
+
+    const activityList = document.querySelector('.activity-list');
+    activityList.innerHTML = activities.map(activity => `
+        <div class="activity-item">
+            <span class="activity-type">${activity.type}</span>
+            <span class="activity-room">${activity.room}</span>
+            <span class="activity-time">${activity.time}</span>
+        </div>
+    `).join('');
+}
+
+// Dashboard Management
+function initializeDashboard() {
+    // Sample data for dashboard
+    const activeRooms = [
+        { name: 'Tech Innovation Hub', participants: 12 },
+        { name: 'Healthcare Professionals', participants: 8 },
+    ];
+
+    const connections = [
+        { name: 'Jane Smith', profession: 'UX Designer' },
+        { name: 'Mike Johnson', profession: 'Software Engineer' },
+    ];
+
+    const events = [
+        { name: 'Tech Meetup', date: 'Tomorrow, 2 PM' },
+        { name: 'Healthcare Innovation', date: 'Next Week' },
+    ];
+
+    // Render active rooms
+    const activeRoomsList = document.querySelector('.active-rooms-list');
+    activeRoomsList.innerHTML = activeRooms.map(room => `
+        <div class="active-room-item">
+            <span class="room-name">${room.name}</span>
+            <span class="participant-count">${room.participants} participants</span>
+        </div>
+    `).join('');
+
+    // Render connections
+    const connectionsList = document.querySelector('.connections-list');
+    connectionsList.innerHTML = connections.map(connection => `
+        <div class="connection-item">
+            <span class="connection-name">${connection.name}</span>
+            <span class="connection-profession">${connection.profession}</span>
+        </div>
+    `).join('');
+
+    // Render events
+    const eventsList = document.querySelector('.events-list');
+    eventsList.innerHTML = events.map(event => `
+        <div class="event-item">
+            <span class="event-name">${event.name}</span>
+            <span class="event-date">${event.date}</span>
+        </div>
+    `).join('');
+}
+
 // Initialize the form
 function initializeForm() {
     // Populate professions dropdown
@@ -168,9 +334,6 @@ async function handleSubmit(e) {
         spinner.style.display = 'none';
     }
 }
-
-// Initialize the form when the DOM is loaded
-document.addEventListener('DOMContentLoaded', initializeForm);
 
 // Add scroll animation
 document.addEventListener('scroll', () => {
@@ -341,4 +504,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Connect to chat with a test user
     connectToChat('Test User', defaultRoom.id, defaultRoom.location, defaultRoom.topic);
+});
+
+
+// Initialize all features when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    initializeForm();
+    initializeNavigation();
+    initializeRooms();
+    initializeProfile();
+    initializeDashboard();
 });

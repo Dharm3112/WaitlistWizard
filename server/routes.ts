@@ -4,6 +4,8 @@ import { WebSocketServer, WebSocket } from "ws";
 import { storage } from "./storage";
 import { insertWaitlistSchema } from "@shared/schema";
 import { ZodError } from "zod";
+import express from "express";
+import path from "path";
 
 interface ChatClient extends WebSocket {
   userId?: string;
@@ -31,6 +33,9 @@ function broadcastToRoom(room: ChatRoom, message: any, excludeClient?: ChatClien
 
 export async function registerRoutes(app: Express) {
   const server = createServer(app);
+
+  // Serve static files from the client/src directory
+  app.use(express.static(path.join(process.cwd(), 'client', 'src')));
 
   // Create WebSocket server
   const wss = new WebSocketServer({ server, path: '/ws' });
@@ -144,6 +149,11 @@ export async function registerRoutes(app: Express) {
       }
       res.status(500).json({ message: "Failed to join waitlist" });
     }
+  });
+
+  // Serve index.html for all routes
+  app.get('*', (_req, res) => {
+    res.sendFile(path.join(process.cwd(), 'client', 'src', 'index.html'));
   });
 
   return server;
