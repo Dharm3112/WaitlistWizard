@@ -245,10 +245,32 @@ function validateContactForm(formData) {
     return errors;
 }
 
+// Handle mobile navigation
+function initializeNavigation() {
+    const navbar = document.querySelector('.navbar');
+    const navToggle = document.querySelector('.nav-toggle');
+    const navLinks = document.querySelector('.nav-links');
+
+    if (navToggle) {
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('show');
+        });
+    }
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!navbar.contains(e.target) && navLinks.classList.contains('show')) {
+            navLinks.classList.remove('show');
+        }
+    });
+}
+
+
 // Initialize the form when the DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     initializeForm(); // Initialize waitlist form
     handleContactForm(); // Initialize contact form
+    initializeNavigation(); // Initialize navigation
 
     // Initialize navigation
     const navbar = document.querySelector('.navbar');
