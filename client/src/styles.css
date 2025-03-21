@@ -470,8 +470,6 @@ body {
     }
 }
 
-/* Add these new styles to the existing CSS file */
-
 /* Features Page */
 .features-hero {
     padding: 8rem 1rem 4rem;
@@ -715,5 +713,53 @@ body {
 
     .rooms-sidebar {
         display: none;
+    }
+}
+
+/* Privacy Policy Page Styles */
+.privacy-content {
+    padding: 8rem 1rem 4rem;
+}
+
+.privacy-content h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: var(--foreground);
+}
+
+.policy-section {
+    margin-bottom: 3rem;
+}
+
+.policy-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--foreground);
+}
+
+.policy-section p {
+    color: var(--muted-foreground);
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.policy-section ul {
+    list-style: disc;
+    margin-left: 1.5rem;
+    color: var(--muted-foreground);
+}
+
+.policy-section li {
+    margin-bottom: 0.5rem;
+}
+
+/* Responsive Design for Privacy Policy */
+@media (max-width: 768px) {
+    .privacy-content h1 {
+        font-size: 2rem;
+    }
+
+    .policy-section h2 {
+        font-size: 1.25rem;
     }
 }
