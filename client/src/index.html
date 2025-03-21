@@ -7,285 +7,142 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar">
+    <!-- Hero Section -->
+    <section class="hero">
         <div class="container">
-            <div class="nav-brand">ProNet</div>
-            <div class="nav-links">
-                <a href="#" class="nav-link active" data-page="home">Home</a>
-                <a href="#" class="nav-link" data-page="rooms">Rooms</a>
-                <a href="#" class="nav-link" data-page="profile">Profile</a>
-                <a href="#" class="nav-link" data-page="dashboard">Dashboard</a>
+            <h1 class="hero-title">Location-Based Professional Networking</h1>
+            <p class="hero-subtitle">
+                Connect with professionals in your area through AI-powered rooms. Share ideas, solve problems, and build meaningful connections based on shared interests and location.
+            </p>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2>Key Features</h2>
+            <div class="features-grid">
+                <div class="feature-card" data-aos="fade-up">
+                    <div class="icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                            <circle cx="12" cy="10" r="3"/>
+                        </svg>
+                    </div>
+                    <h3>Location-Based</h3>
+                    <p>Connect with professionals in your area through smart location-based matching</p>
+                </div>
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/>
+                        </svg>
+                    </div>
+                    <h3>AI-Powered Matching</h3>
+                    <p>Our AI algorithm matches you with professionals sharing similar interests and goals</p>
+                </div>
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                    </div>
+                    <h3>Dynamic Rooms</h3>
+                    <p>Join or create interest-based rooms to network with like-minded professionals</p>
+                </div>
             </div>
         </div>
-    </nav>
+    </section>
 
-    <!-- Page Container -->
-    <div id="pageContainer">
-        <!-- Home Page -->
-        <div class="page active" id="homePage">
-            <!-- Hero Section -->
-            <section class="hero">
-                <div class="container">
-                    <h1 class="hero-title">Location-Based Professional Networking</h1>
-                    <p class="hero-subtitle">
-                        Connect with professionals in your area through AI-powered rooms. Share ideas, solve problems, and build meaningful connections based on shared interests and location.
-                    </p>
-                </div>
-            </section>
-
-            <!-- Chat Room Section -->
-            <section class="chat-section" id="chatSection" style="display: none;">
-                <div class="container">
-                    <div class="chat-container">
-                        <div class="chat-header">
-                            <h2>Professional Chat Room</h2>
-                            <span id="roomInfo">Loading room info...</span>
-                        </div>
-                        <div class="chat-messages" id="chatMessages"></div>
-                        <div class="chat-input-container">
-                            <input type="text" id="messageInput" placeholder="Type your message...">
-                            <button id="sendMessage">Send</button>
-                        </div>
+    <!-- How It Works Section -->
+    <section class="how-it-works">
+        <div class="container">
+            <h2>How It Works</h2>
+            <div class="steps-grid">
+                <div class="step-card" data-aos="fade-up">
+                    <span class="step-number">1</span>
+                    <div class="icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                            <polyline points="9 22 9 12 15 12 15 22"/>
+                        </svg>
                     </div>
-                    <div class="room-info">
-                        <h3>Room Information</h3>
-                        <div class="participant-list" id="participantList">
-                            <h4>Participants</h4>
-                            <!-- Participants will be added here dynamically -->
-                        </div>
-                        <div class="room-details">
-                            <h4>Room Details</h4>
-                            <p id="roomLocation">Location: Loading...</p>
-                            <p id="roomTopic">Topic: Loading...</p>
-                        </div>
+                    <h3>Enter Your Field</h3>
+                    <p>Tell us about your profession and areas of interest</p>
+                </div>
+                <div class="step-card" data-aos="fade-up" data-aos-delay="100">
+                    <span class="step-number">2</span>
+                    <div class="icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                            <circle cx="12" cy="10" r="3"/>
+                        </svg>
                     </div>
+                    <h3>Location Detection</h3>
+                    <p>We automatically detect your location to find relevant connections</p>
                 </div>
-            </section>
-
-            <!-- Features Section -->
-            <section class="features">
-                <div class="container">
-                    <h2>Key Features</h2>
-                    <div class="features-grid">
-                        <div class="feature-card" data-aos="fade-up">
-                            <div class="icon">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
-                                    <circle cx="12" cy="10" r="3"/>
-                                </svg>
-                            </div>
-                            <h3>Location-Based</h3>
-                            <p>Connect with professionals in your area through smart location-based matching</p>
-                        </div>
-                        <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
-                            <div class="icon">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/>
-                                </svg>
-                            </div>
-                            <h3>AI-Powered Matching</h3>
-                            <p>Our AI algorithm matches you with professionals sharing similar interests and goals</p>
-                        </div>
-                        <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
-                            <div class="icon">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                                    <circle cx="9" cy="7" r="4"/>
-                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                                </svg>
-                            </div>
-                            <h3>Dynamic Rooms</h3>
-                            <p>Join or create interest-based rooms to network with like-minded professionals</p>
-                        </div>
+                <div class="step-card" data-aos="fade-up" data-aos-delay="200">
+                    <span class="step-number">3</span>
+                    <div class="icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        </svg>
                     </div>
+                    <h3>Join Conversations</h3>
+                    <p>Connect in AI-created rooms with professionals in your area</p>
                 </div>
-            </section>
-
-            <!-- How It Works Section -->
-            <section class="how-it-works">
-                <div class="container">
-                    <h2>How It Works</h2>
-                    <div class="steps-grid">
-                        <div class="step-card" data-aos="fade-up">
-                            <span class="step-number">1</span>
-                            <div class="icon">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                                    <polyline points="9 22 9 12 15 12 15 22"/>
-                                </svg>
-                            </div>
-                            <h3>Enter Your Field</h3>
-                            <p>Tell us about your profession and areas of interest</p>
-                        </div>
-                        <div class="step-card" data-aos="fade-up" data-aos-delay="100">
-                            <span class="step-number">2</span>
-                            <div class="icon">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                                    <circle cx="12" cy="10" r="3"/>
-                                </svg>
-                            </div>
-                            <h3>Location Detection</h3>
-                            <p>We automatically detect your location to find relevant connections</p>
-                        </div>
-                        <div class="step-card" data-aos="fade-up" data-aos-delay="200">
-                            <span class="step-number">3</span>
-                            <div class="icon">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-                                </svg>
-                            </div>
-                            <h3>Join Conversations</h3>
-                            <p>Connect in AI-created rooms with professionals in your area</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Waitlist Section -->
-            <section class="waitlist">
-                <div class="container">
-                    <h2>Join the Waitlist</h2>
-                    <p class="subtitle">Be among the first to experience the future of professional networking.</p>
-                    <form id="waitlistForm" class="waitlist-form">
-                        <div class="form-group">
-                            <label for="fullName">Full Name</label>
-                            <input type="text" id="fullName" name="fullName" placeholder="John Doe" required>
-                            <span class="error-message"></span>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email" placeholder="john@example.com" required>
-                            <span class="error-message"></span>
-                        </div>
-                        <div class="form-group">
-                            <label for="profession">Profession</label>
-                            <select id="profession" name="profession" required>
-                                <option value="">Select your profession</option>
-                            </select>
-                            <span class="error-message"></span>
-                        </div>
-                        <div class="form-group">
-                            <label for="location">Location</label>
-                            <input type="text" id="location" name="location" placeholder="San Francisco, CA" required>
-                            <span class="error-message"></span>
-                        </div>
-                        <div class="form-group">
-                            <label>Interests (Select multiple)</label>
-                            <div class="interests-grid" id="interests">
-                                <!-- Will be populated by JavaScript -->
-                            </div>
-                            <span class="error-message"></span>
-                        </div>
-                        <button type="submit" class="submit-button">
-                            <span class="button-text">Join Waitlist</span>
-                            <span class="loading-spinner"></span>
-                        </button>
-                    </form>
-                </div>
-            </section>
+            </div>
         </div>
+    </section>
 
-        <!-- Rooms Page -->
-        <div class="page" id="roomsPage">
-            <div class="container">
-                <div class="rooms-header">
-                    <h2>Professional Rooms</h2>
-                    <button class="create-room-btn">Create Room</button>
+    <!-- Waitlist Section -->
+    <section class="waitlist">
+        <div class="container">
+            <h2>Join the Waitlist</h2>
+            <p class="subtitle">Be among the first to experience the future of professional networking.</p>
+            <form id="waitlistForm" class="waitlist-form">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" name="fullName" placeholder="John Doe" required>
+                    <span class="error-message"></span>
                 </div>
-                <div class="rooms-filters">
-                    <input type="text" placeholder="Search rooms..." id="roomSearch">
-                    <select id="roomFilter">
-                        <option value="">All Categories</option>
-                        <option value="technology">Technology</option>
-                        <option value="business">Business</option>
-                        <option value="healthcare">Healthcare</option>
-                        <option value="education">Education</option>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="john@example.com" required>
+                    <span class="error-message"></span>
+                </div>
+                <div class="form-group">
+                    <label for="profession">Profession</label>
+                    <select id="profession" name="profession" required>
+                        <option value="">Select your profession</option>
                     </select>
+                    <span class="error-message"></span>
                 </div>
-                <div class="rooms-grid" id="roomsGrid">
-                    <!-- Rooms will be added dynamically -->
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" id="location" name="location" placeholder="San Francisco, CA" required>
+                    <span class="error-message"></span>
                 </div>
-            </div>
+                <div class="form-group">
+                    <label>Interests (Select multiple)</label>
+                    <div class="interests-grid" id="interests">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                    <span class="error-message"></span>
+                </div>
+                <button type="submit" class="submit-button">
+                    <span class="button-text">Join Waitlist</span>
+                    <span class="loading-spinner"></span>
+                </button>
+            </form>
         </div>
-
-        <!-- Profile Page -->
-        <div class="page" id="profilePage">
-            <div class="container">
-                <div class="profile-header">
-                    <div class="profile-avatar">
-                        <span class="avatar-placeholder">JD</span>
-                    </div>
-                    <div class="profile-info">
-                        <h2>John Doe</h2>
-                        <p class="profession">Software Engineer</p>
-                        <p class="location">San Francisco, CA</p>
-                    </div>
-                    <button class="edit-profile-btn">Edit Profile</button>
-                </div>
-                <div class="profile-content">
-                    <div class="profile-section">
-                        <h3>About Me</h3>
-                        <p class="about-text">Passionate software engineer with expertise in web development and AI. Looking to connect with like-minded professionals and share knowledge.</p>
-                    </div>
-                    <div class="profile-section">
-                        <h3>Interests</h3>
-                        <div class="interests-tags">
-                            <span class="interest-tag">Technology</span>
-                            <span class="interest-tag">AI</span>
-                            <span class="interest-tag">Web Development</span>
-                            <span class="interest-tag">Innovation</span>
-                        </div>
-                    </div>
-                    <div class="profile-section">
-                        <h3>Recent Activity</h3>
-                        <div class="activity-list">
-                            <!-- Activity items will be added dynamically -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Dashboard Page -->
-        <div class="page" id="dashboardPage">
-            <div class="container">
-                <div class="dashboard-grid">
-                    <div class="dashboard-card">
-                        <h3>Active Rooms</h3>
-                        <div class="active-rooms-list">
-                            <!-- Active rooms will be added dynamically -->
-                        </div>
-                    </div>
-                    <div class="dashboard-card">
-                        <h3>Recent Connections</h3>
-                        <div class="connections-list">
-                            <!-- Connections will be added dynamically -->
-                        </div>
-                    </div>
-                    <div class="dashboard-card">
-                        <h3>Upcoming Events</h3>
-                        <div class="events-list">
-                            <!-- Events will be added dynamically -->
-                        </div>
-                    </div>
-                    <div class="dashboard-card">
-                        <h3>Activity Analytics</h3>
-                        <div class="analytics-container">
-                            <div class="analytics-chart">
-                                <!-- Chart will be added dynamically -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
+    </section>
 
     <div id="toast" class="toast" role="alert"></div>
+
     <script src="main.js"></script>
 </body>
 </html>
