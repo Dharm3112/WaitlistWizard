@@ -11,6 +11,13 @@
     <nav class="navbar">
         <div class="container">
             <a href="index.html" class="nav-logo">ProNet</a>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
             <div class="nav-links">
                 <a href="index.html">Home</a>
                 <a href="features.html">Features</a>
@@ -55,10 +62,10 @@
             <div class="chat-input">
                 <form id="messageForm">
                     <input type="text" id="messageInput" placeholder="Type your message..." disabled>
-                    <button type="submit" id="sendMessage" disabled>
+                    <button type="submit" id="sendMessage">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="22" y1="2" x2="11" y2="13"></line>
-                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                            <path d="M22 2L11 13"></path>
+                            <path d="M22 2l-7 20-4-9-9-4 20-7z"></path>
                         </svg>
                     </button>
                 </form>
