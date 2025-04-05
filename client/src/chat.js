@@ -59,6 +59,10 @@ function initializeChat() {
         // Attempt to reconnect after 5 seconds
         setTimeout(initializeChat, 5000);
     };
+    
+    socket.onerror = (error) => {
+        console.error('WebSocket error:', error);
+    };
 
     // Initialize room creation
     setupRoomCreation();
@@ -120,6 +124,13 @@ function handleRoomJoined(room) {
     // Clear previous messages
     chatMessages.innerHTML = '';
     
+    // Display room messages
+    if (room.messages && room.messages.length > 0) {
+        room.messages.forEach(message => {
+            displayMessage(message);
+        });
+    }
+    
     // Update room details
     updateRoomDetails(room);
 }
@@ -134,8 +145,8 @@ function updateRoomDetails(room) {
         const li = document.createElement('li');
         li.className = 'participant-item';
         li.innerHTML = `
-            <div class="participant-avatar">${participant.username[0]}</div>
-            <span>${participant.username}</span>
+            <div class="participant-avatar">${participant[0]}</div>
+            <span>${participant}</span>
         `;
         participantsList.appendChild(li);
     });
@@ -147,6 +158,26 @@ function updateRoomDetails(room) {
         span.className = 'interest-tag';
         span.textContent = interest;
         roomInterests.appendChild(span);
+    });
+}
+
+// Update participants list when someone joins/leaves
+function updateParticipants(participants) {
+    if (!currentRoom) return;
+    
+    // Update count
+    participantCount.textContent = `${participants.length} participants`;
+    
+    // Update list
+    participantsList.innerHTML = '';
+    participants.forEach(participant => {
+        const li = document.createElement('li');
+        li.className = 'participant-item';
+        li.innerHTML = `
+            <div class="participant-avatar">${participant[0]}</div>
+            <span>${participant}</span>
+        `;
+        participantsList.appendChild(li);
     });
 }
 
@@ -200,10 +231,8 @@ function setupRoomCreation() {
         if (roomName && selectedInterests.length > 0) {
             socket.send(JSON.stringify({
                 type: 'createRoom',
-                room: {
-                    name: roomName,
-                    interests: selectedInterests
-                }
+                name: roomName,
+                interests: selectedInterests
             }));
             
             createRoomModal.classList.remove('show');
@@ -222,10 +251,8 @@ messageForm.onsubmit = (e) => {
     
     if (message && currentRoom) {
         socket.send(JSON.stringify({
-            type: 'message',
-            roomId: currentRoom.id,
-            content: message,
-            username
+            type: 'sendMessage',
+            content: message
         }));
         messageInput.value = '';
     }
