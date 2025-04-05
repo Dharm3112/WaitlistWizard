@@ -1,24 +1,26 @@
 :root {
-    --primary: hsl(280, 84%, 54%);
-    /* Vibrant purple */
+    --primary: hsl(250, 60%, 60%);
+    /* Softer purple */
     --primary-foreground: hsl(210 40% 98%);
-    --secondary: hsl(320, 100%, 60%);
-    /* Hot pink */
+    --secondary: hsl(340, 65%, 65%);
+    /* Softer pink */
     --secondary-foreground: hsl(210 40% 98%);
-    --accent: hsl(42, 100%, 62%);
-    /* Bright yellow */
-    --accent2: hsl(190, 90%, 50%);
-    /* Bright cyan */
-    --accent3: hsl(150, 84%, 50%);
-    /* Bright green */
-    --background: hsl(0 0% 100%);
-    --foreground: hsl(222.2 47.4% 11.2%);
-    --muted: hsl(210 40% 96.1%);
-    --muted-foreground: hsl(215.4 16.3% 46.9%);
-    --border: hsl(214.3 31.8% 91.4%);
+    --accent: hsl(45, 80%, 75%);
+    /* Muted gold */
+    --accent2: hsl(195, 70%, 65%);
+    /* Soft teal */
+    --accent3: hsl(160, 60%, 70%);
+    /* Soft mint */
+    --background: hsl(210, 20%, 98%);
+    /* Slight blue tint to background */
+    --foreground: hsl(220, 25%, 20%);
+    /* Softer text color */
+    --muted: hsl(210, 25%, 96%);
+    --muted-foreground: hsl(215, 15%, 50%);
+    --border: hsl(210, 15%, 92%);
     --radius: 1rem;
     /* Increased border radius for fun, bubbly appearance */
-    --shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    --shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
 * {
@@ -49,7 +51,7 @@ body {
 .hero-title {
     font-size: 3.5rem;
     font-weight: bold;
-    background: linear-gradient(to right, var(--primary), hsl(221.2 83.2% 65%));
+    background: linear-gradient(to right, var(--primary), color-mix(in srgb, var(--primary) 60%, hsl(221.2 83.2% 65%)));
     -webkit-background-clip: text;
     color: transparent;
     margin-bottom: 1.5rem;
@@ -260,41 +262,41 @@ body {
 }
 
 .interest-option:nth-child(6n+1) label {
-    background: color-mix(in srgb, var(--primary) 15%, white);
-    color: color-mix(in srgb, var(--primary) 80%, black);
+    background: color-mix(in srgb, var(--primary) 10%, white);
+    color: color-mix(in srgb, var(--primary) 70%, black);
 }
 
 .interest-option:nth-child(6n+2) label {
-    background: color-mix(in srgb, var(--secondary) 15%, white);
-    color: color-mix(in srgb, var(--secondary) 80%, black);
+    background: color-mix(in srgb, var(--secondary) 10%, white);
+    color: color-mix(in srgb, var(--secondary) 70%, black);
 }
 
 .interest-option:nth-child(6n+3) label {
-    background: color-mix(in srgb, var(--accent) 15%, white);
-    color: color-mix(in srgb, var(--accent) 80%, black);
+    background: color-mix(in srgb, var(--accent) 10%, white);
+    color: color-mix(in srgb, var(--accent) 70%, black);
 }
 
 .interest-option:nth-child(6n+4) label {
-    background: color-mix(in srgb, var(--accent2) 15%, white);
-    color: color-mix(in srgb, var(--accent2) 80%, black);
+    background: color-mix(in srgb, var(--accent2) 10%, white);
+    color: color-mix(in srgb, var(--accent2) 70%, black);
 }
 
 .interest-option:nth-child(6n+5) label {
-    background: color-mix(in srgb, var(--accent3) 15%, white);
-    color: color-mix(in srgb, var(--accent3) 80%, black);
+    background: color-mix(in srgb, var(--accent3) 10%, white);
+    color: color-mix(in srgb, var(--accent3) 70%, black);
 }
 
 .interest-option:nth-child(6n+6) label {
-    background: color-mix(in srgb, var(--primary) 10%, var(--secondary) 10%, white);
-    color: color-mix(in srgb, var(--primary) 40%, var(--secondary) 40%, black);
+    background: color-mix(in srgb, var(--primary) 5%, var(--secondary) 5%, white);
+    color: color-mix(in srgb, var(--primary) 30%, var(--secondary) 30%, black);
 }
 
 .interest-option input[type="checkbox"]:checked+label {
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    background: linear-gradient(135deg, var(--primary), color-mix(in srgb, var(--primary) 70%, var(--secondary)));
     color: white;
     transform: translateY(-3px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border-color: rgba(255, 255, 255, 0.3);
 }
 
 .interest-option label:hover {
@@ -349,7 +351,7 @@ body {
 .submit-button {
     width: 100%;
     padding: 1rem;
-    background: var(--primary);
+    background: linear-gradient(135deg, var(--primary), color-mix(in srgb, var(--primary) 70%, var(--secondary)));
     color: var(--primary-foreground);
     border: none;
     border-radius: var(--radius);
@@ -357,12 +359,20 @@ body {
     font-weight: 500;
     cursor: pointer;
     position: relative;
-    transition: opacity 0.2s;
+    transition: all 0.3s;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.submit-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
 }
 
 .submit-button:disabled {
     opacity: 0.7;
     cursor: not-allowed;
+    transform: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 
 .error-message,
@@ -489,7 +499,7 @@ body {
 .nav-logo {
     font-size: 1.75rem;
     font-weight: bold;
-    background: linear-gradient(to right, var(--primary), hsl(221.2 83.2% 65%));
+    background: linear-gradient(to right, var(--primary), color-mix(in srgb, var(--primary) 60%, hsl(221.2 83.2% 65%)));
     -webkit-background-clip: text;
     color: transparent;
     text-decoration: none;
@@ -779,14 +789,14 @@ body {
     align-items: center;
     gap: 0.5rem;
     padding: 0.75rem 1.25rem;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    background: linear-gradient(135deg, var(--primary), color-mix(in srgb, var(--primary) 70%, var(--secondary)));
     color: var(--primary-foreground);
     border: none;
     border-radius: 50px;
     cursor: pointer;
     transition: all 0.3s;
     font-weight: 600;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
     position: relative;
     overflow: hidden;
     z-index: 1;
@@ -931,11 +941,12 @@ body {
     max-width: 70%;
     padding: 1rem;
     border-radius: var(--radius) var(--radius) var(--radius) 0;
-    background: linear-gradient(135deg, var(--accent2), var(--accent2) 60%, var(--accent3));
+    background: linear-gradient(135deg, var(--accent2), color-mix(in srgb, var(--accent2) 85%, var(--accent3)));
     box-shadow: var(--shadow);
     animation: bounceIn 0.5s ease;
-    color: var(--primary-foreground);
+    color: var(--foreground);
     position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .message::after {
@@ -953,14 +964,14 @@ body {
 .message.sent {
     align-self: flex-end;
     border-radius: var(--radius) var(--radius) 0 var(--radius);
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    color: var(--primary-foreground);
+    background: linear-gradient(135deg, var(--primary), color-mix(in srgb, var(--primary) 70%, var(--secondary)));
+    color: white;
 }
 
 .message.sent::after {
     left: auto;
     right: 0;
-    background: var(--secondary);
+    background: color-mix(in srgb, var(--primary) 70%, var(--secondary));
     border-radius: 0 0 20px 0;
     clip-path: polygon(100% 0, 0 0, 100% 100%);
 }
@@ -1027,14 +1038,14 @@ body {
 
 .chat-input button {
     padding: 1rem 1.5rem;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    background: linear-gradient(135deg, var(--primary), color-mix(in srgb, var(--primary) 70%, var(--secondary)));
     color: var(--primary-foreground);
     border: none;
     border-radius: 50px;
     cursor: pointer;
     transition: all 0.3s;
     font-weight: 600;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
     position: relative;
     overflow: hidden;
     z-index: 1;
@@ -1113,23 +1124,23 @@ body {
 }
 
 .participant-item:nth-child(5n+1) .participant-avatar {
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    background: linear-gradient(135deg, var(--primary), color-mix(in srgb, var(--primary) 70%, var(--secondary)));
 }
 
 .participant-item:nth-child(5n+2) .participant-avatar {
-    background: linear-gradient(135deg, var(--secondary), var(--accent));
+    background: linear-gradient(135deg, var(--secondary), color-mix(in srgb, var(--secondary) 70%, var(--accent)));
 }
 
 .participant-item:nth-child(5n+3) .participant-avatar {
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 70%, var(--accent2)));
 }
 
 .participant-item:nth-child(5n+4) .participant-avatar {
-    background: linear-gradient(135deg, var(--accent2), var(--accent3));
+    background: linear-gradient(135deg, var(--accent2), color-mix(in srgb, var(--accent2) 70%, var(--accent3)));
 }
 
 .participant-item:nth-child(5n+5) .participant-avatar {
-    background: linear-gradient(135deg, var(--accent3), var(--primary));
+    background: linear-gradient(135deg, var(--accent3), color-mix(in srgb, var(--accent3) 70%, var(--primary)));
 }
 
 .participant-avatar:hover {
@@ -1151,30 +1162,31 @@ body {
     font-size: 0.875rem;
     color: var(--primary-foreground);
     font-weight: 600;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
     transition: all 0.3s;
     margin: 0.25rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .interest-tag:nth-child(5n+1) {
-    background: var(--primary);
+    background: color-mix(in srgb, var(--primary) 90%, white);
 }
 
 .interest-tag:nth-child(5n+2) {
-    background: var(--secondary);
+    background: color-mix(in srgb, var(--secondary) 90%, white);
 }
 
 .interest-tag:nth-child(5n+3) {
-    background: var(--accent);
+    background: color-mix(in srgb, var(--accent) 90%, white);
     color: var(--foreground);
 }
 
 .interest-tag:nth-child(5n+4) {
-    background: var(--accent2);
+    background: color-mix(in srgb, var(--accent2) 90%, white);
 }
 
 .interest-tag:nth-child(5n+5) {
-    background: var(--accent3);
+    background: color-mix(in srgb, var(--accent3) 90%, white);
 }
 
 .interest-tag:hover {
@@ -1316,14 +1328,14 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    height: 8px;
-    background: linear-gradient(to right, var(--primary), var(--secondary), var(--accent));
+    height: 6px;
+    background: linear-gradient(to right, var(--primary), color-mix(in srgb, var(--primary) 60%, var(--secondary)));
 }
 
 .modal-content h2 {
     margin-bottom: 1.5rem;
     font-size: 1.5rem;
-    background: linear-gradient(to right, var(--primary), var(--secondary));
+    background: linear-gradient(to right, var(--primary), color-mix(in srgb, var(--primary) 60%, var(--secondary)));
     -webkit-background-clip: text;
     color: transparent;
     font-weight: bold;
@@ -1346,10 +1358,10 @@ body {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    background: linear-gradient(135deg, var(--primary), color-mix(in srgb, var(--primary) 70%, var(--secondary)));
     border: none;
     color: white;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .btn-secondary {
