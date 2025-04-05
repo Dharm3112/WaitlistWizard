@@ -1,17 +1,23 @@
 :root {
-    --primary: hsl(280, 84%, 54%); /* Vibrant purple */
+    --primary: hsl(280, 84%, 54%);
+    /* Vibrant purple */
     --primary-foreground: hsl(210 40% 98%);
-    --secondary: hsl(320, 100%, 60%); /* Hot pink */
+    --secondary: hsl(320, 100%, 60%);
+    /* Hot pink */
     --secondary-foreground: hsl(210 40% 98%);
-    --accent: hsl(42, 100%, 62%); /* Bright yellow */
-    --accent2: hsl(190, 90%, 50%); /* Bright cyan */
-    --accent3: hsl(150, 84%, 50%); /* Bright green */
+    --accent: hsl(42, 100%, 62%);
+    /* Bright yellow */
+    --accent2: hsl(190, 90%, 50%);
+    /* Bright cyan */
+    --accent3: hsl(150, 84%, 50%);
+    /* Bright green */
     --background: hsl(0 0% 100%);
     --foreground: hsl(222.2 47.4% 11.2%);
     --muted: hsl(210 40% 96.1%);
     --muted-foreground: hsl(215.4 16.3% 46.9%);
     --border: hsl(214.3 31.8% 91.4%);
-    --radius: 1rem; /* Increased border radius for fun, bubbly appearance */
+    --radius: 1rem;
+    /* Increased border radius for fun, bubbly appearance */
     --shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
@@ -283,7 +289,7 @@ body {
     color: color-mix(in srgb, var(--primary) 40%, var(--secondary) 40%, black);
 }
 
-.interest-option input[type="checkbox"]:checked + label {
+.interest-option input[type="checkbox"]:checked+label {
     background: linear-gradient(135deg, var(--primary), var(--secondary));
     color: white;
     transform: translateY(-3px);
@@ -359,7 +365,8 @@ body {
     cursor: not-allowed;
 }
 
-.error-message, .form-error {
+.error-message,
+.form-error {
     color: #e11d48;
     font-size: 0.875rem;
     margin-top: 0.25rem;
@@ -377,6 +384,7 @@ body {
         opacity: 1;
         transform: translateY(0);
     }
+
     to {
         opacity: 0;
         transform: translateY(-10px);
@@ -962,9 +970,11 @@ body {
         opacity: 0;
         transform: scale(0.8) translateY(20px);
     }
+
     50% {
         transform: scale(1.05) translateY(-5px);
     }
+
     100% {
         opacity: 1;
         transform: scale(1) translateY(0);
@@ -1178,6 +1188,7 @@ body {
         opacity: 0;
         transform: translateY(10px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -1325,7 +1336,8 @@ body {
     margin-top: 2rem;
 }
 
-.btn-primary, .btn-secondary {
+.btn-primary,
+.btn-secondary {
     padding: 0.75rem 1.5rem;
     border-radius: 50px;
     font-weight: 600;
@@ -1361,6 +1373,7 @@ body {
         transform: translateY(50px);
         opacity: 0;
     }
+
     to {
         transform: translateY(0);
         opacity: 1;
