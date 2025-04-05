@@ -198,50 +198,117 @@ function displayMessage(message) {
 
 // Setup room creation functionality
 function setupRoomCreation() {
-    // Populate interests selection
+    // Populate interests selection with colorful checkboxes
     const interestsSelect = document.getElementById('roomInterestsSelect');
-    INTERESTS.forEach(interest => {
-        const button = document.createElement('button');
-        button.type = 'button';
-        button.className = 'interest-button';
-        button.textContent = interest;
-        button.onclick = () => button.classList.toggle('selected');
-        interestsSelect.appendChild(button);
+    interestsSelect.innerHTML = ''; // Clear any existing content
+    
+    INTERESTS.forEach((interest, index) => {
+        const interestOption = document.createElement('div');
+        interestOption.className = 'interest-option';
+        
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.id = `interest-${index}`;
+        checkbox.value = interest;
+        
+        const label = document.createElement('label');
+        label.htmlFor = `interest-${index}`;
+        label.textContent = interest;
+        
+        interestOption.appendChild(checkbox);
+        interestOption.appendChild(label);
+        interestsSelect.appendChild(interestOption);
     });
 
-    // Show modal
+    // Show modal with animation
     createRoomBtn.onclick = () => {
-        createRoomModal.classList.add('show');
+        createRoomModal.style.display = 'flex';
+        setTimeout(() => {
+            createRoomModal.classList.add('show');
+        }, 10); // Small delay for the animation to work properly
     };
 
-    // Hide modal
+    // Hide modal with animation
     cancelCreateRoom.onclick = () => {
         createRoomModal.classList.remove('show');
+        setTimeout(() => {
+            createRoomModal.style.display = 'none';
+        }, 300); // Match transition duration
     };
 
-    // Handle room creation
+    // Close modal when clicking outside content
+    createRoomModal.addEventListener('click', (e) => {
+        if (e.target === createRoomModal) {
+            cancelCreateRoom.click();
+        }
+    });
+
+    // Handle room creation with improved validation
     createRoomForm.onsubmit = (e) => {
         e.preventDefault();
         
-        const roomName = document.getElementById('roomName').value;
+        const roomName = document.getElementById('roomName').value.trim();
         const selectedInterests = Array.from(
-            document.querySelectorAll('#roomInterestsSelect .interest-button.selected')
-        ).map(button => button.textContent);
+            document.querySelectorAll('#roomInterestsSelect input[type="checkbox"]:checked')
+        ).map(checkbox => checkbox.value);
 
-        if (roomName && selectedInterests.length > 0) {
-            socket.send(JSON.stringify({
-                type: 'createRoom',
-                name: roomName,
-                interests: selectedInterests
-            }));
-            
-            createRoomModal.classList.remove('show');
-            createRoomForm.reset();
-            document.querySelectorAll('#roomInterestsSelect .interest-button').forEach(
-                button => button.classList.remove('selected')
-            );
+        // Improved validation
+        if (!roomName) {
+            showFormError('Please enter a room name');
+            return;
         }
+        
+        if (selectedInterests.length === 0) {
+            showFormError('Please select at least one interest');
+            return;
+        }
+        
+        if (selectedInterests.length > 5) {
+            showFormError('Please select no more than 5 interests');
+            return;
+        }
+
+        // Create room
+        socket.send(JSON.stringify({
+            type: 'createRoom',
+            name: roomName,
+            interests: selectedInterests
+        }));
+        
+        // Reset form and hide modal
+        createRoomModal.classList.remove('show');
+        setTimeout(() => {
+            createRoomModal.style.display = 'none';
+            createRoomForm.reset();
+        }, 300);
     };
+}
+
+// Helper function to show form error messages
+function showFormError(message) {
+    // Create error message if it doesn't exist
+    let errorDiv = document.querySelector('.form-error');
+    if (!errorDiv) {
+        errorDiv = document.createElement('div');
+        errorDiv.className = 'form-error';
+        createRoomForm.insertBefore(errorDiv, createRoomForm.firstChild);
+    }
+    
+    // Show message with animation
+    errorDiv.textContent = message;
+    errorDiv.style.display = 'block';
+    errorDiv.style.animation = 'none';
+    setTimeout(() => {
+        errorDiv.style.animation = 'fadeIn 0.3s forwards';
+    }, 10);
+    
+    // Hide after 3 seconds
+    setTimeout(() => {
+        errorDiv.style.animation = 'fadeOut 0.3s forwards';
+        setTimeout(() => {
+            errorDiv.style.display = 'none';
+        }, 300);
+    }, 3000);
 }
 
 // Handle sending messages
