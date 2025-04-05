@@ -6,6 +6,36 @@ const INTERESTS = [
     "Consulting", "Real Estate", "Media", "Arts"
 ];
 
+// Emoji mappings for interest tags
+const INTEREST_EMOJIS = {
+    "Technology": "💻",
+    "Business": "💼",
+    "Marketing": "📊",
+    "Design": "🎨",
+    "Finance": "💰",
+    "Healthcare": "🏥",
+    "Education": "📚",
+    "Engineering": "⚙️",
+    "Research": "🔬",
+    "Sales": "🛒",
+    "HR": "👥",
+    "Legal": "⚖️",
+    "Consulting": "💭",
+    "Real Estate": "🏢",
+    "Media": "📱",
+    "Arts": "🎭"
+};
+
+// Emoji categories for the emoji picker
+const EMOJI_CATEGORIES = {
+    "mood": ["😀", "😊", "🙂", "😍", "😎", "🤔", "😐", "😢", "😡", "😴", "🤑", "🤯", "😇", "🥳", "😂", "🥺"],
+    "animals": ["🐱", "🐶", "🐼", "🦁", "🐯", "🦊", "🦝", "🐮", "🐷", "🐸", "🐙", "🦄", "🦋", "🐝", "🐬", "🦜"],
+    "food": ["🍔", "🍕", "🍦", "🍩", "🍰", "🍎", "🍓", "🥑", "🌮", "🍜", "🍚", "🥗", "🧀", "🥪", "🍺", "☕"],
+    "activities": ["⚽", "🏀", "🎮", "🎬", "🎵", "🎨", "📚", "🏆", "🎯", "🎲", "🛫", "🚵‍♂️", "🏄‍♀️", "🧗‍♂️", "🎪", "🎭"],
+    "travel": ["🚗", "✈️", "🚢", "🚆", "🚲", "🏔️", "🏖️", "🏙️", "🏜️", "🗺️", "🧳", "⛱️", "🏕️", "🗽", "🎡", "🚀"],
+    "objects": ["💡", "💎", "🔨", "📱", "💻", "🎁", "🔑", "🧸", "⏰", "📷", "🔋", "📌", "🔍", "💊", "💰", "📦"]
+};
+
 // DOM Elements
 const roomsList = document.getElementById('roomsList');
 const chatMessages = document.getElementById('chatMessages');
@@ -19,12 +49,22 @@ const createRoomBtn = document.getElementById('createRoomBtn');
 const createRoomModal = document.getElementById('createRoomModal');
 const createRoomForm = document.getElementById('createRoomForm');
 const cancelCreateRoom = document.getElementById('cancelCreateRoom');
+const moodSelector = document.getElementById('moodSelector');
+const emojiPicker = document.getElementById('emojiPicker');
+const tagButton = document.getElementById('tagButton');
+const tagSelectionModal = document.getElementById('tagSelectionModal');
+const messageTagsSelect = document.getElementById('messageTagsSelect');
+const cancelTagSelection = document.getElementById('cancelTagSelection');
+const confirmTagSelection = document.getElementById('confirmTagSelection');
 
 // State
 let currentRoom = null;
 let socket = null;
 let rooms = [];
 let username = null;
+let currentMood = "😊"; // Default mood emoji
+let selectedTags = []; // Current message tags
+let participantMoods = new Map(); // Map of participant username to mood emoji
 
 // Initialize chat functionality
 function initializeChat() {
@@ -66,6 +106,12 @@ function initializeChat() {
 
     // Initialize room creation
     setupRoomCreation();
+    
+    // Initialize emoji picker and mood selection
+    setupEmojiPicker();
+    
+    // Initialize tag selection for messages
+    setupTagSelection();
 }
 
 // Handle WebSocket messages
@@ -84,6 +130,16 @@ function handleWebSocketMessage(event) {
             break;
         case 'participantsUpdate':
             updateParticipants(data.participants);
+            break;
+        case 'moodUpdate':
+            // Update mood for specific participant
+            if (data.username && data.mood) {
+                participantMoods.set(data.username, data.mood);
+                // If we're in a room, update participants display
+                if (currentRoom) {
+                    updateParticipants(data.participants || currentRoom.participants);
+                }
+            }
             break;
     }
 }
@@ -171,27 +227,73 @@ function updateParticipants(participants) {
     // Update list
     participantsList.innerHTML = '';
     participants.forEach(participant => {
+        const participantName = typeof participant === 'string' ? participant : participant.username;
+        const participantMood = typeof participant === 'object' && participant.mood ? participant.mood : "😊";
+        
+        // Store this participant's mood for future reference
+        if (typeof participant === 'object' && participant.mood) {
+            participantMoods.set(participantName, participantMood);
+        }
+        
         const li = document.createElement('li');
         li.className = 'participant-item';
         li.innerHTML = `
-            <div class="participant-avatar">${participant[0]}</div>
-            <span>${participant}</span>
+            <div class="participant-avatar">${participantMood}</div>
+            <span>${participantName}</span>
         `;
         participantsList.appendChild(li);
     });
+}
+
+// Update mood for participants
+function broadcastParticipantsMoodUpdate(roomId) {
+    if (!socket || socket.readyState !== WebSocket.OPEN || !currentRoom) return;
+    
+    socket.send(JSON.stringify({
+        type: 'updateMood',
+        roomId: roomId,
+        mood: currentMood
+    }));
 }
 
 // Display a chat message
 function displayMessage(message) {
     const messageElement = document.createElement('div');
     messageElement.className = `message ${message.username === username ? 'sent' : ''}`;
+    
+    // Create header with mood if available
+    let headerContent = `<strong>${message.username}</strong>`;
+    if (message.mood) {
+        headerContent = `<span class="message-mood">${message.mood}</span>` + headerContent;
+    }
+    
+    // Add message content
     messageElement.innerHTML = `
         <div class="message-header">
-            <strong>${message.username}</strong>
+            ${headerContent}
             <span>${new Date(message.timestamp).toLocaleTimeString()}</span>
         </div>
         <div class="message-content">${message.content}</div>
     `;
+    
+    // Add tags if available
+    if (message.tags && message.tags.length > 0) {
+        const tagsContainer = document.createElement('div');
+        tagsContainer.className = 'message-tags';
+        
+        message.tags.forEach(tag => {
+            // Find emoji for this tag if it exists
+            const emoji = INTEREST_EMOJIS[tag] || '🏷️';
+            
+            const tagElement = document.createElement('span');
+            tagElement.className = 'message-tag';
+            tagElement.innerHTML = `<span class="tag-emoji">${emoji}</span> ${tag}`;
+            tagsContainer.appendChild(tagElement);
+        });
+        
+        messageElement.appendChild(tagsContainer);
+    }
+    
     chatMessages.appendChild(messageElement);
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
@@ -311,6 +413,145 @@ function showFormError(message) {
     }, 3000);
 }
 
+// Setup emoji picker
+function setupEmojiPicker() {
+    // Generate emoji content
+    const populateEmojiPicker = (category) => {
+        const emojiContainer = document.createElement('div');
+        emojiContainer.className = 'emoji-list';
+        
+        EMOJI_CATEGORIES[category].forEach(emoji => {
+            const emojiElement = document.createElement('span');
+            emojiElement.className = 'emoji-item';
+            emojiElement.textContent = emoji;
+            emojiElement.onclick = () => {
+                currentMood = emoji;
+                moodSelector.textContent = emoji;
+                emojiPicker.style.display = 'none';
+                
+                // Update mood on server
+                if (currentRoom) {
+                    broadcastParticipantsMoodUpdate(currentRoom.id);
+                }
+            };
+            emojiContainer.appendChild(emojiElement);
+        });
+        
+        return emojiContainer;
+    };
+    
+    // Add emoji category switcher
+    const categoryButtons = emojiPicker.querySelectorAll('.emoji-category');
+    let currentEmojiContainer = populateEmojiPicker('mood');
+    emojiPicker.appendChild(currentEmojiContainer);
+    
+    categoryButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Update active category
+            categoryButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            
+            // Replace emojis
+            const category = button.getAttribute('data-category');
+            emojiPicker.removeChild(currentEmojiContainer);
+            currentEmojiContainer = populateEmojiPicker(category);
+            emojiPicker.appendChild(currentEmojiContainer);
+        });
+    });
+    
+    // Toggle emoji picker
+    moodSelector.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (emojiPicker.style.display === 'block') {
+            emojiPicker.style.display = 'none';
+        } else {
+            emojiPicker.style.display = 'block';
+        }
+    });
+    
+    // Close emoji picker when clicking elsewhere
+    document.addEventListener('click', (e) => {
+        if (e.target !== moodSelector && !emojiPicker.contains(e.target)) {
+            emojiPicker.style.display = 'none';
+        }
+    });
+}
+
+// Setup tag selection
+function setupTagSelection() {
+    // Populate tag selection with the same interests used for rooms
+    messageTagsSelect.innerHTML = '';
+    
+    INTERESTS.forEach((interest, index) => {
+        const interestOption = document.createElement('div');
+        interestOption.className = 'interest-option';
+        
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.id = `tag-${index}`;
+        checkbox.value = interest;
+        
+        // Add emoji to label
+        const emoji = INTEREST_EMOJIS[interest] || '🏷️';
+        const label = document.createElement('label');
+        label.htmlFor = `tag-${index}`;
+        label.innerHTML = `<span class="interest-emoji">${emoji}</span> ${interest}`;
+        
+        interestOption.appendChild(checkbox);
+        interestOption.appendChild(label);
+        messageTagsSelect.appendChild(interestOption);
+    });
+    
+    // Show tags modal
+    tagButton.addEventListener('click', () => {
+        tagSelectionModal.style.display = 'flex';
+        setTimeout(() => {
+            tagSelectionModal.classList.add('show');
+        }, 10);
+        
+        // Reset checkboxes based on currently selected tags
+        const checkboxes = messageTagsSelect.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = selectedTags.includes(checkbox.value);
+        });
+    });
+    
+    // Cancel tag selection
+    cancelTagSelection.addEventListener('click', () => {
+        tagSelectionModal.classList.remove('show');
+        setTimeout(() => {
+            tagSelectionModal.style.display = 'none';
+        }, 300);
+    });
+    
+    // Close modal when clicking outside
+    tagSelectionModal.addEventListener('click', (e) => {
+        if (e.target === tagSelectionModal) {
+            cancelTagSelection.click();
+        }
+    });
+    
+    // Confirm tag selection
+    confirmTagSelection.addEventListener('click', () => {
+        // Get selected tags
+        selectedTags = Array.from(
+            messageTagsSelect.querySelectorAll('input[type="checkbox"]:checked')
+        ).map(checkbox => checkbox.value);
+        
+        // Update button appearance to indicate tags are selected
+        if (selectedTags.length > 0) {
+            tagButton.classList.add('has-tags');
+            tagButton.setAttribute('title', `${selectedTags.length} tags selected`);
+        } else {
+            tagButton.classList.remove('has-tags');
+            tagButton.setAttribute('title', 'Add interest tags');
+        }
+        
+        // Close modal
+        cancelTagSelection.click();
+    });
+}
+
 // Handle sending messages
 messageForm.onsubmit = (e) => {
     e.preventDefault();
@@ -319,9 +560,19 @@ messageForm.onsubmit = (e) => {
     if (message && currentRoom) {
         socket.send(JSON.stringify({
             type: 'sendMessage',
-            content: message
+            content: message,
+            mood: currentMood,
+            tags: selectedTags.length > 0 ? selectedTags : undefined
         }));
+        
         messageInput.value = '';
+        
+        // Reset tags after sending (optional, depends on UX preference)
+        if (selectedTags.length > 0) {
+            selectedTags = [];
+            tagButton.classList.remove('has-tags');
+            tagButton.setAttribute('title', 'Add interest tags');
+        }
     }
 };
 

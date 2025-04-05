@@ -13,6 +13,8 @@ interface ChatMessage {
   username: string;
   content: string;
   timestamp: number;
+  mood?: string; // Emoji representing user's mood
+  tags?: string[]; // Array of emoji tags for the message
 }
 
 interface ChatRoom {
@@ -28,6 +30,7 @@ interface ChatClient {
   username: string;
   socket: WebSocket;
   roomId: string | null;
+  currentMood?: string; // Current mood emoji
 }
 
 // Memory storage for chat
@@ -145,9 +148,18 @@ function handleWebSocketMessage(clientId: string, data: any) {
           roomId: client.roomId,
           username: client.username,
           content: data.content,
-          timestamp: Date.now()
+          timestamp: Date.now(),
+          mood: data.mood || client.currentMood,
+          tags: data.tags || undefined
         };
         addMessageToRoom(client.roomId, message);
+      }
+      break;
+    case 'updateMood':
+      client.currentMood = data.mood;
+      // If user is in a room, notify other participants of mood change
+      if (client.roomId) {
+        broadcastParticipantsMoodUpdate(client.roomId);
       }
       break;
     case 'createRoom':
@@ -240,12 +252,21 @@ function broadcastParticipantsUpdate(roomId: string) {
   const room = chatRooms.find(r => r.id === roomId);
   if (!room) return;
 
+  // Get participants with their moods
+  const participantsWithMoods = room.participants.map(username => {
+    const clientEntry = Array.from(clients.entries()).find(([_, client]) => client.username === username);
+    return {
+      username,
+      mood: clientEntry ? clientEntry[1].currentMood : "😊" // Default mood if not set
+    };
+  });
+
   // Send to all clients in the room
   clients.forEach(client => {
     if (client.roomId === roomId && client.socket.readyState === WebSocket.OPEN) {
       client.socket.send(JSON.stringify({
         type: 'participantsUpdate',
-        participants: room.participants
+        participants: participantsWithMoods
       }));
     }
   });
@@ -269,6 +290,30 @@ function addMessageToRoom(roomId: string, message: ChatMessage) {
       client.socket.send(JSON.stringify({
         type: 'message',
         message
+      }));
+    }
+  });
+}
+
+function broadcastParticipantsMoodUpdate(roomId: string) {
+  const room = chatRooms.find(r => r.id === roomId);
+  if (!room) return;
+
+  // Get all participants and their moods
+  const participantsWithMoods = room.participants.map(username => {
+    const clientEntry = Array.from(clients.entries()).find(([_, client]) => client.username === username);
+    return {
+      username,
+      mood: clientEntry ? clientEntry[1].currentMood : undefined
+    };
+  });
+
+  // Send to all clients in the room
+  clients.forEach(client => {
+    if (client.roomId === roomId && client.socket.readyState === WebSocket.OPEN) {
+      client.socket.send(JSON.stringify({
+        type: 'moodUpdate',
+        participants: participantsWithMoods
       }));
     }
   });
