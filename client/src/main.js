@@ -266,13 +266,233 @@ function initializeNavigation() {
 }
 
 
-// Initialize the form when the DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    initializeForm(); // Initialize waitlist form
-    handleContactForm(); // Initialize contact form
-    initializeNavigation(); // Initialize navigation
+// Feature card flip interaction
+function initializeFeatureCards() {
+    const featureCards = document.querySelectorAll('.feature-card');
+    
+    featureCards.forEach(card => {
+        const cardInner = card.querySelector('.card-inner');
+        const learnMore = card.querySelector('.learn-more');
+        const backButton = card.querySelector('.back-button');
+        
+        if (learnMore && backButton && cardInner) {
+            learnMore.addEventListener('click', () => {
+                cardInner.style.transform = 'rotateY(180deg)';
+            });
+            
+            backButton.addEventListener('click', () => {
+                cardInner.style.transform = 'rotateY(0deg)';
+            });
+        }
+    });
+}
 
-    // Initialize navigation
+// Animate the process steps
+function initializeProcessSteps() {
+    const steps = document.querySelectorAll('.step-card');
+    const progressMarker = document.querySelector('.progress-marker');
+    
+    if (steps.length && progressMarker) {
+        // Initial position
+        updateProgressPosition(steps[0]);
+        
+        // Set active state for steps when scrolled into view
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.6
+        };
+        
+        const stepObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Remove active class from all steps
+                    steps.forEach(s => s.classList.remove('active'));
+                    
+                    // Add active class to current step
+                    entry.target.classList.add('active');
+                    
+                    // Update progress marker position
+                    updateProgressPosition(entry.target);
+                    
+                    // Animate the step content
+                    animateStepContent(entry.target);
+                }
+            });
+        }, observerOptions);
+        
+        steps.forEach(step => {
+            stepObserver.observe(step);
+        });
+    }
+}
+
+function updateProgressPosition(activeStep) {
+    const progressMarker = document.querySelector('.progress-marker');
+    const progressLine = document.querySelector('.progress-line');
+    if (!progressMarker || !progressLine) return;
+    
+    const stepNumber = activeStep.id.replace('step', '');
+    const totalSteps = document.querySelectorAll('.step-card').length;
+    const percentage = ((stepNumber - 1) / (totalSteps - 1)) * 100;
+    
+    progressMarker.style.top = `${percentage}%`;
+    progressLine.style.height = `${percentage}%`;
+}
+
+function animateStepContent(step) {
+    const content = step.querySelector('.step-content');
+    const image = step.querySelector('.step-img');
+    
+    if (content) {
+        content.style.opacity = '0';
+        content.style.transform = 'translateX(-20px)';
+        setTimeout(() => {
+            content.style.opacity = '1';
+            content.style.transform = 'translateX(0)';
+        }, 100);
+    }
+    
+    if (image) {
+        image.style.opacity = '0';
+        image.style.transform = 'translateX(20px)';
+        setTimeout(() => {
+            image.style.opacity = '1';
+            image.style.transform = 'translateX(0)';
+        }, 300);
+    }
+}
+
+// Back to top button
+function initializeBackToTop() {
+    const backToTopButton = document.getElementById('backToTop');
+    
+    if (backToTopButton) {
+        // Show/hide button based on scroll position
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopButton.classList.add('show');
+            } else {
+                backToTopButton.classList.remove('show');
+            }
+        });
+        
+        // Scroll to top when clicked
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
+}
+
+// Smooth scroll for anchor links
+function initializeSmoothScroll() {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80, // Offset for navbar
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+}
+
+// Animate hero section elements
+function animateHero() {
+    const heroElements = [
+        document.querySelector('.hero-title'),
+        document.querySelector('.hero-subtitle'),
+        document.querySelector('.hero-buttons'),
+        document.querySelector('.hero-image')
+    ];
+    
+    heroElements.forEach((element, index) => {
+        if (element) {
+            setTimeout(() => {
+                element.classList.add('animate-in');
+            }, index * 200);
+        }
+    });
+    
+    // Animate connection dots with delay
+    const dots = document.querySelectorAll('.connection-dot');
+    dots.forEach((dot, index) => {
+        setTimeout(() => {
+            dot.classList.add('animate');
+        }, 1000 + (index * 300));
+    });
+    
+    // Animate connection lines after dots
+    const lines = document.querySelectorAll('.connection-line');
+    lines.forEach((line, index) => {
+        setTimeout(() => {
+            line.classList.add('animate');
+        }, 2000 + (index * 200));
+    });
+}
+
+// Updated interest buttons for the waitlist form
+function initializeInterestSelectors() {
+    const interestsContainer = document.getElementById('interests');
+    if (!interestsContainer) return;
+    
+    // Clear previous content
+    interestsContainer.innerHTML = '';
+    
+    // Create interest options
+    INTERESTS.forEach((interest, index) => {
+        const interestOption = document.createElement('div');
+        interestOption.className = 'interest-option';
+        
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.id = `interest-${index}`;
+        checkbox.value = interest;
+        
+        const label = document.createElement('label');
+        label.htmlFor = `interest-${index}`;
+        label.textContent = interest;
+        
+        interestOption.appendChild(checkbox);
+        interestOption.appendChild(label);
+        interestsContainer.appendChild(interestOption);
+    });
+}
+
+// Updated function to get selected interests
+function getSelectedInterests() {
+    return Array.from(document.querySelectorAll('#interests input[type="checkbox"]:checked'))
+        .map(checkbox => checkbox.value);
+}
+
+// Initialize all components
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize original components
+    initializeForm();
+    handleContactForm();
+    initializeNavigation();
+    
+    // Initialize new interactive components
+    initializeFeatureCards();
+    initializeProcessSteps();
+    initializeBackToTop();
+    initializeSmoothScroll();
+    initializeInterestSelectors();
+    
+    // Animate hero section
+    setTimeout(animateHero, 300);
+    
+    // Navbar scroll effect
     const navbar = document.querySelector('.navbar');
     if (navbar) {
         window.addEventListener('scroll', () => {
@@ -283,25 +503,45 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+    
+    // Newsletter form handler
+    const newsletterForm = document.querySelector('.newsletter-form');
+    if (newsletterForm) {
+        newsletterForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = newsletterForm.querySelector('input').value;
+            if (email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                showToast('Thanks for subscribing to our newsletter!');
+                newsletterForm.reset();
+            } else {
+                showToast('Please enter a valid email address', 'error');
+            }
+        });
+    }
 });
 
-// Add scroll animation
+// Add scroll animation for sections
 document.addEventListener('scroll', () => {
+    // Animate sections when scrolled into view
+    const sections = document.querySelectorAll('section');
+    sections.forEach(section => {
+        const rect = section.getBoundingClientRect();
+        const isVisible = rect.top <= window.innerHeight * 0.75;
+        
+        if (isVisible && !section.classList.contains('animate-in')) {
+            section.classList.add('animate-in');
+        }
+    });
+    
+    // Animate elements with data-aos attribute
     const elements = document.querySelectorAll('[data-aos]');
     elements.forEach(element => {
         const rect = element.getBoundingClientRect();
         const isVisible = rect.top <= window.innerHeight * 0.75;
-
+        
         if (isVisible) {
             element.style.opacity = '1';
             element.style.transform = 'translateY(0)';
         }
     });
-});
-
-// Initialize animations
-document.querySelectorAll('[data-aos]').forEach(element => {
-    element.style.opacity = '0';
-    element.style.transform = 'translateY(20px)';
-    element.style.transition = 'opacity 0.6s, transform 0.6s';
 });
