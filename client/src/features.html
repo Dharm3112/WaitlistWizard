@@ -3,14 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Features - Professional Networking Platform</title>
+    <title>Features - ConnectPro | Interest-Based Professional Networking</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
-            <a href="index.html" class="nav-logo">ProNet</a>
+            <a href="index.html" class="nav-logo">
+                <span class="logo-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                    </svg>
+                </span>
+                <span class="logo-text">ConnectPro</span>
+            </a>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
             <div class="nav-links">
                 <a href="index.html">Home</a>
                 <a href="features.html" class="active">Features</a>
@@ -24,21 +38,18 @@
 
     <!-- Features Hero Section -->
     <section class="features-hero">
+        <div class="shape shape1"></div>
+        <div class="shape shape2"></div>
         <div class="container">
-            <h1 class="hero-title">Platform Features</h1>
+            <h1 class="hero-title">
+                <span class="gradient-text">Platform Features</span>
+            </h1>
             <p class="hero-subtitle">
                 Discover how our innovative features help you build meaningful professional connections
             </p>
-        </div>
-    </section>
-
-    <!-- Detailed Features -->
-    <section class="detailed-features">
-        <div class="container">
-            <!-- Interest-Based Networking -->
-            <div class="feature-detailed" data-aos="fade-up">
-                <div class="feature-icon">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <div class="features-icons">
+                <div class="feature-icon-circle">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="18" cy="5" r="3"></circle>
                         <circle cx="6" cy="12" r="3"></circle>
                         <circle cx="18" cy="19" r="3"></circle>
@@ -46,74 +57,197 @@
                         <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
                     </svg>
                 </div>
-                <h2>Interest-Based Networking</h2>
-                <div class="feature-content">
-                    <p>Connect with professionals who share your interests and goals, making networking more meaningful and relevant.</p>
-                    <ul class="feature-list">
-                        <li>Personalized interest matching</li>
-                        <li>Career goal alignment</li>
-                        <li>Interest-based room suggestions</li>
-                        <li>Expertise-focused networking</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- AI-Powered Matching -->
-            <div class="feature-detailed" data-aos="fade-up">
-                <div class="feature-icon">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <div class="feature-icon-circle">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/>
                     </svg>
                 </div>
-                <h2>AI-Powered Matching</h2>
-                <div class="feature-content">
-                    <p>Our sophisticated AI algorithm connects you with professionals who share your interests and goals.</p>
-                    <ul class="feature-list">
-                        <li>Interest-based matching</li>
-                        <li>Professional field alignment</li>
-                        <li>Smart room creation</li>
-                        <li>Personalized recommendations</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Dynamic Rooms -->
-            <div class="feature-detailed" data-aos="fade-up">
-                <div class="feature-icon">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <div class="feature-icon-circle">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
                     </svg>
                 </div>
-                <h2>Dynamic Chat Rooms</h2>
-                <div class="feature-content">
-                    <p>Engage in real-time discussions with professionals who share your interests.</p>
-                    <ul class="feature-list">
-                        <li>Interest-based room creation</li>
-                        <li>Real-time messaging</li>
-                        <li>File and resource sharing</li>
-                        <li>Conversation history</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Professional Growth -->
-            <div class="feature-detailed" data-aos="fade-up">
-                <div class="feature-icon">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <div class="feature-icon-circle">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M18 20V10"></path>
                         <path d="M12 20V4"></path>
                         <path d="M6 20v-6"></path>
                     </svg>
                 </div>
-                <h2>Professional Growth Opportunities</h2>
-                <div class="feature-content">
-                    <p>Expand your knowledge and advance your career through meaningful connections and collaborations.</p>
-                    <ul class="feature-list">
-                        <li>Skill development recommendations</li>
-                        <li>Mentorship opportunities</li>
-                        <li>Knowledge sharing networks</li>
-                        <li>Career advancement discussions</li>
-                    </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detailed Features -->
+    <section class="detailed-features">
+        <div class="container">
+            <!-- Interest-Based Networking -->
+            <div class="feature-detailed feature-card" data-aos="fade-up">
+                <div class="feature-card-inner">
+                    <div class="feature-card-front">
+                        <div class="feature-icon">
+                            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="18" cy="5" r="3"></circle>
+                                <circle cx="6" cy="12" r="3"></circle>
+                                <circle cx="18" cy="19" r="3"></circle>
+                                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                            </svg>
+                        </div>
+                        <h2>Interest-Based Networking</h2>
+                        <p class="feature-brief">Connect with professionals who share your interests, making networking more meaningful and relevant.</p>
+                        <button class="feature-more-btn">Learn More</button>
+                    </div>
+                    <div class="feature-card-back">
+                        <h3>Interest-Based Networking</h3>
+                        <div class="feature-content">
+                            <p>Connect with professionals who share your interests and goals, making networking more meaningful and relevant.</p>
+                            <ul class="feature-list">
+                                <li>
+                                    <span class="feature-list-icon">✓</span>
+                                    <span>Personalized interest matching</span>
+                                </li>
+                                <li>
+                                    <span class="feature-list-icon">✓</span>
+                                    <span>Career goal alignment</span>
+                                </li>
+                                <li>
+                                    <span class="feature-list-icon">✓</span>
+                                    <span>Interest-based room suggestions</span>
+                                </li>
+                                <li>
+                                    <span class="feature-list-icon">✓</span>
+                                    <span>Expertise-focused networking</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <button class="feature-back-btn">Back</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI-Powered Matching -->
+            <div class="feature-detailed feature-card" data-aos="fade-up">
+                <div class="feature-card-inner">
+                    <div class="feature-card-front">
+                        <div class="feature-icon">
+                            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/>
+                            </svg>
+                        </div>
+                        <h2>AI-Powered Matching</h2>
+                        <p class="feature-brief">Our sophisticated AI algorithm connects you with professionals who share your interests.</p>
+                        <button class="feature-more-btn">Learn More</button>
+                    </div>
+                    <div class="feature-card-back">
+                        <h3>AI-Powered Matching</h3>
+                        <div class="feature-content">
+                            <p>Our sophisticated AI algorithm connects you with professionals who share your interests and goals.</p>
+                            <ul class="feature-list">
+                                <li>
+                                    <span class="feature-list-icon">✓</span>
+                                    <span>Interest-based matching</span>
+                                </li>
+                                <li>
+                                    <span class="feature-list-icon">✓</span>
+                                    <span>Professional field alignment</span>
+                                </li>
+                                <li>
+                                    <span class="feature-list-icon">✓</span>
+                                    <span>Smart room creation</span>
+                                </li>
+                                <li>
+                                    <span class="feature-list-icon">✓</span>
+                                    <span>Personalized recommendations</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <button class="feature-back-btn">Back</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dynamic Rooms -->
+            <div class="feature-detailed feature-card" data-aos="fade-up">
+                <div class="feature-card-inner">
+                    <div class="feature-card-front">
+                        <div class="feature-icon">
+                            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                            </svg>
+                        </div>
+                        <h2>Dynamic Chat Rooms</h2>
+                        <p class="feature-brief">Engage in real-time discussions with professionals who share your interests.</p>
+                        <button class="feature-more-btn">Learn More</button>
+                    </div>
+                    <div class="feature-card-back">
+                        <h3>Dynamic Chat Rooms</h3>
+                        <div class="feature-content">
+                            <p>Engage in real-time discussions with professionals who share your interests.</p>
+                            <ul class="feature-list">
+                                <li>
+                                    <span class="feature-list-icon">✓</span>
+                                    <span>Interest-based room creation</span>
+                                </li>
+                                <li>
+                                    <span class="feature-list-icon">✓</span>
+                                    <span>Real-time messaging</span>
+                                </li>
+                                <li>
+                                    <span class="feature-list-icon">✓</span>
+                                    <span>File and resource sharing</span>
+                                </li>
+                                <li>
+                                    <span class="feature-list-icon">✓</span>
+                                    <span>Conversation history</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <button class="feature-back-btn">Back</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Professional Growth -->
+            <div class="feature-detailed feature-card" data-aos="fade-up">
+                <div class="feature-card-inner">
+                    <div class="feature-card-front">
+                        <div class="feature-icon">
+                            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 20V10"></path>
+                                <path d="M12 20V4"></path>
+                                <path d="M6 20v-6"></path>
+                            </svg>
+                        </div>
+                        <h2>Professional Growth</h2>
+                        <p class="feature-brief">Expand your knowledge and advance your career through meaningful connections.</p>
+                        <button class="feature-more-btn">Learn More</button>
+                    </div>
+                    <div class="feature-card-back">
+                        <h3>Professional Growth Opportunities</h3>
+                        <div class="feature-content">
+                            <p>Expand your knowledge and advance your career through meaningful connections and collaborations.</p>
+                            <ul class="feature-list">
+                                <li>
+                                    <span class="feature-list-icon">✓</span>
+                                    <span>Skill development recommendations</span>
+                                </li>
+                                <li>
+                                    <span class="feature-list-icon">✓</span>
+                                    <span>Mentorship opportunities</span>
+                                </li>
+                                <li>
+                                    <span class="feature-list-icon">✓</span>
+                                    <span>Knowledge sharing networks</span>
+                                </li>
+                                <li>
+                                    <span class="feature-list-icon">✓</span>
+                                    <span>Career advancement discussions</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <button class="feature-back-btn">Back</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -121,10 +255,49 @@
 
     <!-- Call to Action -->
     <section class="cta-section">
+        <div class="shape shape1"></div>
+        <div class="shape shape2"></div>
         <div class="container">
-            <h2>Ready to Get Started?</h2>
-            <p>Join our waitlist to be among the first to experience these innovative features.</p>
-            <a href="index.html#waitlist" class="cta-button">Join Waitlist</a>
+            <div class="cta-content">
+                <h2><span class="gradient-text">Ready to Get Started?</span></h2>
+                <p>Join our waitlist to be among the first to experience these innovative features and connect with professionals who share your interests.</p>
+                <div class="cta-buttons">
+                    <a href="index.html#waitlist" class="cta-button">
+                        Join Waitlist
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14"></path>
+                            <path d="M12 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                    <a href="chat.html" class="cta-button secondary">
+                        Explore Rooms
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            <div class="cta-illustration">
+                <div class="feature-icon-circle large-icon">
+                    <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="9" r="3"></circle>
+                        <path d="M17.5 7.5V9"></path>
+                        <path d="M20 10l-2 2-2-2"></path>
+                        <path d="M13.64 21.97a9.96 9.96 0 0 0 7.29-8"></path>
+                        <path d="M3 16v-2c0-2.25 1.5-4 4-4"></path>
+                        <path d="M16.5 19.794c.72.0678 1.45.1155 2.2.1414"></path>
+                        <path d="M10.02 20.65A8.89 8.89 0 0 1 3 12.75"></path>
+                        <path d="M12.5 8A4.5 4.5 0 0 0 8 3.5"></path>
+                    </svg>
+                </div>
+                <div class="connecting-lines">
+                    <div class="connection-dot"></div>
+                    <div class="connection-dot"></div>
+                    <div class="connection-dot"></div>
+                    <div class="connection-line"></div>
+                    <div class="connection-line"></div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -133,17 +306,51 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h4>ProNet</h4>
-                    <p>Building meaningful professional connections.</p>
+                    <div class="footer-logo">
+                        <span class="logo-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                            </svg>
+                        </span>
+                        <span class="logo-text">ConnectPro</span>
+                    </div>
+                    <p>Building meaningful professional connections through shared interests.</p>
                 </div>
                 <div class="footer-section">
                     <h4>Quick Links</h4>
+                    <a href="index.html">Home</a>
+                    <a href="features.html">Features</a>
+                    <a href="how-it-works.html">How It Works</a>
                     <a href="privacy.html">Privacy Policy</a>
                     <a href="contact.html">Contact Us</a>
                 </div>
+                <div class="footer-section">
+                    <h4>Connect With Us</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                                <rect x="2" y="9" width="4" height="12"></rect>
+                                <circle cx="4" cy="4" r="2"></circle>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 ProNet. All rights reserved.</p>
+                <p>&copy; 2025 ConnectPro. All rights reserved.</p>
             </div>
         </div>
     </footer>

@@ -271,19 +271,42 @@ function initializeFeatureCards() {
     const featureCards = document.querySelectorAll('.feature-card');
     
     featureCards.forEach(card => {
-        const cardInner = card.querySelector('.card-inner');
-        const learnMore = card.querySelector('.learn-more');
-        const backButton = card.querySelector('.back-button');
+        const cardInner = card.querySelector('.feature-card-inner');
+        const learnMoreBtn = card.querySelector('.feature-more-btn');
+        const backBtn = card.querySelector('.feature-back-btn');
         
-        if (learnMore && backButton && cardInner) {
-            learnMore.addEventListener('click', () => {
-                cardInner.style.transform = 'rotateY(180deg)';
+        if (learnMoreBtn && backBtn) {
+            learnMoreBtn.addEventListener('click', () => {
+                card.classList.add('flipped');
             });
             
-            backButton.addEventListener('click', () => {
-                cardInner.style.transform = 'rotateY(0deg)';
+            backBtn.addEventListener('click', () => {
+                card.classList.remove('flipped');
             });
         }
+        
+        // Add hover effect with slight rotation
+        card.addEventListener('mouseenter', (e) => {
+            if (!card.classList.contains('flipped')) {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 20;
+                const rotateY = (centerX - x) / 20;
+                
+                cardInner.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            }
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            if (!card.classList.contains('flipped')) {
+                cardInner.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+            }
+        });
     });
 }
 
