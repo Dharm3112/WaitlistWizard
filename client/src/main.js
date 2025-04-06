@@ -16,29 +16,165 @@ const INTERESTS = [
 
 // Initialize the form
 function initializeForm() {
-    // Populate professions dropdown
+    // Populate professions dropdown for the main waitlist form
     const professionSelect = document.getElementById('profession');
-    PROFESSIONS.forEach(profession => {
-        const option = document.createElement('option');
-        option.value = profession;
-        option.textContent = profession;
-        professionSelect.appendChild(option);
-    });
+    if (professionSelect) {
+        PROFESSIONS.forEach(profession => {
+            const option = document.createElement('option');
+            option.value = profession;
+            option.textContent = profession;
+            professionSelect.appendChild(option);
+        });
+    }
+
+    // Populate professions dropdown for the dropdown form
+    const dropdownProfessionSelect = document.getElementById('dropdownProfession');
+    if (dropdownProfessionSelect) {
+        PROFESSIONS.forEach(profession => {
+            const option = document.createElement('option');
+            option.value = profession;
+            option.textContent = profession;
+            dropdownProfessionSelect.appendChild(option);
+        });
+    }
 
     // Create interest buttons
     const interestsContainer = document.getElementById('interests');
-    INTERESTS.forEach(interest => {
-        const button = document.createElement('button');
-        button.type = 'button';
-        button.className = 'interest-button';
-        button.textContent = interest;
-        button.onclick = () => toggleInterest(button);
-        interestsContainer.appendChild(button);
+    if (interestsContainer) {
+        INTERESTS.forEach(interest => {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'interest-button';
+            button.textContent = interest;
+            button.onclick = () => toggleInterest(button);
+            interestsContainer.appendChild(button);
+        });
+    }
+
+    // Add form submit handler for main waitlist form
+    const form = document.getElementById('waitlistForm');
+    if (form) {
+        form.onsubmit = handleSubmit;
+    }
+    
+    // Add form submit handler for dropdown form
+    const dropdownForm = document.getElementById('dropdownWaitlistForm');
+    if (dropdownForm) {
+        dropdownForm.onsubmit = handleDropdownSubmit;
+    }
+    
+    // Initialize the early access dropdown
+    initializeEarlyAccessDropdown();
+}
+
+// Handle the early access dropdown
+function initializeEarlyAccessDropdown() {
+    const earlyAccessBtn = document.getElementById('earlyAccessBtn');
+    const earlyAccessDropdown = document.getElementById('earlyAccessDropdown');
+    const closeDropdownForm = document.getElementById('closeDropdownForm');
+    
+    if (earlyAccessBtn && earlyAccessDropdown) {
+        // Open dropdown on button click
+        earlyAccessBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            earlyAccessDropdown.classList.add('visible');
+        });
+        
+        // Close dropdown when clicking the close button
+        if (closeDropdownForm) {
+            closeDropdownForm.addEventListener('click', () => {
+                earlyAccessDropdown.classList.remove('visible');
+            });
+        }
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (earlyAccessDropdown.classList.contains('visible') && 
+                !earlyAccessDropdown.contains(e.target) && 
+                e.target !== earlyAccessBtn) {
+                earlyAccessDropdown.classList.remove('visible');
+            }
+        });
+    }
+}
+
+// Handle dropdown form submission
+function handleDropdownSubmit(e) {
+    e.preventDefault();
+    
+    const formData = {
+        fullName: document.getElementById('dropdownFullName').value,
+        email: document.getElementById('dropdownEmail').value,
+        profession: document.getElementById('dropdownProfession').value,
+        location: "", // Not required for dropdown form
+        interests: [] // Not required for dropdown form
+    };
+    
+    // Validate the dropdown form data
+    const errors = validateDropdownForm(formData);
+    
+    if (Object.keys(errors).length === 0) {
+        // Show loading state
+        const submitButton = document.querySelector('#dropdownWaitlistForm .submit-button');
+        submitButton.querySelector('.button-content').style.opacity = '0';
+        submitButton.querySelector('.loading-spinner').style.display = 'block';
+        
+        // Simulate form submission
+        setTimeout(() => {
+            // Hide loading state
+            submitButton.querySelector('.button-content').style.opacity = '1';
+            submitButton.querySelector('.loading-spinner').style.display = 'none';
+            
+            // Close the dropdown
+            document.getElementById('earlyAccessDropdown').classList.remove('visible');
+            
+            // Show success message
+            showToast('Thanks for joining our waitlist! We\'ll be in touch soon.');
+            
+            // Reset the form
+            document.getElementById('dropdownWaitlistForm').reset();
+        }, 1500);
+    } else {
+        // Show errors for the dropdown form
+        showDropdownErrors(errors);
+    }
+}
+
+// Validate dropdown form (simpler than main form)
+function validateDropdownForm(formData) {
+    const errors = {};
+
+    if (!formData.fullName.trim()) {
+        errors.dropdownFullName = 'Full name is required';
+    }
+
+    if (!formData.email.trim()) {
+        errors.dropdownEmail = 'Email is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+        errors.dropdownEmail = 'Invalid email format';
+    }
+
+    if (!formData.profession) {
+        errors.dropdownProfession = 'Please select your profession';
+    }
+
+    return errors;
+}
+
+// Show dropdown form errors
+function showDropdownErrors(errors) {
+    // Clear all previous errors in dropdown form
+    document.querySelectorAll('#dropdownWaitlistForm .error-message').forEach(el => {
+        el.style.display = 'none';
+        el.textContent = '';
     });
 
-    // Add form submit handler
-    const form = document.getElementById('waitlistForm');
-    form.onsubmit = handleSubmit;
+    // Show new errors in dropdown form
+    Object.entries(errors).forEach(([field, message]) => {
+        const errorEl = document.querySelector(`#${field}`).nextElementSibling.nextElementSibling;
+        errorEl.textContent = message;
+        errorEl.style.display = 'block';
+    });
 }
 
 // Toggle interest selection

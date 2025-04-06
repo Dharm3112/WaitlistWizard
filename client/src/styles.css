@@ -156,6 +156,81 @@ body {
     will-change: transform, opacity;
 }
 
+/* Early Access Dropdown Form */
+.early-access-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-width: 450px;
+    margin: 1rem auto 0;
+    background: var(--card-background);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-20px);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+    border: 1px solid var(--border);
+}
+
+.early-access-dropdown.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-form-container {
+    padding: 1.5rem;
+}
+
+.form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.form-header h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0;
+}
+
+.close-button {
+    background: transparent;
+    border: none;
+    color: var(--foreground);
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+}
+
+.close-button:hover {
+    background-color: var(--muted);
+}
+
+.dropdown-waitlist-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.hero-content {
+    position: relative;
+}
+
 .hero-image {
     width: 100%;
     max-width: 500px;
