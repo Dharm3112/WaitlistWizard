@@ -34,12 +34,12 @@ class ThemeSwitcher {
         toggleButton.id = 'theme-toggle';
         document.body.appendChild(toggleButton);
 
-        // Create theme panel
+        // Create theme panel with simplified options
         const themePanel = document.createElement('div');
         themePanel.className = 'theme-panel';
         themePanel.innerHTML = `
             <div class="theme-panel-header">
-                <h3>Choose Your Theme</h3>
+                <h3>Choose Theme</h3>
                 <button class="theme-panel-close">×</button>
             </div>
             <div class="theme-options">
@@ -48,50 +48,17 @@ class ThemeSwitcher {
                         <div class="day"></div>
                         <div class="night"></div>
                     </div>
-                    <span>Automatic<br><small>(Time-based)</small></span>
+                    <span>Auto<br><small>(Based on time)</small></span>
                 </div>
                 
-                <div class="theme-category">Time of Day</div>
-                
-                <div class="theme-option" data-theme="morning">
-                    <div class="theme-preview morning"></div>
-                    <span>Morning<br><small>Energetic & Bright</small></span>
-                </div>
-                <div class="theme-option" data-theme="afternoon">
-                    <div class="theme-preview afternoon"></div>
-                    <span>Afternoon<br><small>Focused & Calm</small></span>
-                </div>
-                <div class="theme-option" data-theme="evening">
-                    <div class="theme-preview evening"></div>
-                    <span>Evening<br><small>Warm & Relaxing</small></span>
-                </div>
-                <div class="theme-option" data-theme="night">
-                    <div class="theme-preview night"></div>
-                    <span>Night<br><small>Dark & Soothing</small></span>
+                <div class="theme-option" data-theme="light">
+                    <div class="theme-preview light"></div>
+                    <span>Light<br><small>Blue accents</small></span>
                 </div>
                 
-                <div class="theme-category">Mood</div>
-                
-                <div class="theme-option" data-theme="creative">
-                    <div class="theme-preview creative"></div>
-                    <span>Creative<br><small>Vibrant & Exciting</small></span>
-                </div>
-                <div class="theme-option" data-theme="focused">
-                    <div class="theme-preview focused"></div>
-                    <span>Focused<br><small>Clear & Productive</small></span>
-                </div>
-                <div class="theme-option" data-theme="relaxed">
-                    <div class="theme-preview relaxed"></div>
-                    <span>Relaxed<br><small>Calm & Soothing</small></span>
-                </div>
-                <div class="theme-option" data-theme="energetic">
-                    <div class="theme-preview energetic"></div>
-                    <span>Energetic<br><small>Bold & Powerful</small></span>
-                </div>
-                
-                <div class="theme-option full-width" data-theme="darkMode">
-                    <div class="theme-preview darkMode"></div>
-                    <span>Dark Mode<br><small>Low Light & Easy on Eyes</small></span>
+                <div class="theme-option" data-theme="dark">
+                    <div class="theme-preview dark"></div>
+                    <span>Dark<br><small>Blue accents</small></span>
                 </div>
             </div>
         `;
@@ -266,42 +233,49 @@ class ThemeSwitcher {
                 background: linear-gradient(135deg, #1a237e, #311b92);
             }
             
-            /* Time-based themes */
-            .theme-preview.morning {
-                background: linear-gradient(135deg, #e0f7fa, #fff8e1);
+            /* Blue themes */
+            .theme-preview.auto .day {
+                background: linear-gradient(135deg, #f9fbff, #f0f4f9);
             }
             
-            .theme-preview.afternoon {
-                background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
+            .theme-preview.auto .night {
+                background: linear-gradient(135deg, #0f1525, #1c2536);
             }
             
-            .theme-preview.evening {
-                background: linear-gradient(135deg, #ffebee, #ede7f6);
+            .theme-preview.light {
+                background: linear-gradient(135deg, #f9fbff, #f0f4f9);
+                position: relative;
             }
             
-            .theme-preview.night {
-                background: linear-gradient(135deg, #1a237e, #311b92);
+            .theme-preview.light::after {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 40%;
+                height: 40%;
+                background: linear-gradient(135deg, #4285F4, #5C9CE6);
+                border-radius: 50%;
+                opacity: 0.8;
             }
             
-            /* Mood-based themes */
-            .theme-preview.creative {
-                background: linear-gradient(135deg, #FFEFFF, #D7FFFE);
+            .theme-preview.dark {
+                background: linear-gradient(135deg, #0f1525, #1c2536);
+                position: relative;
             }
             
-            .theme-preview.focused {
-                background: linear-gradient(135deg, #E8EAF6, #E1F5FE);
-            }
-            
-            .theme-preview.relaxed {
-                background: linear-gradient(135deg, #E0F2F1, #F1F8E9);
-            }
-            
-            .theme-preview.energetic {
-                background: linear-gradient(135deg, #FBE9E7, #FFFDE7);
-            }
-            
-            .theme-preview.darkMode {
-                background: linear-gradient(135deg, #121212, #1F1B24);
+            .theme-preview.dark::after {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 40%;
+                height: 40%;
+                background: linear-gradient(135deg, #4285F4, #5C9CE6);
+                border-radius: 50%;
+                opacity: 0.8;
             }
             
             .theme-option span {

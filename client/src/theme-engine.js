@@ -1,128 +1,39 @@
 /**
- * Theme Engine - Dynamically changes website theme based on time of day or mood
+ * Theme Engine - Professional networking platform with a subtle blue theme
  * 
- * This module adjusts the color scheme and background based on:
- * - Morning (6am-11am): Bright, energetic colors with light backgrounds
- * - Afternoon (12pm-5pm): Balanced, productive colors 
- * - Evening (6pm-9pm): Warm, relaxing colors with gradual dimming
- * - Night (10pm-5am): Dark mode with soothing colors, reduced blue light
- * - Custom mood themes (Creative, Focused, Relaxed, Energetic)
+ * This module provides a consistent, clean design with subtle blue accents
+ * that creates a professional yet approachable user experience.
  */
 
 class ThemeEngine {
     constructor() {
-        // Define theme color palettes for different times of day and moods
+        // Define a single subtle blue theme with light and dark variants
         this.themes = {
-            // Time-based themes
-            morning: {
-                primary: '#ff7eb9', // Vibrant pink
-                secondary: '#7afcff', // Bright cyan
-                accent: '#feff9c', // Soft yellow
-                accent2: '#67e8b1', // Mint
-                accent3: '#ffe66d', // Light yellow
-                background: 'linear-gradient(135deg, #e0f7fa, #fff8e1)',
+            // Light blue theme
+            light: {
+                primary: '#4285F4', // Google blue
+                secondary: '#5C9CE6', // Lighter blue
+                accent: '#34A8FF', // Sky blue
+                accent2: '#81B4FE', // Pale blue
+                accent3: '#2D7FF9', // Deeper blue
+                background: 'linear-gradient(135deg, #f9fbff, #f0f4f9)',
                 foreground: '#333333',
-                metaColor: '#e0f7fa',
+                metaColor: '#f0f4f9',
                 isDark: false,
-                name: 'Morning Sunrise'
+                name: 'Blue Light'
             },
-            afternoon: {
-                primary: '#7c4dff', // Deep purple
-                secondary: '#1de9b6', // Teal
-                accent: '#ffab40', // Orange
-                accent2: '#64b5f6', // Light blue
-                accent3: '#aed581', // Light green
-                background: 'linear-gradient(135deg, #e3f2fd, #f3e5f5)',
-                foreground: '#333333',
-                metaColor: '#e3f2fd',
-                isDark: false,
-                name: 'Afternoon Clarity'
-            },
-            evening: {
-                primary: '#ff5722', // Deep orange
-                secondary: '#ff9e80', // Light orange
-                accent: '#b39ddb', // Light purple
-                accent2: '#90caf9', // Blue
-                accent3: '#ffe082', // Light amber
-                background: 'linear-gradient(135deg, #ffebee, #ede7f6)',
-                foreground: '#424242',
-                metaColor: '#ffebee',
-                isDark: false,
-                name: 'Evening Glow'
-            },
-            night: {
-                primary: '#8a2be2', // Purple
-                secondary: '#483d8b', // Dark slate blue
-                accent: '#20b2aa', // Light sea green
-                accent2: '#7b68ee', // Medium slate blue
-                accent3: '#6a5acd', // Slate blue
-                background: 'linear-gradient(135deg, #1a237e, #311b92)',
+            // Dark blue theme
+            dark: {
+                primary: '#4285F4', // Same Google blue for consistency
+                secondary: '#5C9CE6', // Lighter blue
+                accent: '#34A8FF', // Sky blue
+                accent2: '#81B4FE', // Pale blue
+                accent3: '#2D7FF9', // Deeper blue
+                background: 'linear-gradient(135deg, #0f1525, #1c2536)',
                 foreground: '#f5f5f5',
-                metaColor: '#1a237e',
+                metaColor: '#0f1525',
                 isDark: true,
-                name: 'Night Calm'
-            },
-            
-            // Mood-based themes
-            creative: {
-                primary: '#FF4D8D', // Hot pink
-                secondary: '#00C9FF', // Bright blue
-                accent: '#FFC800', // Sunny yellow
-                accent2: '#00E5A1', // Green
-                accent3: '#7B61FF', // Purple
-                background: 'linear-gradient(135deg, #FFEFFF, #D7FFFE)',
-                foreground: '#333333',
-                metaColor: '#FFEFFF',
-                isDark: false,
-                name: 'Creative Mood'
-            },
-            focused: {
-                primary: '#3F51B5', // Indigo
-                secondary: '#448AFF', // Blue
-                accent: '#8BC34A', // Light green
-                accent2: '#4DB6AC', // Teal
-                accent3: '#26C6DA', // Cyan
-                background: 'linear-gradient(135deg, #E8EAF6, #E1F5FE)',
-                foreground: '#333333',
-                metaColor: '#E8EAF6',
-                isDark: false,
-                name: 'Focused Mind'
-            },
-            relaxed: {
-                primary: '#009688', // Teal
-                secondary: '#4CAF50', // Green
-                accent: '#8D6E63', // Brown
-                accent2: '#78909C', // Blue grey
-                accent3: '#26A69A', // Teal
-                background: 'linear-gradient(135deg, #E0F2F1, #F1F8E9)',
-                foreground: '#333333',
-                metaColor: '#E0F2F1',
-                isDark: false,
-                name: 'Relaxed Vibe'
-            },
-            energetic: {
-                primary: '#F44336', // Red
-                secondary: '#FF9800', // Orange
-                accent: '#FFEB3B', // Yellow
-                accent2: '#FF5722', // Deep orange
-                accent3: '#FFC107', // Amber
-                background: 'linear-gradient(135deg, #FBE9E7, #FFFDE7)',
-                foreground: '#333333',
-                metaColor: '#FBE9E7',
-                isDark: false,
-                name: 'Energetic Boost'
-            },
-            darkMode: {
-                primary: '#9C27B0', // Purple
-                secondary: '#E91E63', // Pink
-                accent: '#FF4081', // Pink accent
-                accent2: '#7C4DFF', // Deep purple
-                accent3: '#00BFA5', // Teal
-                background: 'linear-gradient(135deg, #121212, #1F1B24)',
-                foreground: '#EEEEEE',
-                metaColor: '#121212',
-                isDark: true,
-                name: 'Dark Mode'
+                name: 'Blue Dark'
             }
         };
 
@@ -167,19 +78,9 @@ class ThemeEngine {
     }
 
     updateTheme() {
+        // Use light theme by default, with dark theme option for night hours
         const hour = new Date().getHours();
-        let newTheme;
-
-        // Determine theme based on time of day
-        if (hour >= 6 && hour < 12) {
-            newTheme = 'morning';
-        } else if (hour >= 12 && hour < 18) {
-            newTheme = 'afternoon';
-        } else if (hour >= 18 && hour < 22) {
-            newTheme = 'evening';
-        } else {
-            newTheme = 'night';
-        }
+        let newTheme = (hour >= 20 || hour < 6) ? 'dark' : 'light';
 
         // Only update if the theme changed
         if (this.currentTheme !== newTheme) {

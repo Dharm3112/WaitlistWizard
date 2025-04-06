@@ -14,6 +14,11 @@ const INTERESTS = [
     "Consulting", "Real Estate", "Media", "Arts"
 ];
 
+// Set default theme to our subtle blue theme
+if (typeof localStorage !== 'undefined') {
+    localStorage.setItem('manual-theme', 'light');
+}
+
 // Initialize the form
 function initializeForm() {
     // Populate professions dropdown for the main waitlist form
