@@ -14,187 +14,31 @@ const INTERESTS = [
     "Consulting", "Real Estate", "Media", "Arts"
 ];
 
-// Set default theme to our subtle blue theme after theme engine is ready
-document.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => {
-        if (typeof window.themeEngine !== 'undefined') {
-            window.themeEngine.setTheme('light');
-        }
-    }, 100); // Small delay to ensure theme engine is initialized
-});
-
 // Initialize the form
 function initializeForm() {
-    // Populate professions dropdown for the main waitlist form
+    // Populate professions dropdown
     const professionSelect = document.getElementById('profession');
-    if (professionSelect) {
-        PROFESSIONS.forEach(profession => {
-            const option = document.createElement('option');
-            option.value = profession;
-            option.textContent = profession;
-            professionSelect.appendChild(option);
-        });
-    }
-
-    // Populate professions dropdown for the dropdown form
-    const dropdownProfessionSelect = document.getElementById('dropdownProfession');
-    if (dropdownProfessionSelect) {
-        PROFESSIONS.forEach(profession => {
-            const option = document.createElement('option');
-            option.value = profession;
-            option.textContent = profession;
-            dropdownProfessionSelect.appendChild(option);
-        });
-    }
+    PROFESSIONS.forEach(profession => {
+        const option = document.createElement('option');
+        option.value = profession;
+        option.textContent = profession;
+        professionSelect.appendChild(option);
+    });
 
     // Create interest buttons
     const interestsContainer = document.getElementById('interests');
-    if (interestsContainer) {
-        INTERESTS.forEach(interest => {
-            const button = document.createElement('button');
-            button.type = 'button';
-            button.className = 'interest-button';
-            button.textContent = interest;
-            button.onclick = () => toggleInterest(button);
-            interestsContainer.appendChild(button);
-        });
-    }
+    INTERESTS.forEach(interest => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'interest-button';
+        button.textContent = interest;
+        button.onclick = () => toggleInterest(button);
+        interestsContainer.appendChild(button);
+    });
 
-    // Add form submit handler for main waitlist form
+    // Add form submit handler
     const form = document.getElementById('waitlistForm');
-    if (form) {
-        form.onsubmit = handleSubmit;
-    }
-    
-    // Add form submit handler for dropdown form
-    const dropdownForm = document.getElementById('dropdownWaitlistForm');
-    if (dropdownForm) {
-        dropdownForm.onsubmit = handleDropdownSubmit;
-    }
-    
-    // Initialize the early access dropdown
-    initializeEarlyAccessDropdown();
-}
-
-// Handle the early access dropdown
-function initializeEarlyAccessDropdown() {
-    const earlyAccessBtn = document.getElementById('earlyAccessBtn');
-    const earlyAccessDropdown = document.getElementById('earlyAccessDropdown');
-    const closeDropdownForm = document.getElementById('closeDropdownForm');
-    
-    if (earlyAccessBtn && earlyAccessDropdown) {
-        // Open dropdown on button click
-        earlyAccessBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation(); // Stop event from bubbling up
-            earlyAccessDropdown.classList.add('visible');
-            console.log('Dropdown should be visible now');
-        });
-        
-        // Close dropdown when clicking the close button
-        if (closeDropdownForm) {
-            closeDropdownForm.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation(); // Stop event from bubbling up
-                earlyAccessDropdown.classList.remove('visible');
-                console.log('Dropdown closed via close button');
-            });
-        }
-        
-        // Close dropdown when clicking outside
-        document.addEventListener('click', (e) => {
-            if (earlyAccessDropdown.classList.contains('visible') && 
-                !earlyAccessDropdown.contains(e.target) && 
-                !earlyAccessBtn.contains(e.target)) { // Better check using contains
-                earlyAccessDropdown.classList.remove('visible');
-                console.log('Dropdown closed via outside click');
-            }
-        });
-        
-        // Prevent clicks inside the dropdown from closing it
-        earlyAccessDropdown.addEventListener('click', (e) => {
-            e.stopPropagation();
-        });
-    }
-}
-
-// Handle dropdown form submission
-function handleDropdownSubmit(e) {
-    e.preventDefault();
-    
-    const formData = {
-        fullName: document.getElementById('dropdownFullName').value,
-        email: document.getElementById('dropdownEmail').value,
-        profession: document.getElementById('dropdownProfession').value,
-        location: "", // Not required for dropdown form
-        interests: [] // Not required for dropdown form
-    };
-    
-    // Validate the dropdown form data
-    const errors = validateDropdownForm(formData);
-    
-    if (Object.keys(errors).length === 0) {
-        // Show loading state
-        const submitButton = document.querySelector('#dropdownWaitlistForm .submit-button');
-        submitButton.querySelector('.button-content').style.opacity = '0';
-        submitButton.querySelector('.loading-spinner').style.display = 'block';
-        
-        // Simulate form submission
-        setTimeout(() => {
-            // Hide loading state
-            submitButton.querySelector('.button-content').style.opacity = '1';
-            submitButton.querySelector('.loading-spinner').style.display = 'none';
-            
-            // Close the dropdown
-            document.getElementById('earlyAccessDropdown').classList.remove('visible');
-            
-            // Show success message
-            showToast('Thanks for joining our waitlist! We\'ll be in touch soon.');
-            
-            // Reset the form
-            document.getElementById('dropdownWaitlistForm').reset();
-        }, 1500);
-    } else {
-        // Show errors for the dropdown form
-        showDropdownErrors(errors);
-    }
-}
-
-// Validate dropdown form (simpler than main form)
-function validateDropdownForm(formData) {
-    const errors = {};
-
-    if (!formData.fullName.trim()) {
-        errors.dropdownFullName = 'Full name is required';
-    }
-
-    if (!formData.email.trim()) {
-        errors.dropdownEmail = 'Email is required';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-        errors.dropdownEmail = 'Invalid email format';
-    }
-
-    if (!formData.profession) {
-        errors.dropdownProfession = 'Please select your profession';
-    }
-
-    return errors;
-}
-
-// Show dropdown form errors
-function showDropdownErrors(errors) {
-    // Clear all previous errors in dropdown form
-    document.querySelectorAll('#dropdownWaitlistForm .error-message').forEach(el => {
-        el.style.display = 'none';
-        el.textContent = '';
-    });
-
-    // Show new errors in dropdown form
-    Object.entries(errors).forEach(([field, message]) => {
-        const errorEl = document.querySelector(`#${field}`).nextElementSibling.nextElementSibling;
-        errorEl.textContent = message;
-        errorEl.style.display = 'block';
-    });
+    form.onsubmit = handleSubmit;
 }
 
 // Toggle interest selection
@@ -422,92 +266,64 @@ function initializeNavigation() {
 }
 
 
-// Feature card flip interaction - optimized
+// Feature card flip interaction
 function initializeFeatureCards() {
     const featureCards = document.querySelectorAll('.feature-card');
-    if (!featureCards.length) return;
     
-    // Use event delegation for better performance
-    document.addEventListener('click', (e) => {
-        // Find if click was on learn more button
-        if (e.target.classList.contains('learn-more') || e.target.closest('.learn-more')) {
-            const card = e.target.closest('.feature-card');
-            if (!card) return;
-            
-            const cardInner = card.querySelector('.card-inner');
-            if (cardInner) {
-                requestAnimationFrame(() => {
-                    cardInner.style.transform = 'rotateY(180deg)';
-                });
-            }
-        }
+    featureCards.forEach(card => {
+        const cardInner = card.querySelector('.card-inner');
+        const learnMore = card.querySelector('.learn-more');
+        const backButton = card.querySelector('.back-button');
         
-        // Find if click was on back button
-        if (e.target.classList.contains('back-button') || e.target.closest('.back-button')) {
-            const card = e.target.closest('.feature-card');
-            if (!card) return;
+        if (learnMore && backButton && cardInner) {
+            learnMore.addEventListener('click', () => {
+                cardInner.style.transform = 'rotateY(180deg)';
+            });
             
-            const cardInner = card.querySelector('.card-inner');
-            if (cardInner) {
-                requestAnimationFrame(() => {
-                    cardInner.style.transform = 'rotateY(0deg)';
-                });
-            }
+            backButton.addEventListener('click', () => {
+                cardInner.style.transform = 'rotateY(0deg)';
+            });
         }
     });
 }
 
-// Animate the process steps - optimized
+// Animate the process steps
 function initializeProcessSteps() {
     const steps = document.querySelectorAll('.step-card');
     const progressMarker = document.querySelector('.progress-marker');
     
-    if (!steps.length || !progressMarker) return;
-    
-    // Initial position - throttle to next frame for performance
-    requestAnimationFrame(() => {
+    if (steps.length && progressMarker) {
+        // Initial position
         updateProgressPosition(steps[0]);
-    });
-    
-    // Create a more efficient IntersectionObserver
-    const stepObserver = new IntersectionObserver((entries) => {
-        // Cache active step to prevent unnecessary DOM operations
-        let activeStep = null;
         
-        for (let i = 0; i < entries.length; i++) {
-            if (entries[i].isIntersecting) {
-                activeStep = entries[i].target;
-                break;
-            }
-        }
+        // Set active state for steps when scrolled into view
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.6
+        };
         
-        if (activeStep) {
-            // Batch DOM updates with requestAnimationFrame
-            requestAnimationFrame(() => {
-                // Remove active class from all steps
-                for (let i = 0; i < steps.length; i++) {
-                    steps[i].classList.remove('active');
+        const stepObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Remove active class from all steps
+                    steps.forEach(s => s.classList.remove('active'));
+                    
+                    // Add active class to current step
+                    entry.target.classList.add('active');
+                    
+                    // Update progress marker position
+                    updateProgressPosition(entry.target);
+                    
+                    // Animate the step content
+                    animateStepContent(entry.target);
                 }
-                
-                // Add active class to current step
-                activeStep.classList.add('active');
-                
-                // Update progress marker position
-                updateProgressPosition(activeStep);
-                
-                // Animate the step content
-                animateStepContent(activeStep);
             });
-        }
-    }, {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.6
-    });
-    
-    // Observe all step elements
-    for (let i = 0; i < steps.length; i++) {
-        stepObserver.observe(steps[i]);
+        }, observerOptions);
+        
+        steps.forEach(step => {
+            stepObserver.observe(step);
+        });
     }
 }
 
@@ -547,45 +363,28 @@ function animateStepContent(step) {
     }
 }
 
-// Back to top button - optimized with throttling
+// Back to top button
 function initializeBackToTop() {
     const backToTopButton = document.getElementById('backToTop');
-    if (!backToTopButton) return;
     
-    // Throttled scroll handler for better performance
-    let isScrolling = false;
-    
-    // Show/hide button based on scroll position with passive event listener
-    window.addEventListener('scroll', () => {
-        // Skip if already processing a scroll event
-        if (isScrolling) return;
-        
-        isScrolling = true;
-        
-        // Use requestAnimationFrame for smoother performance
-        window.requestAnimationFrame(() => {
+    if (backToTopButton) {
+        // Show/hide button based on scroll position
+        window.addEventListener('scroll', () => {
             if (window.scrollY > 300) {
-                if (!backToTopButton.classList.contains('show')) {
-                    backToTopButton.classList.add('show');
-                }
+                backToTopButton.classList.add('show');
             } else {
-                if (backToTopButton.classList.contains('show')) {
-                    backToTopButton.classList.remove('show');
-                }
+                backToTopButton.classList.remove('show');
             }
-            
-            isScrolling = false;
         });
-    }, { passive: true });
-    
-    // Scroll to top when clicked
-    backToTopButton.addEventListener('click', () => {
-        // Using scrollIntoView is more performant than scrollTo in many browsers
-        document.body.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
+        
+        // Scroll to top when clicked
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         });
-    });
+    }
 }
 
 // Smooth scroll for anchor links
@@ -608,44 +407,37 @@ function initializeSmoothScroll() {
     });
 }
 
-// Animate hero section elements - optimized for performance
+// Animate hero section elements
 function animateHero() {
-    // Use requestAnimationFrame for better performance
-    window.requestAnimationFrame(() => {
-        // Add classes to hero content
-        const heroContainer = document.querySelector('.hero .container');
-        if (heroContainer) {
-            heroContainer.style.opacity = '1';
+    const heroElements = [
+        document.querySelector('.hero-title'),
+        document.querySelector('.hero-subtitle'),
+        document.querySelector('.hero-buttons'),
+        document.querySelector('.hero-image')
+    ];
+    
+    heroElements.forEach((element, index) => {
+        if (element) {
+            setTimeout(() => {
+                element.classList.add('animate-in');
+            }, index * 200);
         }
-        
-        // Animate connection dots with delay
-        const dots = document.querySelectorAll('.connection-dot');
-        if (dots.length) {
-            // Use a single loop with explicit element references for better performance
-            let delay = 1000;
-            
-            for (let i = 0; i < dots.length; i++) {
-                ((dot, dotDelay) => {
-                    setTimeout(() => {
-                        dot.classList.add('animate');
-                    }, dotDelay);
-                })(dots[i], delay + (i * 200));
-            }
-            
-            // Animate connection lines after dots finish
-            const lines = document.querySelectorAll('.connection-line');
-            if (lines.length) {
-                let lineDelay = delay + (dots.length * 200);
-                
-                for (let i = 0; i < lines.length; i++) {
-                    ((line, lineDelay) => {
-                        setTimeout(() => {
-                            line.classList.add('animate');
-                        }, lineDelay);
-                    })(lines[i], lineDelay + (i * 150));
-                }
-            }
-        }
+    });
+    
+    // Animate connection dots with delay
+    const dots = document.querySelectorAll('.connection-dot');
+    dots.forEach((dot, index) => {
+        setTimeout(() => {
+            dot.classList.add('animate');
+        }, 1000 + (index * 300));
+    });
+    
+    // Animate connection lines after dots
+    const lines = document.querySelectorAll('.connection-line');
+    lines.forEach((line, index) => {
+        setTimeout(() => {
+            line.classList.add('animate');
+        }, 2000 + (index * 200));
     });
 }
 
@@ -728,51 +520,28 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Add scroll animation for sections - optimized for performance
-let ticking = false;
-let lastScrollY = 0;
-
-// Use passive event listener for better performance
+// Add scroll animation for sections
 document.addEventListener('scroll', () => {
-    lastScrollY = window.scrollY;
-    
-    if (!ticking) {
-        window.requestAnimationFrame(() => {
-            animateOnScroll(lastScrollY);
-            ticking = false;
-        });
-        
-        ticking = true;
-    }
-}, { passive: true });
-
-// Separate function to handle animations on scroll
-function animateOnScroll(scrollY) {
-    const viewportHeight = window.innerHeight;
-    const triggerPoint = viewportHeight * 0.75;
-    
-    // Animate sections when scrolled into view - use direct for loop for better performance
+    // Animate sections when scrolled into view
     const sections = document.querySelectorAll('section');
-    for (let i = 0; i < sections.length; i++) {
-        const section = sections[i];
-        if (section.classList.contains('animate-in')) continue;
-        
+    sections.forEach(section => {
         const rect = section.getBoundingClientRect();
-        if (rect.top <= triggerPoint) {
+        const isVisible = rect.top <= window.innerHeight * 0.75;
+        
+        if (isVisible && !section.classList.contains('animate-in')) {
             section.classList.add('animate-in');
         }
-    }
+    });
     
-    // Animate elements with data-aos attribute - more efficient batching
-    const elements = document.querySelectorAll('[data-aos]:not([data-aos-animated])');
-    for (let i = 0; i < elements.length; i++) {
-        const element = elements[i];
+    // Animate elements with data-aos attribute
+    const elements = document.querySelectorAll('[data-aos]');
+    elements.forEach(element => {
         const rect = element.getBoundingClientRect();
+        const isVisible = rect.top <= window.innerHeight * 0.75;
         
-        if (rect.top <= triggerPoint) {
+        if (isVisible) {
             element.style.opacity = '1';
             element.style.transform = 'translateY(0)';
-            element.setAttribute('data-aos-animated', 'true');
         }
-    }
-}
+    });
+});

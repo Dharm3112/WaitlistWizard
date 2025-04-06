@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Professional Networking Platform</title>
     <link rel="stylesheet" href="styles.css">
-    <meta name="theme-color" content="#8a2be2">
-    <script src="theme-engine.js"></script>
-    <script src="theme-switcher.js"></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -54,67 +51,37 @@
                             <path d="m12 5 7 7-7 7"></path>
                         </svg>
                     </a>
-                    <button id="earlyAccessBtn" class="secondary-button">Apply for Early Access</button>
-                </div>
-                
-                <!-- Early Access Dropdown Form -->
-                <div id="earlyAccessDropdown" class="early-access-dropdown">
-                    <div class="dropdown-form-container">
-                        <form id="dropdownWaitlistForm" class="dropdown-waitlist-form">
-                            <div class="form-header">
-                                <h3>Apply for Early Access</h3>
-                                <button type="button" id="closeDropdownForm" class="close-button">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M18 6L6 18"></path>
-                                        <path d="M6 6l12 12"></path>
-                                    </svg>
-                                </button>
-                            </div>
-                            
-                            <div class="form-group animated-input">
-                                <input type="text" id="dropdownFullName" name="fullName" placeholder=" " required>
-                                <label for="dropdownFullName">Full Name</label>
-                                <span class="error-message"></span>
-                            </div>
-                            
-                            <div class="form-group animated-input">
-                                <input type="email" id="dropdownEmail" name="email" placeholder=" " required>
-                                <label for="dropdownEmail">Email Address</label>
-                                <span class="error-message"></span>
-                            </div>
-                            
-                            <div class="form-group animated-input">
-                                <select id="dropdownProfession" name="profession" required>
-                                    <option value="" disabled selected></option>
-                                    <option value="technology">Technology</option>
-                                    <option value="business">Business</option>
-                                    <option value="marketing">Marketing</option>
-                                    <option value="design">Design</option>
-                                    <option value="finance">Finance</option>
-                                    <option value="healthcare">Healthcare</option>
-                                    <option value="education">Education</option>
-                                    <option value="engineering">Engineering</option>
-                                    <option value="other">Other</option>
-                                </select>
-                                <label for="dropdownProfession">Your Profession</label>
-                                <span class="error-message"></span>
-                            </div>
-                            
-                            <button type="submit" class="submit-button">
-                                <div class="button-content">
-                                    <span class="button-text">Join Waitlist</span>
-                                    <svg class="button-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M5 12h14"></path>
-                                        <path d="m12 5 7 7-7 7"></path>
-                                    </svg>
-                                </div>
-                                <span class="loading-spinner"></span>
-                            </button>
-                        </form>
-                    </div>
+                    <a href="#waitlist" class="secondary-button">Join Waitlist</a>
                 </div>
             </div>
-            <!-- Hero image section was removed -->
+            <div class="hero-image">
+                <div class="connection-map">
+                    <div class="connection-dot dot1">
+                        <span>Tech</span>
+                        <span class="pulse"></span>
+                    </div>
+                    <div class="connection-dot dot2">
+                        <span>HR</span>
+                        <span class="pulse"></span>
+                    </div>
+                    <div class="connection-dot dot3">
+                        <span>Design</span>
+                        <span class="pulse"></span>
+                    </div>
+                    <div class="connection-dot dot4">
+                        <span>Health</span>
+                        <span class="pulse"></span>
+                    </div>
+                    <div class="connection-dot dot5">
+                        <span>Finance</span>
+                        <span class="pulse"></span>
+                    </div>
+                    <div class="connection-line line1"></div>
+                    <div class="connection-line line2"></div>
+                    <div class="connection-line line3"></div>
+                    <div class="connection-line line4"></div>
+                </div>
+            </div>
         </div>
         <div class="scroll-indicator">
             <span>Scroll to explore</span>
@@ -430,6 +397,20 @@
                         </div>
                         
                         <div class="waitlist-counter">
+                            <div class="counter-circle">
+                                <svg viewBox="0 0 36 36" class="circular-chart">
+                                    <path class="circle-bg" d="M18 2.0845
+                                        a 15.9155 15.9155 0 0 1 0 31.831
+                                        a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                    <path class="circle" stroke-dasharray="75, 100" d="M18 2.0845
+                                        a 15.9155 15.9155 0 0 1 0 31.831
+                                        a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                </svg>
+                                <div class="counter-content">
+                                    <span class="counter-value">75%</span>
+                                    <span class="counter-label">Full</span>
+                                </div>
+                            </div>
                             <p class="counter-text">Our waitlist is filling up fast! Reserve your spot now</p>
                         </div>
                     </div>
