@@ -1,7 +1,3 @@
-/* Import custom styles */
-@import './styles.css';
-@import './animations.css';
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

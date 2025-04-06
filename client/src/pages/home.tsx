@@ -3,7 +3,6 @@ import { WaitlistForm } from "@/components/waitlist-form";
 import { Card, CardContent } from "@/components/ui/card";
 import { MapIcon, Users2Icon, BrainCircuitIcon, MessagesSquareIcon, MapPinIcon, BuildingIcon } from "lucide-react";
 import { motion } from "framer-motion";
-import { Link } from "wouter";
 
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
@@ -29,13 +28,6 @@ export default function Home() {
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Connect with professionals in your area through AI-powered rooms. Share ideas, solve problems, and build meaningful connections based on shared interests and location.
             </p>
-            <div className="flex justify-center mt-8">
-              <Link href="/chat">
-                <Button size="lg" className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70">
-                  Try Chat Now
-                </Button>
-              </Link>
-            </div>
           </motion.div>
         </div>
       </section>

@@ -3,32 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat Rooms - ConnectHub</title>
+    <title>Chat Rooms - Professional Networking Platform</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="animations.css">
 </head>
 <body>
-    <!-- Loading Overlay -->
-    <div class="loading-overlay visible" id="loadingOverlay">
-        <div class="connection-loading">
-            <div class="connection-node"></div>
-            <div class="connection-node"></div>
-            <div class="connection-node"></div>
-            <div class="connection-node"></div>
-            <div class="connection-line"></div>
-            <div class="connection-line"></div>
-            <div class="connection-line"></div>
-            <div class="connection-line"></div>
-            <div class="connection-center"></div>
-        </div>
-        <div class="loading-text">Connecting to Chat</div>
-        <div class="loading-subtext">Finding your perfect networking space...</div>
-    </div>
-    
     <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
-            <a href="index.html" class="nav-logo">ConnectHub</a>
+            <a href="index.html" class="nav-logo">ProNet</a>
             <button class="nav-toggle" aria-label="Toggle navigation">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -43,7 +25,6 @@
                 <a href="chat.html" class="active">Chat Rooms</a>
                 <a href="about.html">About</a>
                 <a href="contact.html">Contact</a>
-                <a href="loading-demos.html">Loading Demos</a>
             </div>
         </div>
     </nav>
@@ -80,24 +61,7 @@
             </div>
             <div class="chat-input">
                 <form id="messageForm">
-                    <button type="button" id="moodSelector" class="mood-selector" title="Set your mood">
-                        😊
-                    </button>
-                    <div id="emojiPicker" class="emoji-picker">
-                        <div class="emoji-categories">
-                            <div class="emoji-category active" data-category="mood">😀</div>
-                            <div class="emoji-category" data-category="animals">🐱</div>
-                            <div class="emoji-category" data-category="food">🍔</div>
-                            <div class="emoji-category" data-category="activities">⚽</div>
-                            <div class="emoji-category" data-category="travel">🚗</div>
-                            <div class="emoji-category" data-category="objects">💡</div>
-                        </div>
-                        <!-- Emojis will be populated by JavaScript -->
-                    </div>
                     <input type="text" id="messageInput" placeholder="Type your message..." disabled>
-                    <button type="button" id="tagButton" title="Add interest tags">
-                        🏷️
-                    </button>
                     <button type="submit" id="sendMessage">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M22 2L11 13"></path>
@@ -148,21 +112,6 @@
                     <button type="submit" class="btn-primary">Create Room</button>
                 </div>
             </form>
-        </div>
-    </div>
-    
-    <!-- Tag Selection Modal -->
-    <div id="tagSelectionModal" class="modal">
-        <div class="modal-content">
-            <h2>Add Interest Tags</h2>
-            <p class="subtitle">Tag your message with relevant interests to help others discover it</p>
-            <div class="interests-grid" id="messageTagsSelect">
-                <!-- Will be populated by JavaScript -->
-            </div>
-            <div class="modal-actions">
-                <button type="button" class="btn-secondary" id="cancelTagSelection">Cancel</button>
-                <button type="button" class="btn-primary" id="confirmTagSelection">Add Tags</button>
-            </div>
         </div>
     </div>
 

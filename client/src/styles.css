@@ -1,26 +1,18 @@
 :root {
-    --primary: hsl(250, 60%, 60%);
-    /* Softer purple */
+    --primary: hsl(280, 84%, 54%); /* Vibrant purple */
     --primary-foreground: hsl(210 40% 98%);
-    --secondary: hsl(340, 65%, 65%);
-    /* Softer pink */
+    --secondary: hsl(320, 100%, 60%); /* Hot pink */
     --secondary-foreground: hsl(210 40% 98%);
-    --accent: hsl(45, 80%, 75%);
-    /* Muted gold */
-    --accent2: hsl(195, 70%, 65%);
-    /* Soft teal */
-    --accent3: hsl(160, 60%, 70%);
-    /* Soft mint */
-    --background: hsl(210, 20%, 98%);
-    /* Slight blue tint to background */
-    --foreground: hsl(220, 25%, 20%);
-    /* Softer text color */
-    --muted: hsl(210, 25%, 96%);
-    --muted-foreground: hsl(215, 15%, 50%);
-    --border: hsl(210, 15%, 92%);
-    --radius: 1rem;
-    /* Increased border radius for fun, bubbly appearance */
-    --shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    --accent: hsl(42, 100%, 62%); /* Bright yellow */
+    --accent2: hsl(190, 90%, 50%); /* Bright cyan */
+    --accent3: hsl(150, 84%, 50%); /* Bright green */
+    --background: hsl(0 0% 100%);
+    --foreground: hsl(222.2 47.4% 11.2%);
+    --muted: hsl(210 40% 96.1%);
+    --muted-foreground: hsl(215.4 16.3% 46.9%);
+    --border: hsl(214.3 31.8% 91.4%);
+    --radius: 1rem; /* Increased border radius for fun, bubbly appearance */
+    --shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
 * {
@@ -51,7 +43,7 @@ body {
 .hero-title {
     font-size: 3.5rem;
     font-weight: bold;
-    background: linear-gradient(to right, var(--primary), color-mix(in srgb, var(--primary) 60%, hsl(221.2 83.2% 65%)));
+    background: linear-gradient(to right, var(--primary), hsl(221.2 83.2% 65%));
     -webkit-background-clip: text;
     color: transparent;
     margin-bottom: 1.5rem;
@@ -262,41 +254,41 @@ body {
 }
 
 .interest-option:nth-child(6n+1) label {
-    background: color-mix(in srgb, var(--primary) 10%, white);
-    color: color-mix(in srgb, var(--primary) 70%, black);
+    background: color-mix(in srgb, var(--primary) 15%, white);
+    color: color-mix(in srgb, var(--primary) 80%, black);
 }
 
 .interest-option:nth-child(6n+2) label {
-    background: color-mix(in srgb, var(--secondary) 10%, white);
-    color: color-mix(in srgb, var(--secondary) 70%, black);
+    background: color-mix(in srgb, var(--secondary) 15%, white);
+    color: color-mix(in srgb, var(--secondary) 80%, black);
 }
 
 .interest-option:nth-child(6n+3) label {
-    background: color-mix(in srgb, var(--accent) 10%, white);
-    color: color-mix(in srgb, var(--accent) 70%, black);
+    background: color-mix(in srgb, var(--accent) 15%, white);
+    color: color-mix(in srgb, var(--accent) 80%, black);
 }
 
 .interest-option:nth-child(6n+4) label {
-    background: color-mix(in srgb, var(--accent2) 10%, white);
-    color: color-mix(in srgb, var(--accent2) 70%, black);
+    background: color-mix(in srgb, var(--accent2) 15%, white);
+    color: color-mix(in srgb, var(--accent2) 80%, black);
 }
 
 .interest-option:nth-child(6n+5) label {
-    background: color-mix(in srgb, var(--accent3) 10%, white);
-    color: color-mix(in srgb, var(--accent3) 70%, black);
+    background: color-mix(in srgb, var(--accent3) 15%, white);
+    color: color-mix(in srgb, var(--accent3) 80%, black);
 }
 
 .interest-option:nth-child(6n+6) label {
-    background: color-mix(in srgb, var(--primary) 5%, var(--secondary) 5%, white);
-    color: color-mix(in srgb, var(--primary) 30%, var(--secondary) 30%, black);
+    background: color-mix(in srgb, var(--primary) 10%, var(--secondary) 10%, white);
+    color: color-mix(in srgb, var(--primary) 40%, var(--secondary) 40%, black);
 }
 
-.interest-option input[type="checkbox"]:checked+label {
-    background: linear-gradient(135deg, var(--primary), color-mix(in srgb, var(--primary) 70%, var(--secondary)));
+.interest-option input[type="checkbox"]:checked + label {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
     color: white;
     transform: translateY(-3px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    border-color: rgba(255, 255, 255, 0.5);
 }
 
 .interest-option label:hover {
@@ -351,7 +343,7 @@ body {
 .submit-button {
     width: 100%;
     padding: 1rem;
-    background: linear-gradient(135deg, var(--primary), color-mix(in srgb, var(--primary) 70%, var(--secondary)));
+    background: var(--primary);
     color: var(--primary-foreground);
     border: none;
     border-radius: var(--radius);
@@ -359,24 +351,15 @@ body {
     font-weight: 500;
     cursor: pointer;
     position: relative;
-    transition: all 0.3s;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-}
-
-.submit-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+    transition: opacity 0.2s;
 }
 
 .submit-button:disabled {
     opacity: 0.7;
     cursor: not-allowed;
-    transform: none;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 
-.error-message,
-.form-error {
+.error-message, .form-error {
     color: #e11d48;
     font-size: 0.875rem;
     margin-top: 0.25rem;
@@ -394,7 +377,6 @@ body {
         opacity: 1;
         transform: translateY(0);
     }
-
     to {
         opacity: 0;
         transform: translateY(-10px);
@@ -499,7 +481,7 @@ body {
 .nav-logo {
     font-size: 1.75rem;
     font-weight: bold;
-    background: linear-gradient(to right, var(--primary), color-mix(in srgb, var(--primary) 60%, hsl(221.2 83.2% 65%)));
+    background: linear-gradient(to right, var(--primary), hsl(221.2 83.2% 65%));
     -webkit-background-clip: text;
     color: transparent;
     text-decoration: none;
@@ -789,14 +771,14 @@ body {
     align-items: center;
     gap: 0.5rem;
     padding: 0.75rem 1.25rem;
-    background: linear-gradient(135deg, var(--primary), color-mix(in srgb, var(--primary) 70%, var(--secondary)));
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
     color: var(--primary-foreground);
     border: none;
     border-radius: 50px;
     cursor: pointer;
     transition: all 0.3s;
     font-weight: 600;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     position: relative;
     overflow: hidden;
     z-index: 1;
@@ -907,13 +889,6 @@ body {
     margin-bottom: 0.25rem;
 }
 
-.room-item-interests {
-    font-size: 1.2rem;
-    margin: 0.25rem 0;
-    opacity: 0.9;
-    letter-spacing: 0.05em; /* Add some space between emojis */
-}
-
 .room-item p {
     font-size: 0.875rem;
     color: var(--muted-foreground);
@@ -948,19 +923,11 @@ body {
     max-width: 70%;
     padding: 1rem;
     border-radius: var(--radius) var(--radius) var(--radius) 0;
-    background: linear-gradient(135deg, var(--accent2), color-mix(in srgb, var(--accent2) 85%, var(--accent3)));
+    background: linear-gradient(135deg, var(--accent2), var(--accent2) 60%, var(--accent3));
     box-shadow: var(--shadow);
     animation: bounceIn 0.5s ease;
-    color: var(--foreground);
+    color: var(--primary-foreground);
     position: relative;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.message-mood {
-    font-size: 1.5rem; 
-    margin-right: 0.5rem;
-    display: inline-block;
-    vertical-align: middle;
 }
 
 .message::after {
@@ -978,14 +945,14 @@ body {
 .message.sent {
     align-self: flex-end;
     border-radius: var(--radius) var(--radius) 0 var(--radius);
-    background: linear-gradient(135deg, var(--primary), color-mix(in srgb, var(--primary) 70%, var(--secondary)));
-    color: white;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: var(--primary-foreground);
 }
 
 .message.sent::after {
     left: auto;
     right: 0;
-    background: color-mix(in srgb, var(--primary) 70%, var(--secondary));
+    background: var(--secondary);
     border-radius: 0 0 20px 0;
     clip-path: polygon(100% 0, 0 0, 100% 100%);
 }
@@ -995,11 +962,9 @@ body {
         opacity: 0;
         transform: scale(0.8) translateY(20px);
     }
-
     50% {
         transform: scale(1.05) translateY(-5px);
     }
-
     100% {
         opacity: 1;
         transform: scale(1) translateY(0);
@@ -1016,125 +981,6 @@ body {
 
 .message-content {
     line-height: 1.4;
-}
-
-.message-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: 0.75rem;
-}
-
-.message-tag {
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 20px;
-    padding: 0.25rem 0.75rem;
-    font-size: 0.875rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-    transition: all 0.2s;
-}
-
-.message-tag:hover {
-    transform: scale(1.05);
-    background: rgba(255, 255, 255, 0.3);
-}
-
-.tag-emoji {
-    font-size: 1.1rem;
-}
-
-/* Emoji Picker Styles */
-.emoji-picker {
-    position: absolute;
-    bottom: 100%;
-    left: 1rem;
-    background: white;
-    border-radius: var(--radius);
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
-    padding: 1rem;
-    display: none;
-    grid-template-columns: repeat(8, 1fr);
-    gap: 0.5rem;
-    margin-bottom: 0.75rem;
-    z-index: 10;
-    max-width: 320px;
-    border: 1px solid var(--border);
-    animation: fadeIn 0.3s forwards;
-}
-
-.emoji-picker.show {
-    display: grid;
-}
-
-.emoji-item {
-    font-size: 1.5rem;
-    cursor: pointer;
-    width: 2.5rem;
-    height: 2.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 8px;
-    transition: all 0.2s;
-}
-
-.emoji-item:hover {
-    background: var(--muted);
-    transform: scale(1.15);
-}
-
-.emoji-categories {
-    grid-column: 1 / -1;
-    display: flex;
-    gap: 0.5rem;
-    margin-bottom: 0.5rem;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 0.5rem;
-}
-
-.emoji-category {
-    cursor: pointer;
-    padding: 0.5rem;
-    border-radius: 8px;
-    transition: all 0.2s;
-}
-
-.emoji-category:hover, 
-.emoji-category.active {
-    background: var(--primary);
-    color: white;
-}
-
-.mood-selector {
-    display: flex;
-    align-items: center;
-    background: transparent;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    padding: 0.5rem;
-    border-radius: 50%;
-    transition: all 0.3s;
-    margin-right: 0.5rem;
-}
-
-.mood-selector:hover {
-    background: rgba(0, 0, 0, 0.05);
-    transform: scale(1.1);
-}
-
-.participant-mood {
-    font-size: 1.25rem;
-    margin-left: 0.5rem;
-}
-
-.current-mood {
-    display: inline-block;
-    margin-left: 0.5rem;
-    font-size: 1.25rem;
-    vertical-align: middle;
 }
 
 .chat-input {
@@ -1171,14 +1017,14 @@ body {
 
 .chat-input button {
     padding: 1rem 1.5rem;
-    background: linear-gradient(135deg, var(--primary), color-mix(in srgb, var(--primary) 70%, var(--secondary)));
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
     color: var(--primary-foreground);
     border: none;
     border-radius: 50px;
     cursor: pointer;
     transition: all 0.3s;
     font-weight: 600;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     position: relative;
     overflow: hidden;
     z-index: 1;
@@ -1257,23 +1103,23 @@ body {
 }
 
 .participant-item:nth-child(5n+1) .participant-avatar {
-    background: linear-gradient(135deg, var(--primary), color-mix(in srgb, var(--primary) 70%, var(--secondary)));
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
 }
 
 .participant-item:nth-child(5n+2) .participant-avatar {
-    background: linear-gradient(135deg, var(--secondary), color-mix(in srgb, var(--secondary) 70%, var(--accent)));
+    background: linear-gradient(135deg, var(--secondary), var(--accent));
 }
 
 .participant-item:nth-child(5n+3) .participant-avatar {
-    background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 70%, var(--accent2)));
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
 }
 
 .participant-item:nth-child(5n+4) .participant-avatar {
-    background: linear-gradient(135deg, var(--accent2), color-mix(in srgb, var(--accent2) 70%, var(--accent3)));
+    background: linear-gradient(135deg, var(--accent2), var(--accent3));
 }
 
 .participant-item:nth-child(5n+5) .participant-avatar {
-    background: linear-gradient(135deg, var(--accent3), color-mix(in srgb, var(--accent3) 70%, var(--primary)));
+    background: linear-gradient(135deg, var(--accent3), var(--primary));
 }
 
 .participant-avatar:hover {
@@ -1295,31 +1141,30 @@ body {
     font-size: 0.875rem;
     color: var(--primary-foreground);
     font-weight: 600;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
     transition: all 0.3s;
     margin: 0.25rem;
-    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .interest-tag:nth-child(5n+1) {
-    background: color-mix(in srgb, var(--primary) 90%, white);
+    background: var(--primary);
 }
 
 .interest-tag:nth-child(5n+2) {
-    background: color-mix(in srgb, var(--secondary) 90%, white);
+    background: var(--secondary);
 }
 
 .interest-tag:nth-child(5n+3) {
-    background: color-mix(in srgb, var(--accent) 90%, white);
+    background: var(--accent);
     color: var(--foreground);
 }
 
 .interest-tag:nth-child(5n+4) {
-    background: color-mix(in srgb, var(--accent2) 90%, white);
+    background: var(--accent2);
 }
 
 .interest-tag:nth-child(5n+5) {
-    background: color-mix(in srgb, var(--accent3) 90%, white);
+    background: var(--accent3);
 }
 
 .interest-tag:hover {
@@ -1333,7 +1178,6 @@ body {
         opacity: 0;
         transform: translateY(10px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0);
@@ -1461,14 +1305,14 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    height: 6px;
-    background: linear-gradient(to right, var(--primary), color-mix(in srgb, var(--primary) 60%, var(--secondary)));
+    height: 8px;
+    background: linear-gradient(to right, var(--primary), var(--secondary), var(--accent));
 }
 
 .modal-content h2 {
     margin-bottom: 1.5rem;
     font-size: 1.5rem;
-    background: linear-gradient(to right, var(--primary), color-mix(in srgb, var(--primary) 60%, var(--secondary)));
+    background: linear-gradient(to right, var(--primary), var(--secondary));
     -webkit-background-clip: text;
     color: transparent;
     font-weight: bold;
@@ -1481,8 +1325,7 @@ body {
     margin-top: 2rem;
 }
 
-.btn-primary,
-.btn-secondary {
+.btn-primary, .btn-secondary {
     padding: 0.75rem 1.5rem;
     border-radius: 50px;
     font-weight: 600;
@@ -1491,10 +1334,10 @@ body {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, var(--primary), color-mix(in srgb, var(--primary) 70%, var(--secondary)));
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
     border: none;
     color: white;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
 }
 
 .btn-secondary {
@@ -1518,171 +1361,8 @@ body {
         transform: translateY(50px);
         opacity: 0;
     }
-
     to {
         transform: translateY(0);
         opacity: 1;
     }
-}
-
-/* Emoji Picker and Mood Selector Styles */
-.mood-selector {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    border: 1px solid var(--border);
-    background-color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.25rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.mood-selector:hover {
-    background-color: var(--muted);
-}
-
-.emoji-picker {
-    position: absolute;
-    bottom: 80px;
-    left: 15px;
-    background-color: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    padding: 0.75rem;
-    z-index: 100;
-    display: none;
-    width: 280px;
-}
-
-.emoji-categories {
-    display: flex;
-    gap: 0.5rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 0.5rem;
-}
-
-.emoji-category {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-size: 1rem;
-}
-
-.emoji-category:hover {
-    background-color: var(--muted);
-}
-
-.emoji-category.active {
-    background-color: rgba(var(--primary-rgb), 0.1);
-}
-
-.emoji-list {
-    display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    gap: 0.5rem;
-    max-height: 200px;
-    overflow-y: auto;
-}
-
-.emoji-item {
-    font-size: 1.25rem;
-    width: 28px;
-    height: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: all 0.2s ease;
-}
-
-.emoji-item:hover {
-    background-color: var(--muted);
-}
-
-/* Message tagging styles */
-#tagButton {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    border: 1px solid var(--border);
-    background-color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.25rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-#tagButton:hover {
-    background-color: var(--muted);
-}
-
-#tagButton.has-tags {
-    background-color: rgba(var(--primary-rgb), 0.1);
-    color: var(--primary-color);
-}
-
-/* Empty state styling for chat and room lists */
-.empty-state {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem 1rem;
-    text-align: center;
-    color: var(--muted-foreground);
-    min-height: 200px;
-}
-
-.empty-state p {
-    margin-top: 1.5rem;
-    font-size: 0.95rem;
-    max-width: 80%;
-    line-height: 1.5;
-}
-
-.message-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.35rem;
-    margin-top: 0.5rem;
-}
-
-.message-tag {
-    font-size: 0.7rem;
-    padding: 0.2rem 0.5rem;
-    border-radius: 12px;
-    background-color: rgba(var(--primary-rgb), 0.08);
-    color: var(--primary-darker);
-    display: inline-flex;
-    align-items: center;
-}
-
-.tag-emoji {
-    margin-right: 0.25rem;
-    font-size: 0.9rem;
-}
-
-/* Interest tag with emoji */
-.interest-emoji {
-    margin-right: 0.35rem;
-}
-
-/* Modal content subtitle */
-.modal-content .subtitle {
-    margin: -1rem 0 1rem;
-    font-size: 0.875rem;
-    color: #666;
-    text-align: left;
 }
