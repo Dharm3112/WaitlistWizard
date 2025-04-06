@@ -91,8 +91,13 @@ class ThemeEngine {
     }
 
     applyTheme() {
-        const theme = this.themes[this.currentTheme];
-        if (!theme) return; // Guard against invalid theme names
+        // Default to light theme if current theme is not found
+        let theme = this.themes[this.currentTheme];
+        if (!theme) {
+            console.log('Theme not found:', this.currentTheme);
+            this.currentTheme = 'light';
+            theme = this.themes.light;
+        }
         
         const root = document.documentElement;
         
@@ -151,7 +156,8 @@ class ThemeEngine {
     }
 
     showThemeNotification() {
-        const theme = this.themes[this.currentTheme];
+        // Safely get theme info with fallback
+        const theme = this.themes[this.currentTheme] || this.themes.light;
         let toast = document.getElementById('theme-toast');
         
         // Create toast if it doesn't exist
@@ -223,6 +229,14 @@ class ThemeEngine {
 
     // Get current theme info
     getCurrentTheme() {
+        // Return light theme if current theme is not found
+        if (!this.themes[this.currentTheme]) {
+            return {
+                name: 'light',
+                ...this.themes.light
+            };
+        }
+        
         return {
             name: this.currentTheme,
             ...this.themes[this.currentTheme]

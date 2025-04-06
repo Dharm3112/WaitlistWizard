@@ -14,10 +14,14 @@ const INTERESTS = [
     "Consulting", "Real Estate", "Media", "Arts"
 ];
 
-// Set default theme to our subtle blue theme
-if (typeof localStorage !== 'undefined') {
-    localStorage.setItem('manual-theme', 'light');
-}
+// Set default theme to our subtle blue theme after theme engine is ready
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        if (typeof window.themeEngine !== 'undefined') {
+            window.themeEngine.setTheme('light');
+        }
+    }, 100); // Small delay to ensure theme engine is initialized
+});
 
 // Initialize the form
 function initializeForm() {
