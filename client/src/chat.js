@@ -68,12 +68,25 @@ let participantMoods = new Map(); // Map of participant username to mood emoji
 
 // Initialize chat functionality
 function initializeChat() {
+    // Show loading overlay
+    const loadingOverlay = document.getElementById('loadingOverlay');
+    loadingOverlay.classList.add('visible');
+    
+    // Set loading text
+    const loadingText = loadingOverlay.querySelector('.loading-text');
+    const loadingSubtext = loadingOverlay.querySelector('.loading-subtext');
+    loadingText.textContent = 'Connecting to Chat';
+    loadingSubtext.textContent = 'Finding your perfect networking space...';
+    
     // Get username
     username = localStorage.getItem('username');
     if (!username) {
+        loadingOverlay.classList.remove('visible');
         username = prompt('Enter your name to join chat:');
         if (username) {
             localStorage.setItem('username', username);
+            // Show loading again after username entry
+            loadingOverlay.classList.add('visible');
         } else {
             window.location.href = 'index.html';
             return;
@@ -87,21 +100,45 @@ function initializeChat() {
 
     socket.onopen = () => {
         console.log('Connected to chat server');
+        // Update loading state
+        loadingText.textContent = 'Connected!';
+        loadingSubtext.textContent = 'Fetching available rooms...';
+        
         // Request room list
         socket.send(JSON.stringify({
             type: 'getRooms'
         }));
     };
 
-    socket.onmessage = handleWebSocketMessage;
+    socket.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        
+        // Hide loading overlay when rooms are loaded
+        if (data.type === 'rooms') {
+            setTimeout(() => {
+                loadingOverlay.classList.remove('visible');
+            }, 500);
+        }
+        
+        handleWebSocketMessage(event);
+    };
+    
     socket.onclose = () => {
         console.log('Disconnected from chat server');
+        
+        // Show reconnection message
+        loadingText.textContent = 'Connection Lost';
+        loadingSubtext.textContent = 'Attempting to reconnect...';
+        loadingOverlay.classList.add('visible');
+        
         // Attempt to reconnect after 5 seconds
         setTimeout(initializeChat, 5000);
     };
     
     socket.onerror = (error) => {
         console.error('WebSocket error:', error);
+        loadingText.textContent = 'Connection Error';
+        loadingSubtext.textContent = 'Please try again later...';
     };
 
     // Initialize room creation
@@ -147,22 +184,80 @@ function handleWebSocketMessage(event) {
 // Update rooms list in sidebar
 function updateRoomsList(newRooms) {
     rooms = newRooms;
-    roomsList.innerHTML = '';
     
-    rooms.forEach(room => {
-        const roomElement = document.createElement('div');
-        roomElement.className = `room-item ${currentRoom?.id === room.id ? 'active' : ''}`;
-        roomElement.innerHTML = `
-            <h3>${room.name}</h3>
-            <p>${room.participants.length} participants</p>
-        `;
-        roomElement.onclick = () => joinRoom(room.id);
-        roomsList.appendChild(roomElement);
-    });
+    // First show a loading animation
+    roomsList.innerHTML = '';
+    const roomsLoading = document.createElement('div');
+    roomsLoading.className = 'rooms-loading';
+    roomsLoading.innerHTML = `
+        <div class="room-item-loading"></div>
+        <div class="room-item-loading"></div>
+        <div class="room-item-loading"></div>
+    `;
+    roomsList.appendChild(roomsLoading);
+    
+    // Wait a short period (for better UX) then display actual rooms
+    setTimeout(() => {
+        roomsList.innerHTML = '';
+        
+        if (rooms.length === 0) {
+            // Show empty state if no rooms
+            const emptyState = document.createElement('div');
+            emptyState.className = 'empty-state';
+            emptyState.innerHTML = `
+                <div class="connection-loading">
+                    <div class="connection-node"></div>
+                    <div class="connection-node"></div>
+                    <div class="connection-node"></div>
+                    <div class="connection-node"></div>
+                    <div class="connection-line"></div>
+                    <div class="connection-line"></div>
+                    <div class="connection-line"></div>
+                    <div class="connection-line"></div>
+                    <div class="connection-center"></div>
+                </div>
+                <p>No rooms available. Create one to start networking!</p>
+            `;
+            roomsList.appendChild(emptyState);
+        } else {
+            // Display all available rooms
+            rooms.forEach(room => {
+                const roomElement = document.createElement('div');
+                roomElement.className = `room-item ${currentRoom?.id === room.id ? 'active' : ''}`;
+                
+                // Add interest emojis to the room item
+                const interestEmojis = room.interests.slice(0, 3).map(interest => 
+                    INTEREST_EMOJIS[interest] || '🏷️'
+                ).join(' ');
+                
+                const extraInterestsCount = room.interests.length > 3 ? 
+                    `+${room.interests.length - 3}` : '';
+                
+                roomElement.innerHTML = `
+                    <h3>${room.name}</h3>
+                    <div class="room-item-interests">
+                        ${interestEmojis} ${extraInterestsCount}
+                    </div>
+                    <p>${room.participants.length} participants</p>
+                `;
+                roomElement.onclick = () => joinRoom(room.id);
+                roomsList.appendChild(roomElement);
+            });
+        }
+    }, 600);
 }
 
 // Join a chat room
 function joinRoom(roomId) {
+    // Show loading overlay
+    const loadingOverlay = document.getElementById('loadingOverlay');
+    const loadingText = loadingOverlay.querySelector('.loading-text');
+    const loadingSubtext = loadingOverlay.querySelector('.loading-subtext');
+    
+    loadingText.textContent = 'Joining Room';
+    loadingSubtext.textContent = 'Preparing your networking experience...';
+    loadingOverlay.classList.add('visible');
+    
     socket.send(JSON.stringify({
         type: 'joinRoom',
         roomId,
@@ -172,6 +267,7 @@ function joinRoom(roomId) {
 
 // Handle successful room join
 function handleRoomJoined(room) {
+    // First update UI elements
     currentRoom = room;
     currentRoomTitle.textContent = room.name;
     messageInput.disabled = false;
@@ -180,15 +276,48 @@ function handleRoomJoined(room) {
     // Clear previous messages
     chatMessages.innerHTML = '';
     
-    // Display room messages
-    if (room.messages && room.messages.length > 0) {
-        room.messages.forEach(message => {
-            displayMessage(message);
-        });
-    }
+    // Setup loading indicator for messages
+    const messageLoading = document.createElement('div');
+    messageLoading.className = 'chat-loading';
+    messageLoading.innerHTML = `
+        <div class="chat-message-loading"></div>
+        <div class="chat-message-loading"></div>
+        <div class="chat-message-loading"></div>
+    `;
+    chatMessages.appendChild(messageLoading);
     
-    // Update room details
+    // Update room details first
     updateRoomDetails(room);
+    
+    // Hide loading overlay with a slight delay for better UX
+    setTimeout(() => {
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        loadingOverlay.classList.remove('visible');
+        
+        // Remove message loading placeholders and display actual messages
+        chatMessages.innerHTML = '';
+        if (room.messages && room.messages.length > 0) {
+            room.messages.forEach(message => {
+                displayMessage(message);
+            });
+        } else {
+            // Show empty state
+            const emptyState = document.createElement('div');
+            emptyState.className = 'empty-state';
+            emptyState.innerHTML = `
+                <div class="data-packet-container">
+                    <div class="data-path"></div>
+                    <div class="data-packet"></div>
+                    <div class="data-packet"></div>
+                    <div class="data-packet"></div>
+                    <div class="data-node"></div>
+                    <div class="data-node"></div>
+                </div>
+                <p>No messages yet. Be the first to start the conversation!</p>
+            `;
+            chatMessages.appendChild(emptyState);
+        }
+    }, 800);
 }
 
 // Update room details sidebar
@@ -370,18 +499,27 @@ function setupRoomCreation() {
             return;
         }
 
-        // Create room
-        socket.send(JSON.stringify({
-            type: 'createRoom',
-            name: roomName,
-            interests: selectedInterests
-        }));
+        // Show loading overlay for room creation
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const loadingText = loadingOverlay.querySelector('.loading-text');
+        const loadingSubtext = loadingOverlay.querySelector('.loading-subtext');
+        
+        loadingText.textContent = 'Creating New Room';
+        loadingSubtext.textContent = 'Connecting with similar professionals...';
+        loadingOverlay.classList.add('visible');
         
         // Reset form and hide modal
         createRoomModal.classList.remove('show');
         setTimeout(() => {
             createRoomModal.style.display = 'none';
             createRoomForm.reset();
+            
+            // Create room
+            socket.send(JSON.stringify({
+                type: 'createRoom',
+                name: roomName,
+                interests: selectedInterests
+            }));
         }, 300);
     };
 }

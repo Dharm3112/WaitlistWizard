@@ -907,6 +907,13 @@ body {
     margin-bottom: 0.25rem;
 }
 
+.room-item-interests {
+    font-size: 1.2rem;
+    margin: 0.25rem 0;
+    opacity: 0.9;
+    letter-spacing: 0.05em; /* Add some space between emojis */
+}
+
 .room-item p {
     font-size: 0.875rem;
     color: var(--muted-foreground);
@@ -1624,6 +1631,25 @@ body {
 #tagButton.has-tags {
     background-color: rgba(var(--primary-rgb), 0.1);
     color: var(--primary-color);
+}
+
+/* Empty state styling for chat and room lists */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+    text-align: center;
+    color: var(--muted-foreground);
+    min-height: 200px;
+}
+
+.empty-state p {
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+    max-width: 80%;
+    line-height: 1.5;
 }
 
 .message-tags {

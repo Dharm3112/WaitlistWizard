@@ -3,14 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat Rooms - Professional Networking Platform</title>
+    <title>Chat Rooms - ConnectHub</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="animations.css">
 </head>
 <body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay visible" id="loadingOverlay">
+        <div class="connection-loading">
+            <div class="connection-node"></div>
+            <div class="connection-node"></div>
+            <div class="connection-node"></div>
+            <div class="connection-node"></div>
+            <div class="connection-line"></div>
+            <div class="connection-line"></div>
+            <div class="connection-line"></div>
+            <div class="connection-line"></div>
+            <div class="connection-center"></div>
+        </div>
+        <div class="loading-text">Connecting to Chat</div>
+        <div class="loading-subtext">Finding your perfect networking space...</div>
+    </div>
+    
     <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
-            <a href="index.html" class="nav-logo">ProNet</a>
+            <a href="index.html" class="nav-logo">ConnectHub</a>
             <button class="nav-toggle" aria-label="Toggle navigation">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -25,6 +43,7 @@
                 <a href="chat.html" class="active">Chat Rooms</a>
                 <a href="about.html">About</a>
                 <a href="contact.html">Contact</a>
+                <a href="loading-demos.html">Loading Demos</a>
             </div>
         </div>
     </nav>
