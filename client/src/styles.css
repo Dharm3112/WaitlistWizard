@@ -159,22 +159,23 @@ body {
 /* Early Access Dropdown Form */
 .early-access-dropdown {
     position: absolute;
-    top: 100%;
+    top: calc(100% + 10px);
     left: 0;
     right: 0;
     max-width: 450px;
-    margin: 1rem auto 0;
+    margin: 0 auto;
     background: var(--card-background);
     border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    z-index: 100;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    z-index: 1000; /* Higher z-index to ensure it's on top */
     opacity: 0;
     visibility: hidden;
     transform: translateY(-20px);
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* More pronounced animation */
     backdrop-filter: blur(10px);
     overflow: hidden;
     border: 1px solid var(--border);
+    will-change: transform, opacity; /* Optimize animation performance */
 }
 
 .early-access-dropdown.visible {
@@ -225,6 +226,22 @@ body {
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
+}
+
+/* Dropdown form specific styling */
+.dropdown-waitlist-form .form-group {
+    margin-bottom: 0;
+}
+
+.dropdown-waitlist-form .submit-button {
+    margin-top: 0.5rem;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.dropdown-waitlist-form .submit-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 .hero-content {

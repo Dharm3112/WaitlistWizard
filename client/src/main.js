@@ -77,13 +77,18 @@ function initializeEarlyAccessDropdown() {
         // Open dropdown on button click
         earlyAccessBtn.addEventListener('click', (e) => {
             e.preventDefault();
+            e.stopPropagation(); // Stop event from bubbling up
             earlyAccessDropdown.classList.add('visible');
+            console.log('Dropdown should be visible now');
         });
         
         // Close dropdown when clicking the close button
         if (closeDropdownForm) {
-            closeDropdownForm.addEventListener('click', () => {
+            closeDropdownForm.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation(); // Stop event from bubbling up
                 earlyAccessDropdown.classList.remove('visible');
+                console.log('Dropdown closed via close button');
             });
         }
         
@@ -91,9 +96,15 @@ function initializeEarlyAccessDropdown() {
         document.addEventListener('click', (e) => {
             if (earlyAccessDropdown.classList.contains('visible') && 
                 !earlyAccessDropdown.contains(e.target) && 
-                e.target !== earlyAccessBtn) {
+                !earlyAccessBtn.contains(e.target)) { // Better check using contains
                 earlyAccessDropdown.classList.remove('visible');
+                console.log('Dropdown closed via outside click');
             }
+        });
+        
+        // Prevent clicks inside the dropdown from closing it
+        earlyAccessDropdown.addEventListener('click', (e) => {
+            e.stopPropagation();
         });
     }
 }
