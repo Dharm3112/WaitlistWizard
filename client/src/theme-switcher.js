@@ -50,6 +50,9 @@ class ThemeSwitcher {
                     </div>
                     <span>Automatic<br><small>(Time-based)</small></span>
                 </div>
+                
+                <div class="theme-category">Time of Day</div>
+                
                 <div class="theme-option" data-theme="morning">
                     <div class="theme-preview morning"></div>
                     <span>Morning<br><small>Energetic & Bright</small></span>
@@ -65,6 +68,30 @@ class ThemeSwitcher {
                 <div class="theme-option" data-theme="night">
                     <div class="theme-preview night"></div>
                     <span>Night<br><small>Dark & Soothing</small></span>
+                </div>
+                
+                <div class="theme-category">Mood</div>
+                
+                <div class="theme-option" data-theme="creative">
+                    <div class="theme-preview creative"></div>
+                    <span>Creative<br><small>Vibrant & Exciting</small></span>
+                </div>
+                <div class="theme-option" data-theme="focused">
+                    <div class="theme-preview focused"></div>
+                    <span>Focused<br><small>Clear & Productive</small></span>
+                </div>
+                <div class="theme-option" data-theme="relaxed">
+                    <div class="theme-preview relaxed"></div>
+                    <span>Relaxed<br><small>Calm & Soothing</small></span>
+                </div>
+                <div class="theme-option" data-theme="energetic">
+                    <div class="theme-preview energetic"></div>
+                    <span>Energetic<br><small>Bold & Powerful</small></span>
+                </div>
+                
+                <div class="theme-option full-width" data-theme="darkMode">
+                    <div class="theme-preview darkMode"></div>
+                    <span>Dark Mode<br><small>Low Light & Easy on Eyes</small></span>
                 </div>
             </div>
         `;
@@ -164,6 +191,22 @@ class ThemeSwitcher {
                 padding: 1rem;
             }
             
+            .theme-category {
+                grid-column: 1 / -1;
+                margin-top: 0.5rem;
+                padding-top: 0.5rem;
+                padding-bottom: 0.25rem;
+                font-weight: 600;
+                font-size: 0.875rem;
+                color: var(--primary, #8a2be2);
+                border-top: 1px solid rgba(0,0,0,0.05);
+                text-align: center;
+            }
+            
+            .dark-theme .theme-category {
+                border-top-color: rgba(255,255,255,0.1);
+            }
+            
             .theme-option {
                 display: flex;
                 flex-direction: column;
@@ -172,17 +215,27 @@ class ThemeSwitcher {
                 cursor: pointer;
                 padding: 0.5rem;
                 border-radius: 0.5rem;
-                transition: all 0.2s ease;
+                transition: all 0.3s ease;
                 text-align: center;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            }
+            
+            .theme-option.full-width {
+                grid-column: 1 / -1;
+                max-width: 75%;
+                margin: 0 auto;
             }
             
             .theme-option:hover {
                 background: #f5f5f5;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             }
             
             .theme-option.active {
                 background: #f0f0f0;
-                box-shadow: inset 0 0 0 2px #8a2be2;
+                box-shadow: inset 0 0 0 2px var(--primary, #8a2be2);
+                transform: translateY(-2px);
             }
             
             .theme-preview {
@@ -190,6 +243,12 @@ class ThemeSwitcher {
                 height: 80px;
                 border-radius: 0.5rem;
                 overflow: hidden;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                transition: all 0.3s ease;
+            }
+            
+            .theme-option:hover .theme-preview {
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
             }
             
             .theme-preview.auto {
@@ -207,6 +266,7 @@ class ThemeSwitcher {
                 background: linear-gradient(135deg, #1a237e, #311b92);
             }
             
+            /* Time-based themes */
             .theme-preview.morning {
                 background: linear-gradient(135deg, #e0f7fa, #fff8e1);
             }
@@ -221,6 +281,27 @@ class ThemeSwitcher {
             
             .theme-preview.night {
                 background: linear-gradient(135deg, #1a237e, #311b92);
+            }
+            
+            /* Mood-based themes */
+            .theme-preview.creative {
+                background: linear-gradient(135deg, #FFEFFF, #D7FFFE);
+            }
+            
+            .theme-preview.focused {
+                background: linear-gradient(135deg, #E8EAF6, #E1F5FE);
+            }
+            
+            .theme-preview.relaxed {
+                background: linear-gradient(135deg, #E0F2F1, #F1F8E9);
+            }
+            
+            .theme-preview.energetic {
+                background: linear-gradient(135deg, #FBE9E7, #FFFDE7);
+            }
+            
+            .theme-preview.darkMode {
+                background: linear-gradient(135deg, #121212, #1F1B24);
             }
             
             .theme-option span {

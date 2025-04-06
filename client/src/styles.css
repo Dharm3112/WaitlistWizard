@@ -1,4 +1,5 @@
 :root {
+    /* Base colors that will be dynamically updated by theme-engine.js */
     --primary: hsl(280, 84%, 54%); /* Vibrant purple */
     --primary-foreground: hsl(210 40% 98%);
     --secondary: hsl(320, 100%, 60%); /* Hot pink */
@@ -6,15 +7,35 @@
     --accent: hsl(42, 100%, 62%); /* Bright yellow */
     --accent2: hsl(190, 90%, 50%); /* Bright cyan */
     --accent3: hsl(150, 84%, 50%); /* Bright green */
+    
+    /* Background and foreground colors controlled by theme engine */
     --background: hsl(0 0% 100%);
     --foreground: hsl(222.2 47.4% 11.2%);
+    --card-background: rgba(255, 255, 255, 0.9);
+    --nav-background: rgba(255, 255, 255, 0.95);
+    --footer-background: rgba(255, 255, 255, 0.97);
+    
+    /* Supporting colors */
     --muted: hsl(210 40% 96.1%);
     --muted-foreground: hsl(215.4 16.3% 46.9%);
     --border: hsl(214.3 31.8% 91.4%);
     --radius: 1rem; /* Increased border radius for fun, bubbly appearance */
     --shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    --button-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     --theme-background: linear-gradient(135deg, #e0f7fa, #fff8e1);
     --theme-transition: all 0.5s ease;
+    
+    /* Form element colors */
+    --input-background: rgba(255, 255, 255, 0.8);
+    --input-border: rgba(0, 0, 0, 0.1);
+    --input-focus: var(--primary);
+    --placeholder: rgba(0, 0, 0, 0.4);
+    
+    /* Chat elements */
+    --message-sent: var(--primary);
+    --message-received: var(--muted);
+    --chat-background: rgba(255, 255, 255, 0.8);
 }
 
 /* Dark theme overrides */
@@ -22,12 +43,32 @@
     --primary: hsl(280, 84%, 60%); /* Slightly brighter purple for dark mode */
     --secondary: hsl(320, 100%, 65%); /* Slightly brighter pink for dark mode */
     --accent: hsl(42, 95%, 65%); /* Slightly muted yellow for dark mode */
+    
+    /* Background and foreground colors */
     --background: hsl(220, 25%, 10%); /* Dark blue-gray */
     --foreground: hsl(210, 20%, 92%); /* Light gray with a hint of blue */
+    --card-background: rgba(30, 41, 59, 0.95);
+    --nav-background: rgba(17, 24, 39, 0.97);
+    --footer-background: rgba(17, 24, 39, 0.98);
+    
+    /* Supporting colors */
     --muted: hsl(215, 15%, 15%);
     --muted-foreground: hsl(210, 10%, 70%);
     --border: hsl(215, 15%, 20%);
     --shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    --button-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+    
+    /* Form element colors */
+    --input-background: rgba(17, 24, 39, 0.7);
+    --input-border: rgba(255, 255, 255, 0.1);
+    --input-focus: var(--primary);
+    --placeholder: rgba(255, 255, 255, 0.5);
+    
+    /* Chat elements */
+    --message-sent: var(--primary);
+    --message-received: hsl(215, 15%, 20%);
+    --chat-background: rgba(17, 24, 39, 0.8);
 }
 
 /* Theme transition effects */
@@ -773,7 +814,7 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    background: rgba(255, 255, 255, 0.9);
+    background: var(--nav-background, rgba(255, 255, 255, 0.9));
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--border);
     z-index: 100;
@@ -792,15 +833,17 @@ body {
 .nav-logo {
     font-size: 1.75rem;
     font-weight: bold;
-    background: linear-gradient(to right, var(--primary), hsl(221.2 83.2% 65%));
+    background: linear-gradient(to right, var(--primary), var(--secondary));
     -webkit-background-clip: text;
     color: transparent;
     text-decoration: none;
-    transition: opacity 0.2s;
+    transition: all 0.3s ease;
+    position: relative;
 }
 
 .nav-logo:hover {
     opacity: 0.8;
+    transform: translateY(-2px);
 }
 
 .nav-links {
@@ -815,22 +858,39 @@ body {
     font-weight: 500;
     padding: 0.5rem 1rem;
     border-radius: var(--radius);
-    transition: all 0.2s;
+    transition: all 0.3s ease;
+    position: relative;
 }
 
 .nav-links a:hover {
     color: var(--primary);
-    background: var(--muted);
+    background: color-mix(in srgb, var(--primary) 10%, transparent);
+    transform: translateY(-2px);
 }
 
 .nav-links a.active {
-    color: var(--primary);
-    background: color-mix(in srgb, var(--primary) 10%, transparent);
+    color: var(--primary-foreground);
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    box-shadow: var(--button-shadow);
 }
 
 .navbar.scrolled {
-    background: rgba(255, 255, 255, 0.95);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background: var(--nav-background, rgba(255, 255, 255, 0.98));
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Dark theme overrides for navbar */
+.dark-theme .navbar {
+    background: var(--nav-background, rgba(17, 24, 39, 0.8));
+}
+
+.dark-theme .navbar.scrolled {
+    background: var(--nav-background, rgba(17, 24, 39, 0.95));
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.dark-theme .nav-links a:hover {
+    background: rgba(255, 255, 255, 0.1);
 }
 
 /* Mobile Navigation */
