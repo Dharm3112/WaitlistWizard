@@ -88,7 +88,7 @@ function initializeChat() {
             // Show loading again after username entry
             loadingOverlay.classList.add('visible');
         } else {
-            window.location.href = 'index.html';
+            window.location.href = '/';
             return;
         }
     }
@@ -691,6 +691,7 @@ function setupTagSelection() {
 }
 
 // Handle sending messages
+// Handle message submission
 messageForm.onsubmit = (e) => {
     e.preventDefault();
     const message = messageInput.value.trim();
@@ -714,5 +715,6 @@ messageForm.onsubmit = (e) => {
     }
 };
 
-// Initialize chat when DOM is loaded
-document.addEventListener('DOMContentLoaded', initializeChat);
+// We'll call initialize from the React component
+// Expose the initializeChat function globally so it can be called from React
+window.initializeChat = initializeChat;
