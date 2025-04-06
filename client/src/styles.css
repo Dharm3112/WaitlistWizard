@@ -13,6 +13,28 @@
     --border: hsl(214.3 31.8% 91.4%);
     --radius: 1rem; /* Increased border radius for fun, bubbly appearance */
     --shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    --theme-background: linear-gradient(135deg, #e0f7fa, #fff8e1);
+    --theme-transition: all 0.5s ease;
+}
+
+/* Dark theme overrides */
+.dark-theme {
+    --primary: hsl(280, 84%, 60%); /* Slightly brighter purple for dark mode */
+    --secondary: hsl(320, 100%, 65%); /* Slightly brighter pink for dark mode */
+    --accent: hsl(42, 95%, 65%); /* Slightly muted yellow for dark mode */
+    --background: hsl(220, 25%, 10%); /* Dark blue-gray */
+    --foreground: hsl(210, 20%, 92%); /* Light gray with a hint of blue */
+    --muted: hsl(215, 15%, 15%);
+    --muted-foreground: hsl(210, 10%, 70%);
+    --border: hsl(215, 15%, 20%);
+    --shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Theme transition effects */
+body, body *, .card, .button, .feature-icon, .nav-links, .footer-content, 
+.hero-content, .feature-row, .cta-section, .gradient-text, 
+.feature-card, .testimonial, .pricing-card, .message-content, .chart-bar {
+    transition: var(--theme-transition);
 }
 
 * {
@@ -23,9 +45,10 @@
 
 body {
     font-family: system-ui, -apple-system, sans-serif;
-    background-color: var(--background);
+    background: var(--theme-background);
     color: var(--foreground);
     line-height: 1.5;
+    transition: background 1s ease, color 1s ease;
 }
 
 .container {
