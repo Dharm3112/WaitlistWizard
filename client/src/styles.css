@@ -36,6 +36,11 @@
     --message-sent: var(--primary);
     --message-received: var(--muted);
     --chat-background: rgba(255, 255, 255, 0.8);
+    
+    /* Page Transitions */
+    --transition-duration: 800ms;
+    --transition-easing: cubic-bezier(0.16, 1, 0.3, 1);
+    --sequence-delay: 100ms;
 }
 
 /* Dark theme overrides */
@@ -3426,4 +3431,159 @@ section.animate-in {
     .feature-details {
         order: 2;
     }
+}
+/* Page Transition Styles */
+.has-transitions {
+    overflow-x: hidden;
+}
+
+.transition-out {
+    transition: opacity var(--transition-duration) var(--transition-easing), 
+                transform var(--transition-duration) var(--transition-easing);
+    opacity: 0;
+}
+
+.transition-in {
+    transition: opacity var(--transition-duration) var(--transition-easing), 
+                transform var(--transition-duration) var(--transition-easing);
+}
+
+.transition-item {
+    will-change: opacity, transform;
+    transition-property: opacity, transform;
+    transition-duration: var(--transition-duration);
+    transition-timing-function: var(--transition-easing);
+}
+
+/* Animate sequential items within sections */
+.animate-item {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+body.transition-out section,
+body.transition-out header,
+body.transition-out footer {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    pointer-events: none;
+}
+
+/* Overlay for page transitions */
+.page-transition-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    opacity: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transform: scale(1.5);
+    transition: opacity var(--transition-duration) var(--transition-easing), 
+                transform var(--transition-duration) var(--transition-easing);
+}
+
+body.transition-out .page-transition-overlay {
+    opacity: 0.5;
+    transform: scale(1);
+}
+
+/* Story-telling animations */
+@keyframes fadeSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeSlideLeft {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeSlideRight {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes scaleUp {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Add sequential animation classes */
+.fade-slide-up {
+    animation: fadeSlideUp 0.8s var(--transition-easing) both;
+}
+
+.fade-slide-left {
+    animation: fadeSlideLeft 0.8s var(--transition-easing) both;
+}
+
+.fade-slide-right {
+    animation: fadeSlideRight 0.8s var(--transition-easing) both;
+}
+
+.fade-in {
+    animation: fadeIn 0.8s ease both;
+}
+
+.scale-up {
+    animation: scaleUp 0.8s var(--transition-easing) both;
+}
+
+/* Sequential animation delays */
+.delay-1 {
+    animation-delay: 0.1s;
+}
+
+.delay-2 {
+    animation-delay: 0.2s;
+}
+
+.delay-3 {
+    animation-delay: 0.3s;
+}
+
+.delay-4 {
+    animation-delay: 0.4s;
+}
+
+.delay-5 {
+    animation-delay: 0.5s;
 }

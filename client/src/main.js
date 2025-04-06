@@ -674,8 +674,30 @@ function getSelectedInterests() {
         .map(checkbox => checkbox.value);
 }
 
+// Add function for sequential animation classes
+function addSequentialAnimationClasses() {
+    // Add animate-item class to headings and paragraphs in sections
+    document.querySelectorAll('section h1, section h2, section p, .hero-buttons, .feature-card, .step-card, .timeline-item').forEach(element => {
+        element.classList.add('animate-item');
+    });
+}
+
 // Initialize all components
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize page transition system
+    try {
+        // Import the module dynamically
+        import('./page-transitions.js')
+            .then(module => {
+                console.log('Page transitions initialized successfully');
+                // Add sequential animation classes after transitions are loaded
+                addSequentialAnimationClasses();
+            })
+            .catch(error => console.error('Error loading page transitions:', error));
+    } catch (error) {
+        console.error('Error initializing page transitions:', error);
+    }
+    
     // Initialize original components
     initializeForm();
     handleContactForm();
