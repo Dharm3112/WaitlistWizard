@@ -266,64 +266,92 @@ function initializeNavigation() {
 }
 
 
-// Feature card flip interaction
+// Feature card flip interaction - optimized
 function initializeFeatureCards() {
     const featureCards = document.querySelectorAll('.feature-card');
+    if (!featureCards.length) return;
     
-    featureCards.forEach(card => {
-        const cardInner = card.querySelector('.card-inner');
-        const learnMore = card.querySelector('.learn-more');
-        const backButton = card.querySelector('.back-button');
-        
-        if (learnMore && backButton && cardInner) {
-            learnMore.addEventListener('click', () => {
-                cardInner.style.transform = 'rotateY(180deg)';
-            });
+    // Use event delegation for better performance
+    document.addEventListener('click', (e) => {
+        // Find if click was on learn more button
+        if (e.target.classList.contains('learn-more') || e.target.closest('.learn-more')) {
+            const card = e.target.closest('.feature-card');
+            if (!card) return;
             
-            backButton.addEventListener('click', () => {
-                cardInner.style.transform = 'rotateY(0deg)';
-            });
+            const cardInner = card.querySelector('.card-inner');
+            if (cardInner) {
+                requestAnimationFrame(() => {
+                    cardInner.style.transform = 'rotateY(180deg)';
+                });
+            }
+        }
+        
+        // Find if click was on back button
+        if (e.target.classList.contains('back-button') || e.target.closest('.back-button')) {
+            const card = e.target.closest('.feature-card');
+            if (!card) return;
+            
+            const cardInner = card.querySelector('.card-inner');
+            if (cardInner) {
+                requestAnimationFrame(() => {
+                    cardInner.style.transform = 'rotateY(0deg)';
+                });
+            }
         }
     });
 }
 
-// Animate the process steps
+// Animate the process steps - optimized
 function initializeProcessSteps() {
     const steps = document.querySelectorAll('.step-card');
     const progressMarker = document.querySelector('.progress-marker');
     
-    if (steps.length && progressMarker) {
-        // Initial position
+    if (!steps.length || !progressMarker) return;
+    
+    // Initial position - throttle to next frame for performance
+    requestAnimationFrame(() => {
         updateProgressPosition(steps[0]);
+    });
+    
+    // Create a more efficient IntersectionObserver
+    const stepObserver = new IntersectionObserver((entries) => {
+        // Cache active step to prevent unnecessary DOM operations
+        let activeStep = null;
         
-        // Set active state for steps when scrolled into view
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.6
-        };
+        for (let i = 0; i < entries.length; i++) {
+            if (entries[i].isIntersecting) {
+                activeStep = entries[i].target;
+                break;
+            }
+        }
         
-        const stepObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    // Remove active class from all steps
-                    steps.forEach(s => s.classList.remove('active'));
-                    
-                    // Add active class to current step
-                    entry.target.classList.add('active');
-                    
-                    // Update progress marker position
-                    updateProgressPosition(entry.target);
-                    
-                    // Animate the step content
-                    animateStepContent(entry.target);
+        if (activeStep) {
+            // Batch DOM updates with requestAnimationFrame
+            requestAnimationFrame(() => {
+                // Remove active class from all steps
+                for (let i = 0; i < steps.length; i++) {
+                    steps[i].classList.remove('active');
                 }
+                
+                // Add active class to current step
+                activeStep.classList.add('active');
+                
+                // Update progress marker position
+                updateProgressPosition(activeStep);
+                
+                // Animate the step content
+                animateStepContent(activeStep);
             });
-        }, observerOptions);
-        
-        steps.forEach(step => {
-            stepObserver.observe(step);
-        });
+        }
+    }, {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.6
+    });
+    
+    // Observe all step elements
+    for (let i = 0; i < steps.length; i++) {
+        stepObserver.observe(steps[i]);
     }
 }
 
@@ -363,28 +391,45 @@ function animateStepContent(step) {
     }
 }
 
-// Back to top button
+// Back to top button - optimized with throttling
 function initializeBackToTop() {
     const backToTopButton = document.getElementById('backToTop');
+    if (!backToTopButton) return;
     
-    if (backToTopButton) {
-        // Show/hide button based on scroll position
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) {
-                backToTopButton.classList.add('show');
-            } else {
-                backToTopButton.classList.remove('show');
-            }
-        });
+    // Throttled scroll handler for better performance
+    let isScrolling = false;
+    
+    // Show/hide button based on scroll position with passive event listener
+    window.addEventListener('scroll', () => {
+        // Skip if already processing a scroll event
+        if (isScrolling) return;
         
-        // Scroll to top when clicked
-        backToTopButton.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+        isScrolling = true;
+        
+        // Use requestAnimationFrame for smoother performance
+        window.requestAnimationFrame(() => {
+            if (window.scrollY > 300) {
+                if (!backToTopButton.classList.contains('show')) {
+                    backToTopButton.classList.add('show');
+                }
+            } else {
+                if (backToTopButton.classList.contains('show')) {
+                    backToTopButton.classList.remove('show');
+                }
+            }
+            
+            isScrolling = false;
         });
-    }
+    }, { passive: true });
+    
+    // Scroll to top when clicked
+    backToTopButton.addEventListener('click', () => {
+        // Using scrollIntoView is more performant than scrollTo in many browsers
+        document.body.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+    });
 }
 
 // Smooth scroll for anchor links
@@ -407,37 +452,44 @@ function initializeSmoothScroll() {
     });
 }
 
-// Animate hero section elements
+// Animate hero section elements - optimized for performance
 function animateHero() {
-    const heroElements = [
-        document.querySelector('.hero-title'),
-        document.querySelector('.hero-subtitle'),
-        document.querySelector('.hero-buttons'),
-        document.querySelector('.hero-image')
-    ];
-    
-    heroElements.forEach((element, index) => {
-        if (element) {
-            setTimeout(() => {
-                element.classList.add('animate-in');
-            }, index * 200);
+    // Use requestAnimationFrame for better performance
+    window.requestAnimationFrame(() => {
+        // Add classes to hero content
+        const heroContainer = document.querySelector('.hero .container');
+        if (heroContainer) {
+            heroContainer.style.opacity = '1';
         }
-    });
-    
-    // Animate connection dots with delay
-    const dots = document.querySelectorAll('.connection-dot');
-    dots.forEach((dot, index) => {
-        setTimeout(() => {
-            dot.classList.add('animate');
-        }, 1000 + (index * 300));
-    });
-    
-    // Animate connection lines after dots
-    const lines = document.querySelectorAll('.connection-line');
-    lines.forEach((line, index) => {
-        setTimeout(() => {
-            line.classList.add('animate');
-        }, 2000 + (index * 200));
+        
+        // Animate connection dots with delay
+        const dots = document.querySelectorAll('.connection-dot');
+        if (dots.length) {
+            // Use a single loop with explicit element references for better performance
+            let delay = 1000;
+            
+            for (let i = 0; i < dots.length; i++) {
+                ((dot, dotDelay) => {
+                    setTimeout(() => {
+                        dot.classList.add('animate');
+                    }, dotDelay);
+                })(dots[i], delay + (i * 200));
+            }
+            
+            // Animate connection lines after dots finish
+            const lines = document.querySelectorAll('.connection-line');
+            if (lines.length) {
+                let lineDelay = delay + (dots.length * 200);
+                
+                for (let i = 0; i < lines.length; i++) {
+                    ((line, lineDelay) => {
+                        setTimeout(() => {
+                            line.classList.add('animate');
+                        }, lineDelay);
+                    })(lines[i], lineDelay + (i * 150));
+                }
+            }
+        }
     });
 }
 
@@ -520,28 +572,51 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Add scroll animation for sections
+// Add scroll animation for sections - optimized for performance
+let ticking = false;
+let lastScrollY = 0;
+
+// Use passive event listener for better performance
 document.addEventListener('scroll', () => {
-    // Animate sections when scrolled into view
-    const sections = document.querySelectorAll('section');
-    sections.forEach(section => {
-        const rect = section.getBoundingClientRect();
-        const isVisible = rect.top <= window.innerHeight * 0.75;
+    lastScrollY = window.scrollY;
+    
+    if (!ticking) {
+        window.requestAnimationFrame(() => {
+            animateOnScroll(lastScrollY);
+            ticking = false;
+        });
         
-        if (isVisible && !section.classList.contains('animate-in')) {
+        ticking = true;
+    }
+}, { passive: true });
+
+// Separate function to handle animations on scroll
+function animateOnScroll(scrollY) {
+    const viewportHeight = window.innerHeight;
+    const triggerPoint = viewportHeight * 0.75;
+    
+    // Animate sections when scrolled into view - use direct for loop for better performance
+    const sections = document.querySelectorAll('section');
+    for (let i = 0; i < sections.length; i++) {
+        const section = sections[i];
+        if (section.classList.contains('animate-in')) continue;
+        
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= triggerPoint) {
             section.classList.add('animate-in');
         }
-    });
+    }
     
-    // Animate elements with data-aos attribute
-    const elements = document.querySelectorAll('[data-aos]');
-    elements.forEach(element => {
+    // Animate elements with data-aos attribute - more efficient batching
+    const elements = document.querySelectorAll('[data-aos]:not([data-aos-animated])');
+    for (let i = 0; i < elements.length; i++) {
+        const element = elements[i];
         const rect = element.getBoundingClientRect();
-        const isVisible = rect.top <= window.innerHeight * 0.75;
         
-        if (isVisible) {
+        if (rect.top <= triggerPoint) {
             element.style.opacity = '1';
             element.style.transform = 'translateY(0)';
+            element.setAttribute('data-aos-animated', 'true');
         }
-    });
-});
+    }
+}

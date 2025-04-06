@@ -43,10 +43,13 @@
     --primary: hsl(280, 84%, 60%); /* Slightly brighter purple for dark mode */
     --secondary: hsl(320, 100%, 65%); /* Slightly brighter pink for dark mode */
     --accent: hsl(42, 95%, 65%); /* Slightly muted yellow for dark mode */
+    --accent2: hsl(190, 90%, 55%); /* Bright cyan for dark mode */
+    --accent3: hsl(150, 84%, 55%); /* Bright green for dark mode */
     
     /* Background and foreground colors */
-    --background: hsl(220, 25%, 10%); /* Dark blue-gray */
-    --foreground: hsl(210, 20%, 92%); /* Light gray with a hint of blue */
+    --background: hsl(222, 47%, 11%); /* Dark blue-gray */
+    --foreground: hsl(214, 32%, 91%); /* Light gray with a hint of blue */
+    --theme-background: linear-gradient(135deg, #1a237e, #311b92);
     --card-background: rgba(30, 41, 59, 0.95);
     --nav-background: rgba(17, 24, 39, 0.97);
     --footer-background: rgba(17, 24, 39, 0.98);
@@ -69,6 +72,9 @@
     --message-sent: var(--primary);
     --message-received: hsl(215, 15%, 20%);
     --chat-background: rgba(17, 24, 39, 0.8);
+    
+    /* Color mix fixes for dark mode */
+    color-scheme: dark;
 }
 
 /* Theme transition effects */
@@ -112,21 +118,22 @@ body {
 .hero .container {
     position: relative;
     z-index: 2;
+    opacity: 0;
+    animation: fadeIn 0.8s 0.1s forwards;
 }
 
 .hero-title {
     font-size: 3.5rem;
     font-weight: 800;
     margin-bottom: 1.5rem;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 0.6s forwards;
     position: relative;
+    will-change: transform, opacity;
 }
 
 .gradient-text {
     background: linear-gradient(to right, var(--primary), var(--secondary));
     -webkit-background-clip: text;
+    background-clip: text;
     color: transparent;
     display: block;
     margin-bottom: 0.5rem;
@@ -137,10 +144,8 @@ body {
     color: var(--muted-foreground);
     max-width: 36rem;
     margin: 0 auto;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 0.6s 0.2s forwards;
     line-height: 1.6;
+    will-change: transform, opacity;
 }
 
 .hero-buttons {
@@ -148,9 +153,7 @@ body {
     gap: 1rem;
     justify-content: center;
     margin-top: 2rem;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 0.6s 0.4s forwards;
+    will-change: transform, opacity;
 }
 
 .hero-image {
@@ -158,9 +161,7 @@ body {
     max-width: 500px;
     margin: 2rem auto 0;
     position: relative;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 0.6s 0.6s forwards;
+    will-change: transform, opacity;
 }
 
 .connection-map {
@@ -361,6 +362,8 @@ body {
     position: absolute;
     z-index: 1;
     pointer-events: none;
+    will-change: transform, border-radius;
+    transition: background-color 0.5s ease;
 }
 
 .shape1 {
@@ -368,9 +371,9 @@ body {
     right: 5%;
     width: 300px;
     height: 300px;
-    background: linear-gradient(135deg, rgba(var(--primary), 0.1), rgba(var(--secondary), 0.1));
+    background: linear-gradient(135deg, rgba(138, 43, 226, 0.1), rgba(233, 30, 99, 0.1));
     border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-    animation: morph 15s linear infinite alternate;
+    animation: morph 15s ease-in-out infinite alternate;
 }
 
 .shape2 {
@@ -378,9 +381,9 @@ body {
     left: 5%;
     width: 250px;
     height: 250px;
-    background: linear-gradient(135deg, rgba(var(--accent), 0.1), rgba(var(--accent2), 0.1));
+    background: linear-gradient(135deg, rgba(255, 171, 64, 0.1), rgba(100, 181, 246, 0.1));
     border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-    animation: morph 18s linear infinite alternate-reverse;
+    animation: morph 18s ease-in-out infinite alternate-reverse;
 }
 
 .shape3 {
@@ -388,29 +391,40 @@ body {
     left: 15%;
     width: 150px;
     height: 150px;
-    background: linear-gradient(135deg, rgba(var(--accent2), 0.08), rgba(var(--accent3), 0.08));
+    background: linear-gradient(135deg, rgba(38, 198, 218, 0.08), rgba(156, 204, 101, 0.08));
     border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
     animation: float 10s ease-in-out infinite;
 }
 
+.dark-theme .shape1 {
+    background: linear-gradient(135deg, rgba(157, 78, 221, 0.15), rgba(255, 64, 129, 0.15));
+}
+
+.dark-theme .shape2 {
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.15), rgba(124, 77, 255, 0.15));
+}
+
+.dark-theme .shape3 {
+    background: linear-gradient(135deg, rgba(0, 191, 165, 0.15), rgba(105, 240, 174, 0.15));
+}
+
 @keyframes morph {
-    0% {
+    0%, 100% {
         border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+        transform: rotate(0deg);
     }
-    100% {
+    50% {
         border-radius: 70% 30% 40% 60% / 60% 40% 30% 70%;
+        transform: rotate(5deg);
     }
 }
 
 @keyframes float {
-    0% {
-        transform: translateY(0) rotate(0deg);
+    0%, 100% {
+        transform: translateY(0);
     }
     50% {
-        transform: translateY(-20px) rotate(10deg);
-    }
-    100% {
-        transform: translateY(0) rotate(0deg);
+        transform: translateY(-20px);
     }
 }
 
@@ -633,6 +647,37 @@ body {
 .interest-option:nth-child(6n+6) label {
     background: color-mix(in srgb, var(--primary) 10%, var(--secondary) 10%, white);
     color: color-mix(in srgb, var(--primary) 40%, var(--secondary) 40%, black);
+}
+
+/* Dark theme overrides for interest labels */
+.dark-theme .interest-option:nth-child(6n+1) label {
+    background: rgba(138, 43, 226, 0.2);
+    color: var(--foreground);
+}
+
+.dark-theme .interest-option:nth-child(6n+2) label {
+    background: rgba(233, 30, 99, 0.2);
+    color: var(--foreground);
+}
+
+.dark-theme .interest-option:nth-child(6n+3) label {
+    background: rgba(255, 193, 7, 0.2);
+    color: var(--foreground);
+}
+
+.dark-theme .interest-option:nth-child(6n+4) label {
+    background: rgba(3, 169, 244, 0.2);
+    color: var(--foreground);
+}
+
+.dark-theme .interest-option:nth-child(6n+5) label {
+    background: rgba(0, 230, 118, 0.2);
+    color: var(--foreground);
+}
+
+.dark-theme .interest-option:nth-child(6n+6) label {
+    background: rgba(156, 39, 176, 0.2);
+    color: var(--foreground);
 }
 
 .interest-option input[type="checkbox"]:checked + label {
