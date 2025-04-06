@@ -2102,7 +2102,7 @@ section.animate-in {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    border: 2px dashed rgba(var(--primary), 0.3);
+    border: 2px dashed rgba(138, 43, 226, 0.3);
     border-radius: 50%;
     animation: rotate 60s linear infinite;
 }
@@ -2539,9 +2539,10 @@ section.animate-in {
 .connection-line {
     position: absolute;
     height: 2px;
-    background: linear-gradient(to right, var(--primary), var(--accent));
+    background: linear-gradient(to right, #8a2be2, #ff69b4); /* Fixed purple to pink gradient */
     transform-origin: left center;
     opacity: 0.4;
+    animation: pulseLine 2s infinite;
 }
 
 .cl1 {
@@ -2549,6 +2550,7 @@ section.animate-in {
     left: 150px;
     width: 110px;
     transform: rotate(45deg);
+    animation-delay: 0s;
 }
 
 .cl2 {
@@ -2556,12 +2558,14 @@ section.animate-in {
     left: 150px;
     width: 110px;
     transform: rotate(-45deg);
+    animation-delay: 0.3s;
 }
 
 .cl3 {
     top: 150px;
     left: 70px;
     width: 160px;
+    animation-delay: 0.6s;
 }
 
 .cl4 {
@@ -2569,6 +2573,7 @@ section.animate-in {
     left: 70px;
     width: 160px;
     transform: rotate(180deg);
+    animation-delay: 0.9s;
 }
 
 .feature-showcase {
@@ -2755,8 +2760,9 @@ section.animate-in {
 .interest-connect {
     position: absolute;
     height: 2px;
-    background: linear-gradient(to right, var(--primary), rgba(var(--accent), 0.5));
+    background: linear-gradient(to right, #8a2be2, #ff69b4); /* Fixed purple to pink gradient */
     transform-origin: left center;
+    animation: connectLine 3s infinite alternate;
 }
 
 .ic1 {
@@ -2764,7 +2770,7 @@ section.animate-in {
     left: 45%;
     width: 15%;
     transform: rotate(30deg);
-    animation: connectLine 3s infinite alternate;
+    animation-delay: 0s;
 }
 
 .ic2 {
@@ -2772,7 +2778,7 @@ section.animate-in {
     left: 25%;
     width: 25%;
     transform: rotate(-15deg);
-    animation: connectLine 4s infinite alternate-reverse;
+    animation-delay: 0.5s;
 }
 
 .ic3 {
@@ -2780,7 +2786,7 @@ section.animate-in {
     left: 45%;
     width: 20%;
     transform: rotate(25deg);
-    animation: connectLine 3.5s infinite alternate;
+    animation-delay: 1s;
 }
 
 @keyframes connectLine {
@@ -2881,7 +2887,7 @@ section.animate-in {
 .matching-line {
     position: absolute;
     height: 2px;
-    background: linear-gradient(to right, rgba(var(--primary), 0.5), rgba(var(--secondary), 0.5));
+    background: linear-gradient(to right, #8a2be2, #ff69b4); /* Fixed purple to pink gradient */
     animation: pulseLine 2s infinite;
     opacity: 0.6;
 }
@@ -2916,6 +2922,26 @@ section.animate-in {
     }
     50% {
         opacity: 0.8;
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    50% {
+        transform: scale(1.1);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
     }
 }
 
@@ -2994,14 +3020,16 @@ section.animate-in {
 .message-content {
     padding: 10px 15px;
     border-radius: 15px;
-    background: var(--muted);
+    background: #f0f0f0; /* Fixed light gray background */
     position: relative;
     font-size: 0.875rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
 .chat-message.received .message-content {
     border-top-left-radius: 0;
-    background: rgba(var(--primary), 0.1);
+    background: rgba(138, 43, 226, 0.1); /* Fixed light purple background */
+    color: #333;
 }
 
 .chat-message.sent {
@@ -3011,19 +3039,21 @@ section.animate-in {
 
 .chat-message.sent .message-content {
     border-top-right-radius: 0;
-    background: rgba(var(--accent), 0.1);
+    background: rgba(255, 105, 180, 0.1); /* Fixed light pink background */
+    color: #333;
 }
 
 .chat-message.typing .message-content {
-    background: var(--muted);
+    background: #f0f0f0;
     display: flex;
     padding: 15px;
+    border-top-left-radius: 0;
 }
 
 .typing-dot {
     width: 8px;
     height: 8px;
-    background: var(--muted-foreground);
+    background: #8a2be2; /* Purple typing dots */
     border-radius: 50%;
     margin: 0 2px;
     animation: typingDot 1.5s infinite;
@@ -3069,10 +3099,11 @@ section.animate-in {
 
 .chart-bar {
     width: 15%;
-    background: linear-gradient(to top, var(--primary), var(--secondary));
-    border-radius: 5px 5px 0 0;
-    transition: height 1s;
-    animation: growBar 3s infinite alternate;
+    background: linear-gradient(to top, #8a2be2, #ff69b4); /* Fixed purple to pink gradient */
+    border-radius: 8px 8px 0 0; /* Slightly rounded corners */
+    box-shadow: 0 0 10px rgba(138, 43, 226, 0.2);
+    transition: all 0.5s ease-in-out;
+    animation: growBar 3s infinite alternate ease-in-out;
 }
 
 .b1 {
@@ -3103,9 +3134,11 @@ section.animate-in {
 @keyframes growBar {
     0% {
         height: 30%;
+        opacity: 0.7;
     }
     100% {
         height: 80%;
+        opacity: 1;
     }
 }
 
