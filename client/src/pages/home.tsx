@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { WaitlistForm } from "@/components/waitlist-form";
 import { Card, CardContent } from "@/components/ui/card";
-import { MapIcon, Users2Icon, BrainCircuitIcon, MessagesSquareIcon, MapPinIcon, BuildingIcon, MessageCircle, Zap } from "lucide-react";
+import { MapIcon, Users2Icon, BrainCircuitIcon, MessagesSquareIcon, MapPinIcon, BuildingIcon, MessageCircle, Zap, MapPin } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLocation } from "wouter";
 
