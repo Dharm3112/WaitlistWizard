@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { WaitlistForm } from "@/components/waitlist-form";
 import { Card, CardContent } from "@/components/ui/card";
-import { MapIcon, Users2Icon, BrainCircuitIcon, MessagesSquareIcon, MapPinIcon, BuildingIcon } from "lucide-react";
+import { MapIcon, Users2Icon, BrainCircuitIcon, MessagesSquareIcon, MapPinIcon, BuildingIcon, MessageCircle, Zap } from "lucide-react";
 import { motion } from "framer-motion";
+import { useLocation } from "wouter";
 
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
@@ -11,10 +12,55 @@ const fadeIn = {
 };
 
 export default function Home() {
+  const [, setLocation] = useLocation();
+
   return (
     <div className="min-h-screen bg-background">
+      {/* Navigation */}
+      <nav className="bg-white border-b sticky top-0 z-50">
+        <div className="max-w-6xl mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <div className="h-8 w-8 bg-blue-600 rounded-full flex items-center justify-center">
+                <MessageCircle className="h-4 w-4 text-white" />
+              </div>
+              <span className="text-xl font-bold text-gray-900">IntelliCircle</span>
+            </div>
+            
+            <div className="hidden md:flex items-center space-x-6">
+              <button onClick={() => setLocation('/discover')} className="text-gray-600 hover:text-gray-900">
+                Discover
+              </button>
+              <button onClick={() => setLocation('/chat')} className="text-gray-600 hover:text-gray-900">
+                Chat
+              </button>
+              <button onClick={() => setLocation('/profile')} className="text-gray-600 hover:text-gray-900">
+                Profile
+              </button>
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => setLocation('/discover')}
+              >
+                Discover
+              </Button>
+              <Button 
+                size="sm" 
+                onClick={() => setLocation('/chat')}
+                className="bg-blue-600 hover:bg-blue-700"
+              >
+                Start Chatting
+              </Button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
       {/* Hero Section */}
-      <section className="relative px-4 py-20 md:py-32">
+      <section className="relative px-4 py-20 md:py-32 bg-gradient-to-br from-blue-50 to-indigo-100">
         <div className="max-w-6xl mx-auto">
           <motion.div 
             className="text-center space-y-6"
@@ -22,35 +68,56 @@ export default function Home() {
             animate={fadeIn.animate}
             transition={fadeIn.transition}
           >
-            <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-              Location-Based Professional Networking
+            <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              Connect Locally. Network Globally.
             </h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Connect with professionals in your area through AI-powered rooms. Share ideas, solve problems, and build meaningful connections based on shared interests and location.
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Join location-based professional chat rooms. Find colleagues in your area, 
+              share ideas, and build meaningful connections based on shared interests.
             </p>
+            
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
+              <Button 
+                size="lg" 
+                onClick={() => setLocation('/discover')}
+                className="bg-blue-600 hover:bg-blue-700 text-lg px-8 py-3"
+              >
+                <MapPin className="h-5 w-5 mr-2" />
+                Find Nearby Rooms
+              </Button>
+              <Button 
+                variant="outline" 
+                size="lg"
+                onClick={() => setLocation('/chat')}
+                className="text-lg px-8 py-3"
+              >
+                <MessageCircle className="h-5 w-5 mr-2" />
+                Browse All Rooms
+              </Button>
+            </div>
           </motion.div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="px-4 py-16 bg-muted/30">
+      <section className="px-4 py-16">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">Key Features</h2>
+          <h2 className="text-3xl font-bold text-center mb-12">Why Choose IntelliCircle?</h2>
           <div className="grid md:grid-cols-3 gap-8">
             <FeatureCard
-              icon={<MapIcon className="w-12 h-12 text-primary" />}
+              icon={<MapIcon className="w-12 h-12 text-blue-600" />}
               title="Location-Based"
-              description="Connect with professionals in your area through smart location-based matching"
+              description="Find professionals in your city, neighborhood, or anywhere you choose"
             />
             <FeatureCard
-              icon={<BrainCircuitIcon className="w-12 h-12 text-primary" />}
-              title="AI-Powered Matching"
-              description="Our AI algorithm matches you with professionals sharing similar interests and goals"
+              icon={<Zap className="w-12 h-12 text-blue-600" />}
+              title="Instant Connection"
+              description="Join conversations immediately with real-time chat and instant notifications"
             />
             <FeatureCard
-              icon={<Users2Icon className="w-12 h-12 text-primary" />}
-              title="Dynamic Rooms"
-              description="Join or create interest-based rooms to network with like-minded professionals"
+              icon={<Users2Icon className="w-12 h-12 text-blue-600" />}
+              title="Interest Matching"
+              description="Connect with professionals who share your interests and career goals"
             />
           </div>
         </div>
