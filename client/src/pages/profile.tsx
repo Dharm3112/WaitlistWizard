@@ -132,31 +132,32 @@ export default function Profile() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-2 sm:p-4">
       <div className="max-w-4xl mx-auto">
         {/* Profile Header */}
-        <Card className="mb-6">
-          <CardContent className="p-6">
-            <div className="flex items-center space-x-4">
-              <Avatar className="h-16 w-16">
-                <AvatarFallback className="text-xl font-semibold bg-blue-600 text-white">
+        <Card className="mb-4 sm:mb-6">
+          <CardContent className="p-4 sm:p-6">
+            <div className="flex flex-col sm:flex-row sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
+              <Avatar className="h-12 sm:h-16 w-12 sm:w-16 mx-auto sm:mx-0">
+                <AvatarFallback className="text-lg sm:text-xl font-semibold bg-blue-600 text-white">
                   {profile.name.charAt(0).toUpperCase() || 'U'}
                 </AvatarFallback>
               </Avatar>
-              <div className="flex-1">
-                <h1 className="text-2xl font-bold">{profile.name || 'Your Profile'}</h1>
+              <div className="flex-1 text-center sm:text-left">
+                <h1 className="text-xl sm:text-2xl font-bold">{profile.name || 'Your Profile'}</h1>
                 <p className="text-gray-600">{profile.profession || 'Professional'}</p>
                 {profile.location && (
-                  <div className="flex items-center mt-1 text-sm text-gray-500">
+                  <div className="flex items-center justify-center sm:justify-start mt-1 text-sm text-gray-500">
                     <MapPin className="h-3 w-3 mr-1" />
-                    {profile.location}
+                    <span className="truncate">{profile.location}</span>
                   </div>
                 )}
               </div>
               <Button 
                 onClick={() => setIsEditing(!isEditing)}
                 variant={isEditing ? "outline" : "default"}
-                className={isEditing ? "" : "bg-blue-600 hover:bg-blue-700"}
+                className={`w-full sm:w-auto ${isEditing ? "" : "bg-blue-600 hover:bg-blue-700"}`}
+                size="sm"
               >
                 <Settings className="h-4 w-4 mr-2" />
                 {isEditing ? 'Cancel' : 'Edit Profile'}
@@ -165,9 +166,9 @@ export default function Profile() {
           </CardContent>
         </Card>
 
-        <div className="grid lg:grid-cols-3 gap-6">
+        <div className="grid lg:grid-cols-3 gap-4 sm:gap-6">
           {/* Basic Information */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-4 sm:space-y-6">
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center">
@@ -240,18 +241,18 @@ export default function Profile() {
             {/* Interests */}
             <Card>
               <CardHeader>
-                <CardTitle>Professional Interests</CardTitle>
-                <p className="text-sm text-gray-600">
+                <CardTitle className="text-lg sm:text-xl">Professional Interests</CardTitle>
+                <p className="text-xs sm:text-sm text-gray-600">
                   Select interests to help us match you with relevant chat rooms
                 </p>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-2">
                   {INTERESTS.map(interest => (
                     <div
                       key={interest}
                       onClick={() => isEditing && toggleInterest(interest)}
-                      className={`p-2 rounded-lg border text-center text-sm cursor-pointer transition-all ${
+                      className={`p-2 sm:p-3 rounded-lg border text-center text-xs sm:text-sm cursor-pointer transition-all ${
                         profile.interests.includes(interest)
                           ? 'bg-blue-100 border-blue-300 text-blue-800'
                           : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
@@ -261,7 +262,7 @@ export default function Profile() {
                     </div>
                   ))}
                 </div>
-                <div className="mt-4 text-sm text-gray-500">
+                <div className="mt-4 text-xs sm:text-sm text-gray-500">
                   Selected: {profile.interests.length} interests
                 </div>
               </CardContent>
@@ -269,7 +270,7 @@ export default function Profile() {
           </div>
 
           {/* Settings & Stats */}
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             {/* Privacy Settings */}
             <Card>
               <CardHeader>
@@ -346,10 +347,10 @@ export default function Profile() {
 
         {/* Save Button */}
         {isEditing && (
-          <div className="mt-6 flex justify-center">
+          <div className="mt-4 sm:mt-6 flex justify-center">
             <Button 
               onClick={handleSave}
-              className="px-8 py-2 bg-blue-600 hover:bg-blue-700"
+              className="w-full sm:w-auto px-6 sm:px-8 py-2 bg-blue-600 hover:bg-blue-700"
             >
               Save Profile
             </Button>
