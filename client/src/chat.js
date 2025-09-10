@@ -42,7 +42,9 @@ function initializeChat() {
 
     // Initialize WebSocket connection
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    // Use the same host as the current page for WebSocket connection
     const wsUrl = `${protocol}//${window.location.host}/ws`;
+    console.log('Connecting to WebSocket:', wsUrl);
     socket = new WebSocket(wsUrl);
 
     socket.onopen = () => {
