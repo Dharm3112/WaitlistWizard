@@ -13,6 +13,10 @@ run = ["sh", "-c", "npm run dev"]
 localPort = 5000
 externalPort = 80
 
+[[ports]]
+localPort = 38729
+externalPort = 3000
+
 [workflows]
 runButton = "Project"
 
@@ -39,3 +43,6 @@ task = "packager.installForAll"
 task = "shell.exec"
 args = "npm run dev"
 waitForPort = 5000
+
+[agent]
+integrations = ["javascript_websocket==1.0.0", "styling_shadcn==1.0.0"]
