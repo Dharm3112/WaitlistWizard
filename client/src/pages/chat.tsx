@@ -179,7 +179,7 @@ export default function Chat() {
             <div className="flex items-center space-x-2">
               <div className="flex items-center space-x-2 text-blue-600">
                 <Users className="h-6 w-6" />
-                <span className="text-xl font-bold">ConnectPro Chat</span>
+                <span className="text-xl font-bold">IntelliCircle Chat</span>
               </div>
             </div>
             {username && (

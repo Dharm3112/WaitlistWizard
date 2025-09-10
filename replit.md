@@ -1,4 +1,4 @@
-# Professional Networking Platform
+# IntelliCircle - Professional Networking Platform
 
 ## Overview
 
