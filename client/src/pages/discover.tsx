@@ -150,12 +150,12 @@ export default function Discover() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
-        <Card className="w-full max-w-md">
-          <CardContent className="p-8 text-center">
-            <Navigation className="h-12 w-12 mx-auto mb-4 text-blue-600 animate-spin" />
-            <h2 className="text-xl font-semibold mb-2">Detecting Your Location</h2>
-            <p className="text-gray-600">Finding nearby chat rooms...</p>
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+        <Card className="w-full max-w-md mx-4">
+          <CardContent className="p-6 sm:p-8 text-center">
+            <Navigation className="h-10 sm:h-12 w-10 sm:w-12 mx-auto mb-4 text-blue-600 animate-spin" />
+            <h2 className="text-lg sm:text-xl font-semibold mb-2">Detecting Your Location</h2>
+            <p className="text-sm sm:text-base text-gray-600">Finding nearby chat rooms...</p>
           </CardContent>
         </Card>
       </div>
@@ -219,16 +219,16 @@ export default function Discover() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      <div className="max-w-6xl mx-auto p-4 pt-8">
+      <div className="max-w-6xl mx-auto p-4 pt-4 sm:pt-8">
         {/* Location Header */}
-        <Card className="mb-6">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
+        <Card className="mb-4 sm:mb-6">
+          <CardContent className="p-4 sm:p-6">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div className="flex items-center space-x-3">
-                <MapPin className="h-6 w-6 text-blue-600" />
-                <div>
-                  <h1 className="text-2xl font-bold">Nearby Chat Rooms</h1>
-                  <p className="text-gray-600">
+                <MapPin className="h-5 sm:h-6 w-5 sm:w-6 text-blue-600 flex-shrink-0" />
+                <div className="min-w-0">
+                  <h1 className="text-xl sm:text-2xl font-bold">Nearby Chat Rooms</h1>
+                  <p className="text-sm sm:text-base text-gray-600 truncate">
                     Your location: {userLocation?.city}, {userLocation?.country}
                   </p>
                 </div>
@@ -236,7 +236,8 @@ export default function Discover() {
               <Button 
                 variant="outline" 
                 onClick={() => setLocation('/chat')}
-                className="hidden md:flex"
+                className="w-full sm:w-auto"
+                size="sm"
               >
                 <MessageCircle className="h-4 w-4 mr-2" />
                 View All Rooms
@@ -246,23 +247,23 @@ export default function Discover() {
         </Card>
 
         {/* Nearby Rooms Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {nearbyRooms.map(room => (
             <Card key={room.id} className="hover:shadow-lg transition-all duration-200">
-              <CardHeader>
-                <CardTitle className="flex items-center justify-between">
-                  <span className="text-lg truncate">{room.name}</span>
-                  <Badge variant="outline">
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-start justify-between gap-2">
+                  <span className="text-base sm:text-lg line-clamp-2 flex-1">{room.name}</span>
+                  <Badge variant="outline" className="flex-shrink-0">
                     <Users className="h-3 w-3 mr-1" />
                     {room.participants}
                   </Badge>
                 </CardTitle>
                 <div className="flex items-center text-sm text-gray-500">
-                  <MapPin className="h-3 w-3 mr-1" />
-                  {room.distance}km away
+                  <MapPin className="h-3 w-3 mr-1 flex-shrink-0" />
+                  <span>{room.distance}km away</span>
                 </div>
               </CardHeader>
-              <CardContent>
+              <CardContent className="pt-0">
                 <div className="flex flex-wrap gap-1 mb-4">
                   {room.interests.slice(0, 3).map(interest => (
                     <Badge key={interest} variant="secondary" className="text-xs">
@@ -277,7 +278,8 @@ export default function Discover() {
                 </div>
                 <Button 
                   onClick={() => joinRoom(room.id)}
-                  className="w-full bg-blue-600 hover:bg-blue-700"
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-sm sm:text-base"
+                  size="sm"
                 >
                   <MessageCircle className="h-4 w-4 mr-2" />
                   Join Chat
