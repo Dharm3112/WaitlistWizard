@@ -105,7 +105,17 @@ export default function Chat() {
         setRooms(data.rooms);
         break;
       case 'message':
-        if (currentRoom) {
+        // Update the rooms list
+        setRooms(prevRooms =>
+          prevRooms.map(room =>
+            room.id === data.message.roomId
+              ? { ...room, messages: [...room.messages, data.message] }
+              : room
+          )
+        );
+
+        // Update the current room if it's the active one
+        if (currentRoom && currentRoom.id === data.message.roomId) {
           setCurrentRoom(prev => prev ? {
             ...prev,
             messages: [...prev.messages, data.message]
