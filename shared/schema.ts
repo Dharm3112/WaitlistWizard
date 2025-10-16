@@ -63,8 +63,5 @@ export const participants = pgTable( // Changed
   }
 );
 
-// ... (rest of the file is the same)
-
-
 export const insertWaitlistSchema = createInsertSchema(waitlist);
 export type InsertWaitlist = z.infer<typeof insertWaitlistSchema>;
