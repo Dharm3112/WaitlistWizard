@@ -126,7 +126,16 @@ export default function Chat() {
         setCurrentRoom(data.room);
         break;
       case 'participantsUpdate':
-        if (currentRoom) {
+        // Also update the rooms list for participant counts
+        setRooms(prevRooms =>
+          prevRooms.map(room =>
+            room.id === data.roomId
+              ? { ...room, participants: data.participants }
+              : room
+          )
+        );
+
+        if (currentRoom && currentRoom.id === data.roomId) {
           setCurrentRoom(prev => prev ? {
             ...prev,
             participants: data.participants

@@ -163,7 +163,7 @@ function sendRoomsList(client: ChatClient) {
     id: room.id,
     name: room.name,
     interests: room.interests,
-    participants: room.participants.length
+    participants: room.participants // Send the full participants array
   }));
 
   if (client.socket.readyState === WebSocket.OPEN) {
@@ -245,6 +245,7 @@ function broadcastParticipantsUpdate(roomId: string) {
     if (client.roomId === roomId && client.socket.readyState === WebSocket.OPEN) {
       client.socket.send(JSON.stringify({
         type: 'participantsUpdate',
+        roomId: roomId, // Add roomId to the payload
         participants: room.participants
       }));
     }
