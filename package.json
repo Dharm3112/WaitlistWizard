@@ -57,7 +57,7 @@
     "input-otp": "^1.2.4",
     "lucide-react": "^0.453.0",
     "memorystore": "^1.6.7",
-    "mysql2": "^3.15.2",
+    "mysql2": "^3.10.3",
     "nanoid": "^5.1.5",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
