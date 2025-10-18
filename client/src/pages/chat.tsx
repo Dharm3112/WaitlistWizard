@@ -5,7 +5,7 @@ import { Send, Globe } from 'lucide-react';
 
 export default function GlobalChat() {
   const [message, setMessage] = useState('');
-<<<<<<< HEAD
+
   const [isCreateRoomOpen, setIsCreateRoomOpen] = useState(false);
   const [newRoomName, setNewRoomName] = useState('');
   const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
@@ -159,7 +159,7 @@ export default function GlobalChat() {
         : [...prev, interest]
     );
   };
->>>>>>> 4dc8bd9 (Add theme toggle and new pages to the networking platform)
+
 
   return (
     <div className="h-full flex flex-col bg-background">
