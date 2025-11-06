@@ -79,77 +79,99 @@ export default function Chat() {
       setUsername(storedUsername);
     }
 
-    // Initialize WebSocket connection only if username is set
-    if (storedUsername) {
-        let ws: WebSocket | null = null;
-        let reconnectTimeout: NodeJS.Timeout | null = null;
+    // storedUsername is guaranteed to be set here if we proceed
 
-        const connectWebSocket = () => {
-            setConnectionStatus('connecting');
-            const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsUrl = `${protocol}//${window.location.host}/ws`;
-            console.log('Connecting to WebSocket:', wsUrl);
+    let ws: WebSocket | null = null;
+    let reconnectTimeout: NodeJS.Timeout | null = null;
+    let pingInterval: NodeJS.Timeout | null = null; 
 
-            ws = new WebSocket(wsUrl);
+    const connectWebSocket = () => {
+        setConnectionStatus('connecting');
+        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        const wsUrl = `${protocol}//${window.location.host}/ws`;
+        console.log('Connecting to WebSocket:', wsUrl);
 
-            ws.onopen = () => {
-              console.log('Connected to chat server');
-              setConnectionStatus('open');
-              setSocket(ws); // Set the socket state here
-              if (reconnectTimeout) {
-                clearTimeout(reconnectTimeout);
-                reconnectTimeout = null;
-              }
-              // Request initial room list
-              ws?.send(JSON.stringify({ type: 'getRooms' }));
-              // Re-join room if previously in one
-              if (currentRoom?.id && username) {
-                console.log(`Rejoining room ${currentRoom.id} as ${username}`);
-                ws?.send(JSON.stringify({ type: 'joinRoom', roomId: currentRoom.id, username }));
-              }
-            };
+        ws = new WebSocket(wsUrl);
 
-            ws.onmessage = (event) => {
-              try {
-                  const data = JSON.parse(event.data);
-                  console.log('Received message:', data); // Log received data
-                  handleWebSocketMessage(data);
-              } catch (error) {
-                  console.error("Failed to parse message:", event.data, error);
-              }
-            };
+        ws.onopen = () => {
+          console.log('Connected to chat server');
+          setConnectionStatus('open');
+          setSocket(ws); // Set the socket state here
+          if (reconnectTimeout) {
+            clearTimeout(reconnectTimeout);
+            reconnectTimeout = null;
+          }
 
-            ws.onclose = (event) => {
-              console.log('Disconnected from chat server. Code:', event.code, 'Reason:', event.reason);
-              setConnectionStatus('closed');
-              setSocket(null); // Clear the socket state
-              // Attempt to reconnect after a delay
-              if (!reconnectTimeout) {
-                console.log('Attempting to reconnect in 5 seconds...');
-                reconnectTimeout = setTimeout(connectWebSocket, 5000);
-              }
-            };
+          // Clear any existing ping interval
+          if (pingInterval) {
+            clearInterval(pingInterval);
+          }
 
-            ws.onerror = (error) => {
-              console.error('WebSocket error:', error);
-              // The onclose event will likely fire after this, triggering reconnect logic
-            };
-        };
-
-        connectWebSocket(); // Initial connection attempt
-
-        // Cleanup function
-        return () => {
-            console.log('Cleaning up WebSocket connection.');
-            if (reconnectTimeout) {
-                clearTimeout(reconnectTimeout);
+          // Start sending pings
+          pingInterval = setInterval(() => {
+            if (ws && ws.readyState === WebSocket.OPEN) {
+              // console.log('Sending ping'); // Optional: for debugging
+              ws.send(JSON.stringify({ type: 'ping' }));
             }
-            ws?.close();
-            setSocket(null); // Ensure socket state is cleared on component unmount
-        };
-    }
+          }, 30000); // Send a ping every 30 seconds
 
-  }, [username]); // Depend only on username for initial setup
+          // Request initial room list
+          ws?.send(JSON.stringify({ type: 'getRooms' }));
+        };
+
+        ws.onmessage = (event) => {
+          try {
+              const data = JSON.parse(event.data);
+              // console.log('Received message:', data); // Log received data
+              handleWebSocketMessage(data);
+          } catch (error) {
+              console.error("Failed to parse message:", event.data, error);
+          }
+        };
+
+        ws.onclose = (event) => {
+          console.log('Disconnected from chat server. Code:', event.code, 'Reason:', event.reason);
+          setConnectionStatus('closed');
+          setSocket(null); // Clear the socket state
+
+          // Clear the ping interval
+          if (pingInterval) {
+            clearInterval(pingInterval);
+            pingInterval = null;
+          }
+
+          // Attempt to reconnect after a delay
+          if (!reconnectTimeout) {
+            console.log('Attempting to reconnect in 5 seconds...');
+            reconnectTimeout = setTimeout(connectWebSocket, 5000);
+          }
+        };
+
+        ws.onerror = (error) => {
+          console.error('WebSocket error:', error);
+          // The onclose event will likely fire after this, triggering reconnect logic
+        };
+    };
+
+    connectWebSocket(); // Initial connection attempt
+
+    // Cleanup function
+    return () => {
+        console.log('Cleaning up WebSocket connection.');
+        if (reconnectTimeout) {
+            clearTimeout(reconnectTimeout);
+        }
+        
+        // Clear ping interval on unmount
+        if (pingInterval) {
+          clearInterval(pingInterval);
+        }
+
+        ws?.close();
+        setSocket(null); // Ensure socket state is cleared on component unmount
+    };
+    
+  }, []); // <--- THIS IS THE FIX: Empty dependency array ensures this runs only ONCE.
 
   // WebSocket message handler
   const handleWebSocketMessage = useCallback((data: any) => {
@@ -214,22 +236,21 @@ export default function Chat() {
        default:
          console.log("Received unhandled message type:", data.type);
     }
-  }, []); // Empty dependency array as it uses state setters
+  }, []); // Empty dependency array is correct here, as it only uses state setters
 
   // Function to join a room
   const joinRoom = (roomId: string) => {
+    // This function now correctly uses the 'username' state, 
+    // which was set reliably on the first render.
     if (socket && socket.readyState === WebSocket.OPEN && username) {
-        // Optimistically set current room ID to give visual feedback? Maybe not necessary.
-        // setCurrentRoom(prev => prev?.id === roomId ? prev : null); // Clear messages if switching room
         console.log(`Requesting to join room ${roomId} as ${username}`);
         socket.send(JSON.stringify({
             type: 'joinRoom',
             roomId,
-            username // Send username on join
+            username // Send username
         }));
     } else {
         console.warn('Cannot join room: WebSocket not connected or username missing.');
-        // Optionally try to reconnect or prompt for username again
     }
   };
 

@@ -207,6 +207,15 @@ function handleWebSocketMessage(clientId: string, data: any) {
           log(`Invalid createRoom request from ${clientId}: Missing name or interests`, "warning");
        }
       break;
+      
+    // --- START ADDITION ---
+    case 'ping':
+      // This case handles the heartbeat message from the client.
+      // We don't need to do anything, just receiving it is enough
+      // to keep the WebSocket connection from being closed for inactivity.
+      break;
+    // --- END ADDITION ---
+
     default:
         log(`Unknown message type received from ${clientId}: ${data.type}`, "warning");
   }
@@ -382,7 +391,7 @@ function addMessageToRoom(roomId: string, message: ChatMessage) {
   room.messages.push(message);
   log(`Message added to room ${roomId} by ${message.username}: "${message.content}"`);
 
-  // Limit message history (e.g., keep last 100 messages)
+  // Limit message history (e.s., keep last 100 messages)
   if (room.messages.length > 100) {
     room.messages.shift();
     log(`Trimmed message history for room ${roomId}`);
